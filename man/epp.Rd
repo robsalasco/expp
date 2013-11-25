@@ -62,7 +62,7 @@ epp(breedingDat, polygonsDat = DirichletPolygons(breedingDat), eppPairs, rank = 
   plot(x)
 
   # 
-  n = 50
+  n = 500
   b = data.frame(id = 1:n, x = rnorm(n), y = rnorm(n), 
     male = paste0("m",1:n), female =  paste0("f",1:n), xx = rnorm(n), stringsAsFactors=FALSE  )  
   breedingDat = SpatialPointsBreeding(b )
@@ -72,6 +72,26 @@ epp(breedingDat, polygonsDat = DirichletPolygons(breedingDat), eppPairs, rank = 
   x = epp(breedingDat, polygonsDat, eppPairs, rank = 10)
   plot(x)
   barplot(x)
+  
+  
+  # westerholz
+  data(westerholzBreeding)
+  data(westerholzEPP)
+  b = split(westerholzBreeding, westerholzBreeding$year_)[[1]]
+  e = split(westerholzEPP, westerholzEPP$year_)[[1]]
+  
+  breedingDat = SpatialPointsBreeding(b)
+  plot(breedingDat)
+  polygonsDat = DirichletPolygons(breedingDat)
+  
+  
+  
+  bdat = lapply(b, SpatialPointsBreeding, coords= ~x+y, id='id', breeding= ~male + female)
+  polydat = lapply(bdat, DirichletPolygons)
+  
+ d = epp(bdat[[2]], DirichletPolygons(bdat[[2]]  ), e[[2]][, -1] )
+  
+
 
 
 }
@@ -80,3 +100,22 @@ epp(breedingDat, polygonsDat = DirichletPolygons(breedingDat), eppPairs, rank = 
 % R documentation directory.
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

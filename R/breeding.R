@@ -84,6 +84,7 @@ setMethod("DirichletPolygons",
 	spdf = mapply(FUN = function(x, ID) SpatialPolygonsDataFrame(SpatialPolygons(list(Polygons(list(x), ID)), pO = ID ),data = data.frame(ID = ID, row.names = ID)), 
 				  ID = ids, 
 				  x = polys)
+				  
 	spdf = do.call(rbind, spdf)			  
 
 	spdf = SpatialPolygonsDataFrame(gIntersection(spdf, boundary, byid = TRUE, id = as.character(ids) ), data = spdf@data)

@@ -11,16 +11,16 @@ setClass("epp", representation(
   	if (object@rank < 1)
   			stop("rank must be greater than 0.")	
   
-    if(! identical(polygonsDat@data[, 1], breedingDat@id))
+    if(! identical(object@polygonsDat@data[, 1], object@breedingDat@id))
       stop( dQuote("polygonsDat@data[, 1]"), " does not match ",  dQuote("breedingDat@id") )
    
-    if(ncol(EPP)!=2) 
-      stop(dQuote(EPP), "data.frame should have only two columns.")
+	if(ncol(object@EPP)!=2) 
+	  stop(dQuote(object@EPP), "data.frame should have only two columns.")
    
-    if( length(intersect(breedingDat@male, EPP[, 1])) < 1 )
-      stop("no EP males are to be found in breedingDat")
+	 if( length(intersect(object@breedingDat@male, EPP[, 1])) < 1 )
+	   stop("no EP males are to be found in breedingDat")
   	
-    if( length(intersect(breedingDat@female, EPP[, 2])) < 1 )
+	  if( length(intersect(object@breedingDat@female, EPP[, 2])) < 1 )
   	  stop("no EP males are to be found in breedingDat")
   	
     
@@ -30,10 +30,11 @@ setClass("epp", representation(
 #=====================================================================================================#
 
 
-epp <- function(breedingDat, polygonsDat = DirichletPolygons(breedingDat), eppPairs, rank = 3) { 
+epp <- function(breedingDat, polygonsDat, eppPairs, rank = 3) { 
 
     
 	  #bricks
+		if( missing(polygonsDat) )   polygonsDat = DirichletPolygons(breedingDat)
 		nb  = poly2nb(polygonsDat)
 		hnb = higherNeighborsDataFrame(nb, maxlag = rank)
 		b   = data.frame(breedingDat@data, id = breedingDat@id, male = breedingDat@male, female = breedingDat@female)
