@@ -71,7 +71,7 @@ setMethod("DirichletPolygons",
 		
 	coords = coordinates(x)
 
-	ids = x@id
+	ids = sort(x@id)
 
 	rr = ripras(coords, shape = "convex", ...)
 	rr = cbind(x = rr$bdry[[1]]$x, y = rr$bdry[[1]]$y)
@@ -81,8 +81,8 @@ setMethod("DirichletPolygons",
 	polys  =  tile.list(deldir(coords[,1], coords[,2]))
 	polys  = lapply(polys, function(a) Polygon(rbind(cbind(a$x, a$y), cbind(a$x[1], a$y[1])))  )
 	
-	spdf = mapply(FUN = function(x, ID) SpatialPolygonsDataFrame(SpatialPolygons(list(Polygons(list(x), ID)), pO = ID ),data = data.frame(ID = ID, row.names = ID)), 
-				  ID = ids, 
+	spdf = mapply(FUN = function(x, IDj) SpatialPolygonsDataFrame(SpatialPolygons(list(Polygons(list(x), ID = IDj)) ),data = data.frame(ID = IDj, row.names = IDj), match.ID = "ID"), 
+				  IDj = ids, 
 				  x = polys)
 				  
 	spdf = do.call(rbind, spdf)			  
