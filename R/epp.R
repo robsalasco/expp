@@ -23,6 +23,7 @@ setClass("epp", representation(
 	#   if( length(intersect(object@breedingDat@female, object@EPP[, 2])) < 1 )
   	#  stop("no EP males found in breedingDat")
   	
+    # TODO: order in polygonsDat@data$ID should be the same as in breedingDat@id
     
 		return(TRUE)
 		}

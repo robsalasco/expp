@@ -84,9 +84,11 @@ epp(breedingDat, polygonsDat = DirichletPolygons(breedingDat), eppPairs, rank = 
   polygonsDat = lapply(breedingDat, DirichletPolygons)
   
   
- d = epp(breedingDat[[1]], polygonsDat[[1]] , e[[1]], rank = 4 )
+  d = epp(breedingDat[[1]], polygonsDat[[1]] , e[[1]], rank = 4 )
+  require(lme4)
   
-
+  fm = glmer(epp ~ rank + male_age_N+ (1|male) + (1|female), d@EPP, family = binomial)
+  summary(fm)
 
 
 }
