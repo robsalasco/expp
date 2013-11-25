@@ -62,7 +62,7 @@ epp(breedingDat, polygonsDat = DirichletPolygons(breedingDat), eppPairs, rank = 
   plot(x)
 
   # 
-  n = 500
+  n = 50
   b = data.frame(id = 1:n, x = rnorm(n), y = rnorm(n), 
     male = paste0("m",1:n), female =  paste0("f",1:n), xx = rnorm(n), stringsAsFactors=FALSE  )  
   breedingDat = SpatialPointsBreeding(b )

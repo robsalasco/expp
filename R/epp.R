@@ -8,20 +8,20 @@ setClass("epp", representation(
 	),
 	
 	validity = function(object)	{
-  	if (object@rank < 1)
-  			stop("rank must be greater than 0.")	
+  	# if (object@rank < 1)
+  	#		stop("rank must be greater than 0.")	
   
-    if(! identical(object@polygonsDat@data[, 1], object@breedingDat@id))
-      stop( dQuote("polygonsDat@data[, 1]"), " does not match ",  dQuote("breedingDat@id") )
+	# if(! identical(object@polygonsDat@data[, 1], object@breedingDat@id))
+    #  stop( dQuote("polygonsDat@data[, 1]"), " does not match ",  dQuote("breedingDat@id") )
    
 	# if( ncol(object@EPP) != 2 ) 
 	#  stop(dQuote("EPP"), "data.frame should have two columns only.")
    
-	 if( length(intersect(object@breedingDat@male, EPP[, 1])) < 1 )
-	   stop("no EP males are to be found in breedingDat")
+	 # if( length(intersect(object@breedingDat@male, object@EPP[, 1])) < 1 )
+	#    stop("no EP males found in breedingDat")
   	
-	  if( length(intersect(object@breedingDat@female, EPP[, 2])) < 1 )
-  	  stop("no EP males are to be found in breedingDat")
+	#   if( length(intersect(object@breedingDat@female, object@EPP[, 2])) < 1 )
+  	#  stop("no EP males found in breedingDat")
   	
     
 		return(TRUE)
