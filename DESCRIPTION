@@ -2,7 +2,7 @@ Package: expp
 Type: Package
 Title: Spatial analysis of extra-pair paternity
 Version: 1.0
-Date: 2013-11-17
+Date: 2013-Nov-25
 Depends: spdep, rgeos, deldir, spatstat
 Suggests: lme4
 Author: Mihai Valcu, Lotte Schlicht
