@@ -33,7 +33,7 @@ setClass("epp", representation(
 epp <- function(breedingDat, polygonsDat, eppPairs, rank = 3) { 
 
     
-	  #bricks
+	  #bricks 
 		if( missing(polygonsDat) )   polygonsDat = DirichletPolygons(breedingDat)
 		nb  = poly2nb(polygonsDat)
 		hnb = higherNeighborsDataFrame(nb, maxlag = rank)
