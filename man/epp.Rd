@@ -53,7 +53,7 @@ epp(breedingDat, polygonsDat = DirichletPolygons(breedingDat), eppPairs, rank = 
 \examples{
 
   set.seed(1310)
-  b = data.frame(id = 1:3, x = rnorm(3), y = rnorm(3), 
+  b = data.frame(id = 10:12, x = rnorm(3), y = rnorm(3), 
     male = paste0("m",1:3), female =  paste0("f",1:3), xx = rnorm(3), stringsAsFactors=FALSE  )  
   breedingDat = SpatialPointsBreeding(b )
   polygonsDat = DirichletPolygons(breedingDat)
@@ -77,19 +77,15 @@ epp(breedingDat, polygonsDat = DirichletPolygons(breedingDat), eppPairs, rank = 
   # westerholz
   data(westerholzBreeding)
   data(westerholzEPP)
-  b = split(westerholzBreeding, westerholzBreeding$year_)[[1]]
-  e = split(westerholzEPP, westerholzEPP$year_)[[1]]
+  b = split(westerholzBreeding, westerholzBreeding$year_)
+  e = split(westerholzEPP, westerholzEPP$year_)
   
-  breedingDat = SpatialPointsBreeding(b)
-  plot(breedingDat)
-  polygonsDat = DirichletPolygons(breedingDat)
+  breedingDat = lapply(b, SpatialPointsBreeding, coords= ~x+y, id='id', breeding= ~male + female)[[2]]
+  polygonsDat = lapply(bdat, DirichletPolygons)[[2]]
+  eppPairs = e[[2]]
   
   
-  
-  bdat = lapply(b, SpatialPointsBreeding, coords= ~x+y, id='id', breeding= ~male + female)
-  polydat = lapply(bdat, DirichletPolygons)
-  
- d = epp(bdat[[2]], DirichletPolygons(bdat[[2]]  ), e[[2]][, -1] )
+ d = epp(breedingDat, polygonsDat , eppPairs, rank = 4 )
   
 
 

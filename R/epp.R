@@ -35,7 +35,7 @@ epp <- function(breedingDat, polygonsDat, eppPairs, rank = 3) {
     
 	#bricks
 	if( missing(polygonsDat) )   polygonsDat = DirichletPolygons(breedingDat)
-	nb  = poly2nb(polygonsDat)
+	nb  = poly2nb(polygonsDat, row.names = polygonsDat@data$ID)
 	hnb = higherNeighborsDataFrame(nb, maxlag = rank)
 	b   = data.frame(breedingDat@data, id = breedingDat@id, male = breedingDat@male, female = breedingDat@female)
 
