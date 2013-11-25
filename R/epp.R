@@ -33,12 +33,21 @@ setClass("epp", representation(
 epp <- function(breedingDat, polygonsDat, eppPairs, rank = 3) { 
 
     
+<<<<<<< HEAD
 	#bricks
 	if( missing(polygonsDat) )   polygonsDat = DirichletPolygons(breedingDat)
 	nb  = poly2nb(polygonsDat, row.names = polygonsDat@data$ID)
 	hnb = higherNeighborsDataFrame(nb, maxlag = rank)
 	b   = data.frame(breedingDat@data, id = breedingDat@id, male = breedingDat@male, female = breedingDat@female)
 
+=======
+	  #bricks 
+		if( missing(polygonsDat) )   polygonsDat = DirichletPolygons(breedingDat)
+		nb  = poly2nb(polygonsDat)
+		hnb = higherNeighborsDataFrame(nb, maxlag = rank)
+		b   = data.frame(breedingDat@data, id = breedingDat@id, male = breedingDat@male, female = breedingDat@female)
+    
+>>>>>>> ca2498d8d606cb2daab9094fc1122a334870ec29
     # build up epp set
     d = merge(hnb, b, by = "id") 
     d = merge(d, b, by.x = 'id_neigh', by.y = 'id',  all.x = TRUE, suffixes= c("_S","_N") )
