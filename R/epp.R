@@ -28,7 +28,7 @@ setClass("epp", representation(
 		}
  )
 #=====================================================================================================#
-
+# breedingDat = breedingDat[[1]]; polygonsDat = polygonsDat[[1]] ; eppPairs = e[[1]]; rank = 4
 
 epp <- function(breedingDat, polygonsDat, eppPairs, rank = 3) { 
 

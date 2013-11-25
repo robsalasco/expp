@@ -80,12 +80,11 @@ epp(breedingDat, polygonsDat = DirichletPolygons(breedingDat), eppPairs, rank = 
   b = split(westerholzBreeding, westerholzBreeding$year_)
   e = split(westerholzEPP, westerholzEPP$year_)
   
-  breedingDat = lapply(b, SpatialPointsBreeding, coords= ~x+y, id='id', breeding= ~male + female)[[2]]
-  polygonsDat = lapply(bdat, DirichletPolygons)[[2]]
-  eppPairs = e[[2]]
+  breedingDat = lapply(b, SpatialPointsBreeding, coords= ~x+y, id='id', breeding= ~male + female)
+  polygonsDat = lapply(breedingDat, DirichletPolygons)
   
   
- d = epp(breedingDat, polygonsDat , eppPairs, rank = 4 )
+ d = epp(breedingDat[[1]], polygonsDat[[1]] , e[[1]], rank = 4 )
   
 
 

@@ -71,28 +71,32 @@ setMethod("DirichletPolygons",
 		
 	coords = coordinates(x)
 
-	ids = sort(x@id)
+	ids = x@id
 
 	rr = ripras(coords, shape = "convex", ...)
 	rr = cbind(x = rr$bdry[[1]]$x, y = rr$bdry[[1]]$y)
 	boundary =  SpatialPolygons(list( Polygons(list( Polygon(rbind(rr, rr[1, ] )) ) , 1) ) )
 	proj4string(boundary) = proj4string(x)
-	   
-	polys  =  tile.list(deldir(coords[,1], coords[,2]))
-	polys  = lapply(polys, function(a) Polygon(rbind(cbind(a$x, a$y), cbind(a$x[1], a$y[1])))  )
 	
-	spdf = mapply(FUN = function(x, IDj) SpatialPolygonsDataFrame(SpatialPolygons(list(Polygons(list(x), ID = IDj)) ),data = data.frame(ID = IDj, row.names = IDj), match.ID = "ID"), 
-				  IDj = ids, 
-				  x = polys)
-				  
-	spdf = do.call(rbind, spdf)			  
+  # tiles
+	polys  =  tile.list(deldir(coords[,1], coords[,2]))
+	polys  = lapply(polys, function(a) list(Polygon(rbind(cbind(a$x, a$y), cbind(a$x[1], a$y[1]))))  )
+	
+  # SpatialPolygons
+	spdf = mapply(FUN = function(x, ID) 
+	  SpatialPolygons(list(Polygons(x, ID = ID)) ), ID = ids, x = polys)
+  spdf = do.call(rbind, spdf)  
+  spdf = gIntersection(spdf, boundary, byid = TRUE, id = as.character(ids) )
+  
+  # SpatialPolygonsDataFrame
+  dat = data.frame(ID = ids, row.names = ids)
 
-	spdf = SpatialPolygonsDataFrame(gIntersection(spdf, boundary, byid = TRUE, id = as.character(ids) ), data = spdf@data)
-		
-	spdf	
-		
+  SpatialPolygonsDataFrame(spdf, dat)
+
 		}
 	)
+
+
 
 setMethod("DirichletPolygons",  
 	signature  = c(x = "SpatialPointsBreeding", boundary = "SpatialPolygons"), 
