@@ -14,8 +14,8 @@ setClass("epp", representation(
     if(! identical(object@polygonsDat@data[, 1], object@breedingDat@id))
       stop( dQuote("polygonsDat@data[, 1]"), " does not match ",  dQuote("breedingDat@id") )
    
-	if(ncol(object@EPP)!=2) 
-	  stop(dQuote(object@EPP), "data.frame should have only two columns.")
+	# if( ncol(object@EPP) != 2 ) 
+	#  stop(dQuote("EPP"), "data.frame should have two columns only.")
    
 	 if( length(intersect(object@breedingDat@male, EPP[, 1])) < 1 )
 	   stop("no EP males are to be found in breedingDat")
