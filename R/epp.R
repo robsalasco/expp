@@ -41,9 +41,9 @@ epp <- function(breedingDat, polygonsDat, eppPairs, rank = 3) {
 
     # build up epp set
     d = merge(hnb, b, by = "id") 
-    d = merge(d, b, by.x = 'id_neigh', by.y = 'id',  all.x = TRUE, suffixes= c("_S","_N") )
+    d = merge(d, b, by.x = c('id_neigh', 'year_'), by.y = c('id', 'year_'),  all.x = TRUE, suffixes= c("_MALE","_FEMALE") )
 	  d$k_S = NULL; d$k_N = NULL
-    d$z = paste(d$male_S, d$female_N)    
+    d$z = paste(d$male_MALE, d$female_FEMALE)    
 
     e = data.frame(z = paste(eppPairs$male, eppPairs$female), epp = 1)
 
@@ -53,12 +53,13 @@ epp <- function(breedingDat, polygonsDat, eppPairs, rank = 3) {
     d[is.na(d$epp), "epp"] = 0
     
     # fix names
-    names(d) [which(names(d) == "male_S")] = "male"
-    names(d) [which(names(d) == "female_N")] = "female"
-    d$male_N = NULL; d$female_S = NULL    
-    d = d[, union(c("id_neigh", "id", "rank", "male", "female", "epp"), names(d)) ]
+    names(d) [which(names(d) == "male_MALE")] = "male"
+    names(d) [which(names(d) == "female_FEMALE")] = "female"
+    d$male_FEMALE = NULL; d$female_MALE = NULL    
+    d = d[, union(c("id", "id_neigh", "rank", "male", "female", "epp"), names(d)) ]
+	  names(d) [which(names(d) == "id")] = "id_male"
+	  names(d) [which(names(d) == "id_neigh")] = "id_female"
     
-
     # new
 		new("epp", breedingDat = breedingDat, polygonsDat = polygonsDat, eppPairs = eppPairs, rank = rank, EPP = d)
 	}
@@ -85,8 +86,10 @@ setMethod("plot", signature(x = "epp", y = "missing"),
 
 setMethod("barplot", "epp",
           function(height,...) {
-            plot(xtabs(subset(x@EPP, epp == 1,select= "rank" )), ...)
-            
+            p = table(x@EPP[,c('rank', 'epp')])[,2]
+            plot(p, type = 'h', axes = FALSE, ylab ='No. of EPP events', ...)
+            axis(1, at = 1:max(x@EPP$rank), labels = 1:max(x@EPP$rank))
+            axis(2, at = 0:(max(p)), labels = 0:(max(p)))
             
           })
 
