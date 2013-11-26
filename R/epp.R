@@ -86,11 +86,20 @@ setMethod("plot", signature(x = "epp", y = "missing"),
     
 
 setMethod("barplot", "epp",
-          function(height,...) {
-            p = table(x@EPP[,c('rank', 'epp')])[,2]
-            plot(p, type = 'h', axes = FALSE, ylab ='No. of EPP events', ...)
-            axis(1, at = 1:max(x@EPP$rank), labels = 1:max(x@EPP$rank))
-            axis(2, at = 0:(max(p)), labels = 0:(max(p)))
+          function(height, relativeValues = FALSE, ...) {
+            if(relativeValues == FALSE) {{ p = table(height@EPP[,c('rank', 'epp')])[,2]
+              plot(p, type = 'h', axes = FALSE, ylab ='No. of EPP events', ...)
+              axis(1, at = 1:max(height@EPP$rank), labels = 1:max(height@EPP$rank))
+              axis(2, at = 0:(max(p)), labels = 0:(max(p)))
+            }} else {{
+              p = table(height@EPP[,c('rank', 'epp')])
+              p = apply(p, MARGIN = 2, FUN = function(x) x/sum(x))
+              plot(p[,2], type = 'h', axes = FALSE, ylab ='', xlab = '', ...)
+              par(new = TRUE)
+              plot(p[,1], type = 'l', axes = FALSE, ylab ='No. of EPP events', xlab = 'Distance', lty = 2, ...)
+              axis(1, at = 1:max(height@EPP$rank), labels = 1:max(height@EPP$rank))
+              axis(2, labels = (0:10)/10, at = (0:10)/10)  
+            }}
             
           })
 
