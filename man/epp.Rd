@@ -97,8 +97,8 @@ Returns an S4-class epp-object with 5 slots. The first 4 slots contain the input
   dat = data.frame(rbind(d[[1]]@EPP, d[[2]]@EPP))
   barplot(d[[1]])
   barplot(d[[1]], relativeValues = TRUE)
-  table(dat$epp)
-  dim(e[[2]])
+  table(dat$epp) #number of "0" and "1" in the epp column
+  nrow(e[[2]]) #number of EPP events in the second year
   
   require(lme4)
   fm = glmer(epp ~ rank + male_age_MALE + (1|male) + (1|female) + (1|year__MALE), data = dat, family = binomial)
