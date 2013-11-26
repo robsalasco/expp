@@ -42,7 +42,7 @@ epp <- function(breedingDat, polygonsDat, eppPairs, rank = 3) {
 
     # build up epp set
     d = merge(hnb, b, by = "id") 
-    d = merge(d, b, by.x = c('id_neigh', 'year_'), by.y = c('id', 'year_'),  all.x = TRUE, suffixes= c("_MALE","_FEMALE") )
+    d = merge(d, b, by.x = 'id_neigh', by.y = 'id',  all.x = TRUE, suffixes= c("_MALE","_FEMALE") )
 	  d$k_S = NULL; d$k_N = NULL
     d$z = paste(d$male_MALE, d$female_FEMALE)    
 
