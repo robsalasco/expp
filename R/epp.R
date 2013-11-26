@@ -23,12 +23,13 @@ setClass("epp", representation(
 	#   if( length(intersect(object@breedingDat@female, object@EPP[, 2])) < 1 )
   	#  stop("no EP males found in breedingDat")
   	
+    # TODO: order in polygonsDat@data$ID should be the same as in breedingDat@id
     
 		return(TRUE)
 		}
  )
 #=====================================================================================================#
-
+# breedingDat = breedingDat[[1]]; polygonsDat = polygonsDat[[1]] ; eppPairs = e[[1]]; rank = 4
 
 epp <- function(breedingDat, polygonsDat, eppPairs, rank = 3) { 
 

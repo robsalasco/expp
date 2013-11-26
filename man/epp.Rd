@@ -69,7 +69,7 @@ epp(breedingDat, polygonsDat = DirichletPolygons(breedingDat), eppPairs, rank = 
   polygonsDat = DirichletPolygons(breedingDat)
   eppPairs = data.frame(male = sample(b$male, round(n/10) ), female=sample(b$female, round(n/10) ) )
   
-  x = epp(breedingDat, polygonsDat, eppPairs, rank = 10)
+  x = epp(breedingDat, polygonsDat, eppPairs, rank = 5)
   plot(x)
   barplot(x)
   
@@ -82,11 +82,24 @@ epp(breedingDat, polygonsDat = DirichletPolygons(breedingDat), eppPairs, rank = 
   
   breedingDat = lapply(b, SpatialPointsBreeding, coords= ~x+y, id='id', breeding= ~male + female)
   polygonsDat = lapply(breedingDat, DirichletPolygons)
+<<<<<<< HEAD
   eppPairs = e
   
   
  d = epp(breedingDat[[2]], polygonsDat[[2]] , eppPairs[[2]], rank = 4 )
  head(d@EPP)
+=======
+  
+  
+  d = epp(breedingDat[[2]], polygonsDat[[2]] , e[[2]], rank = 4 )
+  table(d@EPP$epp)
+  dim(e[[2]])
+  
+  require(lme4)
+  fm = glmer(epp ~ rank + male_age_S + (1|male) + (1|female), d@EPP, family = binomial)
+  summary(fm)
+plot(allEffects(fm))
+>>>>>>> 657defee5dd3d174e6d172a964662227af8166ba
 
 
 
