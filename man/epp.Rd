@@ -2,10 +2,10 @@
 \alias{epp}
 
 \title{
-epp
+Creating dataset for realized and unrealized EPP-pairs
 }
 \description{
-epp
+Function that combines the breeding data, information about territory boundaries (if present), and the extra-pair paternity data and creates a combined dataset with one line for every male-female combination (apart from the social pair).
 }
 \usage{
 epp(breedingDat, polygonsDat = DirichletPolygons(breedingDat), eppPairs, rank = 3)
@@ -13,30 +13,34 @@ epp(breedingDat, polygonsDat = DirichletPolygons(breedingDat), eppPairs, rank = 
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{breedingDat}{
-%%     ~~Describe \code{breedingDat} here~~
+     A SpatialPointsBreeding object, created by the function SpatialPointsBreeding()
 }
   \item{polygonsDat}{
-%%     ~~Describe \code{polygonsDat} here~~
+     A DirichletPolygons object, create by the function DirichletPolygons()
 }
   \item{eppPairs}{
-%%     ~~Describe \code{eppPairs} here~~
+     A data.frame with two cloumns listing all male-female combinations that had EPP. Column names must be 'male' and 'female'. 
 }
   \item{rank}{
-%%     ~~Describe \code{rank} here~~
+     A numeric value indicating the maximum breeeding distance for which male-female combinations should be calculated.
 }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+Returns an S4-class epp-object with 5 slots. The first 4 slots contain the input data (breedingDat, polygonsDat, eppPairs, and rank), the fifth slot is called "EPP" and contains the dataset that can be used for further analyses.
+
+  \item{breedingDat }{Input breeding dataset.}
+  \item{polygonsDat }{Polygons that are either estimated automatically using Thiessen Polygons, or input breeding polygons.}
+  \item{eppPairs }{Input data.frame with EPP data.}
+  \item{rank }{Input rank. Defaults to 3.}
+  \item{EPP }{Data.frame containing columns for the focal male and female ("male", "female"), their breeding distance ("rank"), and the parameters associated either with the male (column name ends with "_MALE") or the female (column name ends with "_FEMALE") territory. These can be further transformed (see Examples).}
+
+
 }
 \references{
-%% ~put references to the literature/web site here ~
+%% potential references: Thiessen polygons, 
 }
 \author{
 %%  ~~who you are~~
@@ -51,7 +55,8 @@ epp(breedingDat, polygonsDat = DirichletPolygons(breedingDat), eppPairs, rank = 
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-
+  
+  #example with three breeding pairs
   set.seed(1310)
   b = data.frame(id = 10:12, x = rnorm(3), y = rnorm(3), 
     male = paste0("m",1:3), female =  paste0("f",1:3), xx = rnorm(3), stringsAsFactors=FALSE  )  
@@ -59,9 +64,11 @@ epp(breedingDat, polygonsDat = DirichletPolygons(breedingDat), eppPairs, rank = 
   polygonsDat = DirichletPolygons(breedingDat)
   eppPairs = data.frame(male = c("m1", "m2", "m1"), female=c("f3", "f1", "f2") )
   x = epp(breedingDat, polygonsDat, eppPairs, rank = 3)
-  plot(x)
-
-  # 
+ 
+  #plot method
+  plot(x) #red lines indicate EPP events
+  
+  #example with 50 breeding pairs
   n = 50
   b = data.frame(id = 1:n, x = rnorm(n), y = rnorm(n), 
     male = paste0("m",1:n), female =  paste0("f",1:n), xx = rnorm(n), stringsAsFactors=FALSE  )  
@@ -70,11 +77,14 @@ epp(breedingDat, polygonsDat = DirichletPolygons(breedingDat), eppPairs, rank = 
   eppPairs = data.frame(male = sample(b$male, round(n/10) ), female=sample(b$female, round(n/10) ) )
   
   x = epp(breedingDat, polygonsDat, eppPairs, rank = 5)
-  plot(x)
-  barplot(x)
+  
+  #plot methods
+  plot(x) #red lines indicate EPP events
+  barplot(x) #observed number fo EPP events per breeding distance
+  barplot(x, relativeValues = TRUE) #proportion of realized (vertical lines) vs. available (dashed line) male-female combinations
   
   
-  # westerholz
+  # Example using real data from our study site "Westerholz" including two years of data
   data(westerholzBreeding)
   data(westerholzEPP)
   b = split(westerholzBreeding, westerholzBreeding$year_)
@@ -83,12 +93,15 @@ epp(breedingDat, polygonsDat = DirichletPolygons(breedingDat), eppPairs, rank = 
   breedingDat = lapply(b, SpatialPointsBreeding, coords= ~x+y, id='id', breeding= ~male + female)
   polygonsDat = lapply(breedingDat, DirichletPolygons)
   
-  d = epp(breedingDat[[2]], polygonsDat[[2]] , e[[2]], rank = 4 )
-  table(d@EPP$epp)
+  d = mapply(epp, breedingDat, polygonsDat , e, rank = 4 )
+  dat = data.frame(rbind(d[[1]]@EPP, d[[2]]@EPP))
+  barplot(d[[1]])
+  barplot(d[[1]], relativeValues = TRUE)
+  table(dat$epp)
   dim(e[[2]])
   
   require(lme4)
-  fm = glmer(epp ~ rank + male_age_MALE + (1|male) + (1|female), d@EPP, family = binomial)
+  fm = glmer(epp ~ rank + male_age_MALE + (1|male) + (1|female) + (1|year__MALE), data = dat, family = binomial)
   summary(fm)
 
   require(effects)
