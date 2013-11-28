@@ -2,7 +2,7 @@
 \alias{SpatialPointsBreeding}
 
 \title{
-Converts a data.frame to a SpatialPointsBreeding object
+Converts a data.frame to an object of class SpatialPointsBreeding
 }
 
 \description{

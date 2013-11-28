@@ -8,37 +8,33 @@ setClass("epp", representation(
 	),
 	
 	validity = function(object)	{
-  	# if (object@rank < 1)
-  	#		stop("rank must be greater than 0.")	
-  
-	# if(! identical(object@polygonsDat@data[, 1], object@breedingDat@id))
-    #  stop( dQuote("polygonsDat@data[, 1]"), " does not match ",  dQuote("breedingDat@id") )
-   
-	# if( ncol(object@EPP) != 2 ) 
-	#  stop(dQuote("EPP"), "data.frame should have two columns only.")
-   
-	 # if( length(intersect(object@breedingDat@male, object@EPP[, 1])) < 1 )
-	#    stop("no EP males found in breedingDat")
-  	
-	#   if( length(intersect(object@breedingDat@female, object@EPP[, 2])) < 1 )
-  	#  stop("no EP males found in breedingDat")
-  	
-    # TODO: order in polygonsDat@data$ID should be the same as in breedingDat@id
-    
+  	   
 		return(TRUE)
 		}
  )
 #=====================================================================================================#
-# breedingDat = breedingDat[[1]]; polygonsDat = polygonsDat[[1]] ; eppPairs = e[[1]]; rank = 4
 
 epp <- function(breedingDat, polygonsDat, eppPairs, rank = 3) { 
 
+    # validity
+    if(! identical(polygonsDat@data[, 1], breedingDat@id))
+      stop( "the 1st column of ", dQuote("polygonsDat"), " should be identical with ",  dQuote("breedingDat"), " id." )
     
-	#bricks
-	if( missing(polygonsDat) )   polygonsDat = DirichletPolygons(breedingDat)
-	nb  = poly2nb(polygonsDat, row.names = polygonsDat@data$ID)
-	hnb = higherNeighborsDataFrame(nb, maxlag = rank)
-	b   = data.frame(breedingDat@data, id = breedingDat@id, male = breedingDat@male, female = breedingDat@female)
+    if( ncol(eppPairs) != 2 ) 
+      stop(dQuote("eppPairs"), " data.frame should have two columns only: males and females in that order.")
+    
+    if( length(intersect(breedingDat@male, eppPairs[, 1])) < 1 )
+      stop("no extra-pair males found in breedingDat.")
+    
+    if( length(intersect(breedingDat@female, eppPairs[, 2])) < 1 )
+       stop("no extra-pair females found in breedingDat.")
+    
+    
+  	# bricks
+  	if( missing(polygonsDat) )   polygonsDat = DirichletPolygons(breedingDat)
+  	nb  = poly2nb(polygonsDat, row.names = polygonsDat@data$ID)
+  	hnb = higherNeighborsDataFrame(nb, maxlag = rank)
+  	b   = data.frame(breedingDat@data, id = breedingDat@id, male = breedingDat@male, female = breedingDat@female)
 
     # build up epp set
     d = merge(hnb, b, by = "id") 
