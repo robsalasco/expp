@@ -38,27 +38,26 @@ epp <- function(breedingDat, polygonsDat, eppPairs, rank = 3) {
 
     # build up epp set
     d = merge(hnb, b, by = "id") 
-    d = merge(d, b, by.x = 'id_neigh', by.y = 'id',  all.x = TRUE, suffixes= c("_MALE","_FEMALE") )
-	  d$k_S = NULL; d$k_N = NULL
-    d$z = paste(d$male_MALE, d$female_FEMALE)    
-
+    d = merge(d, b, by.x = 'id_neigh', by.y = 'id',  all.x = TRUE, suffixes= c("_S","_N") )
+    d$k_S = NULL; d$k_N = NULL
+    d$z = paste(d$male_S, d$female_N)    
+    
     e = data.frame(z = paste(eppPairs$male, eppPairs$female), epp = 1)
-
-
+    
+    
     d = merge(d, e, by = "z", all.x = TRUE)
     d$z = NULL
     d[is.na(d$epp), "epp"] = 0
     
     # fix names
-    names(d) [which(names(d) == "male_MALE")] = "male"
-    names(d) [which(names(d) == "female_FEMALE")] = "female"
-    d$male_FEMALE = NULL; d$female_MALE = NULL    
-    d = d[, union(c("id", "id_neigh", "rank", "male", "female", "epp"), names(d)) ]
-	  names(d) [which(names(d) == "id")] = "id_MALE"
-	  names(d) [which(names(d) == "id_neigh")] = "id_FEMALE"
+    names(d) [which(names(d) == "male_S")] = "male"
+    names(d) [which(names(d) == "female_N")] = "female"
+    d$male_N = NULL; d$female_S = NULL    
+    d = d[, union(c("id_neigh", "id", "rank", "male", "female", "epp"), names(d)) ]
+    
     
     # new
-		new("epp", breedingDat = breedingDat, polygonsDat = polygonsDat, eppPairs = eppPairs, rank = rank, EPP = d)
+    new("epp", breedingDat = breedingDat, polygonsDat = polygonsDat, eppPairs = eppPairs, rank = rank, EPP = d)
 	}
 
 #=====================================================================================================#
@@ -68,9 +67,9 @@ setMethod("plot", signature(x = "epp", y = "missing"),
           function(x,y,...) {
             plot(x@polygonsDat, border = "grey")
             plot(x@breedingDat, add = TRUE)
-            epp = subset(x@EPP, epp == 1,select= c("id_FEMALE" , "id_MALE") )
+            epp = subset(x@EPP, epp == 1,select= c("id_neigh" , "id") )
             apply(epp, 1, function(e) points(x@breedingDat[x@breedingDat@id%in%e, ], type = "l", col = 2))
-                        
+            
           })
 
 #=====================================================================================================#
@@ -81,22 +80,26 @@ setMethod("plot", signature(x = "epp", y = "missing"),
    }  
     
 
-setMethod("barplot", "epp",
+setMethod("barplot", signature(height = "epp"),
           function(height, relativeValues = FALSE, ...) {
-            if(relativeValues == FALSE) {{ p = table(height@EPP[,c('rank', 'epp')])[,2]
-              plot(p, type = 'h', axes = FALSE, ylab ='No. of EPP events', xlab = 'Distance', ...)
-              axis(1, at = 1:max(height@EPP$rank), labels = 1:max(height@EPP$rank))
-              axis(2, at = 0:(max(p)), labels = 0:(max(p)))
-            }} else {{
-              p = table(height@EPP[,c('rank', 'epp')])
-              p[,1] = p[,1]+p[,2]
-              p = apply(p, MARGIN = 2, FUN = function(x) x/sum(x))
-              plot(p[,2], type = 'h', axes = FALSE, ylab ='', xlab = '', ...)
-              par(new = TRUE)
-              plot(p[,1], type = 'l', axes = FALSE, ylab ='Proportion of EPP events', xlab = 'Distance', lty = 2, ...)
-              axis(1, at = 1:max(height@EPP$rank), labels = 1:max(height@EPP$rank))
-              axis(2, labels = (0:10)/10, at = (0:10)/10)  
-            }}
+            
+            if(relativeValues == FALSE) {
+                p = table(height@EPP[,c('rank', 'epp')])[,2]
+                plot(p, type = 'h', axes = FALSE, ylab ='No. of EPP events', xlab = 'Distance', ...)
+                axis(1, at = 1:max(height@EPP$rank), labels = 1:max(height@EPP$rank))
+                axis(2, at = 0:(max(p)), labels = 0:(max(p)))
+              }
+            
+            if(relativeValues == TRUE) {
+                p = table(height@EPP[,c('rank', 'epp')])
+                p[,1] = p[,1]+p[,2]
+                p = apply(p, MARGIN = 2, FUN = function(x) x/sum(x))
+                plot(p[,2], type = 'h', axes = FALSE, ylab ='', xlab = '', ...)
+                par(new = TRUE)
+                plot(p[,1], type = 'l', axes = FALSE, ylab ='Proportion of EPP events', xlab = 'Distance', lty = 2, ...)
+                axis(1, at = 1:max(height@EPP$rank), labels = 1:max(height@EPP$rank))
+                axis(2, labels = (0:10)/10, at = (0:10)/10)  
+            }
             
           })
 
