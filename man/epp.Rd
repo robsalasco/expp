@@ -56,6 +56,7 @@ Returns an S4-class epp-object with 5 slots.The fifth slot is called "EPP" and c
 }
 \examples{
   
+<<<<<<< HEAD
 ###example with three breeding pairs
   
   #create raw datasets
@@ -67,15 +68,41 @@ Returns an S4-class epp-object with 5 slots.The fifth slot is called "EPP" and c
       breedingDat = SpatialPointsBreeding(b )
       polygonsDat = DirichletPolygons(breedingDat)
       x = epp(breedingDat, polygonsDat, eppPairs, rank = 3)
+=======
+  #Toy example with three breeding pairs
+  set.seed(1310)
+  b = data.frame(id = 10:12, x = rnorm(3), y = rnorm(3), 
+    male = paste0("m",1:3), female =  paste0("f",1:3), stringsAsFactors=FALSE  )  
+ 
+  breedingDat = SpatialPointsBreeding(b, coords= ~ x+y, breeding= ~male+female )
+  
+  polygonsDat = DirichletPolygons(breedingDat)
+  
+  eppPairs = data.frame(male = c("m1", "m2", "m1"), female=c("f3", "f1", "f2") )
+  
+  x = epp(breedingDat, polygonsDat, eppPairs, rank = 2)
+>>>>>>> 64e4b3627f0d47af0db3a490c345060652085581
  
   #plot data
       plot(x) #red lines indicate EPP events
   
+<<<<<<< HEAD
 ###example with 50 breeding pairs
   #create raw datasets
       n = 50
       b = data.frame(id = 1:n, x = rnorm(n), y = rnorm(n),  male = paste0("m",1:n), female =  paste0("f",1:n), xx = rnorm(n), stringsAsFactors=FALSE  )  
       eppPairs = data.frame(male = sample(b$male, round(n/10) ), female=sample(b$female, round(n/10) ) )
+=======
+  # ------------------------------------------------
+  
+  # Random example with n breeding pairs and  n/10 extra-pair paternity rate
+  n = 50
+  b = data.frame(id = 1:n, x = rnorm(n), y = rnorm(n), 
+    male = paste0("m",1:n), female =  paste0("f",1:n), xx = rnorm(n), stringsAsFactors=FALSE  )  
+  breedingDat = SpatialPointsBreeding(b )
+  polygonsDat = DirichletPolygons(breedingDat)
+  eppPairs = data.frame(male = sample(b$male, round(n/10) ), female=sample(b$female, round(n/10) ) )
+>>>>>>> 64e4b3627f0d47af0db3a490c345060652085581
   
   #transform data  
       breedingDat = SpatialPointsBreeding(b )

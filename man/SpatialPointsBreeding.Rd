@@ -2,7 +2,11 @@
 \alias{SpatialPointsBreeding}
 
 \title{
+<<<<<<< HEAD
 SpatialPointsBreeding objects
+=======
+Converts a data.frame to an object of class SpatialPointsBreeding
+>>>>>>> 64e4b3627f0d47af0db3a490c345060652085581
 }
 
 \description{

@@ -1,5 +1,4 @@
 
-#  nb = poly2nb(polygonsDat)
 
 neighborsDataFrame <- function(nb) {
 
