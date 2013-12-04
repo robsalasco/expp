@@ -93,7 +93,6 @@ epp(breedingDat, polygonsDat = DirichletPolygons(breedingDat), eppPairs, rank = 
 
   require(effects)
   plot(allEffects(fm))
->>>>>>> 657defee5dd3d174e6d172a964662227af8166ba
 
 
 
