@@ -20,9 +20,7 @@ epp <- function(breedingDat, polygonsDat, eppPairs, rank = 3) {
     if(! identical(polygonsDat@data[, 1], breedingDat@id))
       stop( "the 1st column of ", dQuote("polygonsDat"), " should be identical with ",  dQuote("breedingDat"), " id." )
     
-    if( ncol(eppPairs) != 2 ) 
-      stop(dQuote("eppPairs"), " data.frame should have two columns only: males and females in that order.")
-    
+        
     if( length(intersect(breedingDat@male, eppPairs[, 1])) < 1 )
       stop("no extra-pair males found in breedingDat.")
     
@@ -38,9 +36,9 @@ epp <- function(breedingDat, polygonsDat, eppPairs, rank = 3) {
 
     # build up epp set
     d = merge(hnb, b, by = "id") 
-    d = merge(d, b, by.x = 'id_neigh', by.y = 'id',  all.x = TRUE, suffixes= c("_S","_N") )
-    d$k_S = NULL; d$k_N = NULL
-    d$z = paste(d$male_S, d$female_N)    
+    d = merge(d, b, by.x = 'id_neigh', by.y = 'id',  all.x = TRUE, suffixes= c("_MALE","_FEMALE") )
+    d$k_MALE = NULL; d$k_FEMALE = NULL
+    d$z = paste(d$male_MALE, d$female_FEMALE)    
     
     e = data.frame(z = paste(eppPairs$male, eppPairs$female), epp = 1)
     
@@ -50,14 +48,22 @@ epp <- function(breedingDat, polygonsDat, eppPairs, rank = 3) {
     d[is.na(d$epp), "epp"] = 0
     
     # fix names
-    names(d) [which(names(d) == "male_S")] = "male"
-    names(d) [which(names(d) == "female_N")] = "female"
-    d$male_N = NULL; d$female_S = NULL    
-    d = d[, union(c("id_neigh", "id", "rank", "male", "female", "epp"), names(d)) ]
+    names(d) [which(names(d) == "male_MALE")] = "male"
+    names(d) [which(names(d) == "female_FEMALE")] = "female"
+    d$male_FEMALE = NULL; d$female_MALE = NULL    
+	
+	names(d) [which(names(d) == "id")] = "id_MALE"
+	names(d) [which(names(d) == "id_neigh")] = "id_FEMALE"
+	
+    d = d[, union(c("id_FEMALE", "id_MALE", "rank", "male", "female", "epp"), names(d)) ]
     
-    
+	
     # new
-    new("epp", breedingDat = breedingDat, polygonsDat = polygonsDat, eppPairs = eppPairs, rank = rank, EPP = d)
+	new("epp", breedingDat = breedingDat, polygonsDat = polygonsDat, eppPairs = eppPairs, rank = rank, EPP = d)
+	
+	
+	
+	
 	}
 
 #=====================================================================================================#

@@ -123,20 +123,12 @@ Returns an S4-class epp-object with 5 slots.The fifth slot is called "EPP" and c
       data(westerholzEPP)
       b = split(westerholzBreeding, westerholzBreeding$year_) #list of two datasets (one per year)
       e = split(westerholzEPP, westerholzEPP$year_) #list of two datasets (one per year)
-  
-<<<<<<< HEAD
-  require(lme4)
-  fm = glmer(epp ~ rank + male_age_MALE + (1|male) + (1|female), d@EPP, family = binomial)
-  summary(fm)
+	  e = lapply(e, function(x)  x[, c("female" , "male")])
 
-  require(effects)
-  plot(allEffects(fm))
-
-=======
   #transform data using lapply and mapply
       breedingDat = lapply(b, SpatialPointsBreeding, coords= ~x+y, id='id', breeding= ~male + female)
       polygonsDat = lapply(breedingDat, DirichletPolygons)
-      d = mapply(epp, breedingDat, polygonsDat , e, rank = 4 )
+      d = mapply(epp, breedingDat, polygonsDat , e , rank = 4 )
       dat = data.frame(rbind(d[[1]]@EPP, d[[2]]@EPP)) #combine the data sets for the individual years
   
   #plot data by year
@@ -149,7 +141,6 @@ Returns an S4-class epp-object with 5 slots.The fifth slot is called "EPP" and c
       require(lme4)
       fm = glmer(epp ~ rank + male_age_MALE + (1|male) + (1|female) + (1|year__MALE), data = dat, family = binomial)
       summary(fm)
->>>>>>> fecb4e3528fc90e7b9676c5c21c2b6771ffab560
 
       require(effects)
       plot(allEffects(fm))

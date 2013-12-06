@@ -21,6 +21,8 @@ higherNeighborsDataFrame <- function(nb, maxlag) {
 	
 	n = n[sapply(n, function(x) !all ( unlist(x) == 0 ) )]
 	
+	maxlag = length(n)
+	
 	n = lapply(n, neighborsDataFrame)
 	d = mapply(FUN = function(x, rank) cbind(x, rank), x = n, rank = 1:maxlag, SIMPLIFY = FALSE)
 	d = do.call(rbind, d)

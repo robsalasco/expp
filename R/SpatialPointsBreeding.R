@@ -61,7 +61,7 @@ setMethod("plot", signature(x = "SpatialPointsBreeding", y = "missing"),
 
 #=====================================================================================================#
 	
-<<<<<<< HEAD:R/breeding.R
+
 setGeneric("DirichletPolygons", function(x, boundary, ...) 					standardGeneric("DirichletPolygons") )
 
 setMethod("DirichletPolygons",  
@@ -122,34 +122,10 @@ setMethod("DirichletPolygons",
 
 
 	
-#=====================================================================================================#
-=======
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> 64e4b3627f0d47af0db3a490c345060652085581:R/SpatialPointsBreeding.R
 
 
 
