@@ -133,8 +133,3 @@ setMethod("DirichletPolygons",
 
 
 
-
-
-
-
-
