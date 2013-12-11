@@ -19,6 +19,7 @@ Date: \tab 2013-11-17\cr
 License: \tab What license is it under?\cr
 }
 ~~ An overview of how to use the package, including the most important functions ~~
+This package contains an additional help file, a vignette: vignette('vignette', package = 'expp')
 }
 \author{
 Who wrote it
