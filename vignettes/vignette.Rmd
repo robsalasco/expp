@@ -1,9 +1,11 @@
 <!--
-%
+%\VignetteEngine{knitr::docco_linear}
+%\VignetteIndexEntry{An Introduction to formatR}
+-->
 
 
-Instructions for the usage of the package expp
-========================================================
+# Instructions for the usage of the package expp
+
 
 **Supplement to "Spatial patterns of extra-pair paternity: beyond paternity gains and losses"**"
 
@@ -11,26 +13,26 @@ Instructions for the usage of the package expp
 
 **ADD URL**
 
-1. Download R version R 3.0.2, for example from <a href="http://cran.rstudio.com/">cran.studio.com</a>.
+## 1. Download R version R 3.0.2, for example from [cran.studio.com] (http://cran.rstudio.com/).
 
-2. Open R, and install package expp from the repository "???", or copy the following line of code into your R console:
+## 2. Open R, and install package expp from the repository "???", or copy the following line of code into your R console:
   
-  ```{r}
-  install.packages("expp")
+  ```{r eval = FALSE}
+  install.packages("expp", repos = 'http://rforge.net')
   ```
   
-3. Load package.
+## 3. Load package.
   ```{r}
   require(expp)
   ```
 
-4. Load raw datasets
+## 4. Load raw datasets
   ```{r}
   data(westerholzBreeding)
   data(westerholzEPP)
   ```
   
-5. The epp-function only works on individual years. Since we have two years of data, we need to split out data sets up ...  
+## 5. `epp()` only works on individual years. Since we have two years of data, we need to split out data sets up ...  
   ```{r}
   b = split(westerholzBreeding[,!names(westerholzBreeding)=='year_'], westerholzBreeding$year_)
       #remove the column year_ in this step!
@@ -41,14 +43,14 @@ Instructions for the usage of the package expp
   str(e)
   ```
 
-6. ... transform the data sets into the right formats ...
+## 6. ... transform the data sets into the right formats ...
   ```{r}
   breedingDat = lapply(b, SpatialPointsBreeding, coords= ~x+y, id='id', breeding= ~male + female)
   
   polygonsDat = lapply(breedingDat, DirichletPolygons)
   ```
   
-7. ... and apply the epp-function to each of the years individually. Please note that we removed the 'year_' column in step 5. We now have to add it again.
+## 7. ... and apply the epp-function to each of the years individually. Please note that we removed the 'year_' column in step 5. We now have to add it again.
   ```{r}
   d = list()
   for(i in 1 : length(breedingDat)) {
@@ -57,15 +59,15 @@ Instructions for the usage of the package expp
   }
   ```
   
-7. We can then paste the two years of data together.
+## 8. We can then paste the two years of data together.
   ```{r}
   dat = data.frame(rbind(d[[1]]@EPP, d[[2]]@EPP))
   #dat = as.data.frame(d) #combine the data sets for the individual years
   ```
   
-8. We now have two data sets. "d" lists the output of the function epp() for the two years, including the input data. "dat" contains the combined data of the two seasons excluding the input data.
+## 9. We now have two data sets. "d" lists the output of the function epp() for the two years, including the input data. "dat" contains the combined data of the two seasons excluding the input data.
   
-9. We can then plot the data of each year. The package supplies two different types of plots for class "epp" (output of function epp()  ).  
+## 10. We can then plot the data of each year. The package supplies two different types of plots for class "epp" (output of function epp()  ).  
   plot() will plot the study area, the territory borders, and the EPP (as red lines).
   ```{r fig.width=14, fig.height=12}
   plot(d[[1]])
@@ -79,12 +81,12 @@ Instructions for the usage of the package expp
   barplot(d[[1]], relativeValues = TRUE)
   ```
 
-10. Since EPP is most frequent among direct neighbours, estimates for all other variable are most meaningful if they are assessed for direct neighbours. We therefore subtract '1' from the breeding distance, so that direct neighbours get scored as '0'. This transformation is important if interactions are modeled.
+## 11. Since EPP is most frequent among direct neighbours, estimates for all other variable are most meaningful if they are assessed for direct neighbours. We therefore subtract '1' from the breeding distance, so that direct neighbours get scored as '0'. This transformation is important if interactions are modeled.
   ```{r}
   if(min(dat$rank == 1)) dat$rank = dat$rank - 1
   ```
 
-11. As a next step, variables can be transformed to be relative to the surroundings of the males or the females. We here present breeding asynchrony as an example.  
+## 12. As a next step, variables can be transformed to be relative to the surroundings of the males or the females. We here present breeding asynchrony as an example.  
   ```{r}
   center = function(x) { return(x - mean(x, na.rm = TRUE)) }
   scale2 = function(x) { return(x/(2*sd(x, na.rm = TRUE))) }
@@ -103,12 +105,12 @@ Instructions for the usage of the package expp
   
   ```
 
-12. We can now make sure the sample size is sufficient for the number of variables we aim to include into the model.
+## 13. We can now make sure the sample size is sufficient for the number of variables we aim to include into the model.
   ```{r}
   table(dat$epp, dat$year_) #sample size as the number of "0" and "1" in the epp column
   ```
   
-13. And finally, we can run the model (this may take a while depending on your system!).
+## 14. And finally, we can run the model (this may take a while depending on your system!).
   ```{r}
   require(lme4)
   dat$age2 = ifelse(dat$male_age_MALE == 'juv', 1, 2)
@@ -118,7 +120,7 @@ Instructions for the usage of the package expp
   summary(fm)
   ```
   
-14. Finally, you can plot the model output using for example the R package "effects".
+## 15. Finally, you can plot the model output using for example the R package "effects".
   ```{r}
   require(effects)
   plot(allEffects(fm))
