@@ -58,7 +58,7 @@ setMethod("DirichletPolygons",
 
 
 
-
+# TODO setMethod("DirichletPolygons",  .. using boundary boxes
 
 
 

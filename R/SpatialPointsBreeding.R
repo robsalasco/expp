@@ -2,6 +2,7 @@
  
 setClass("SpatialPointsBreeding", representation(
 	id    = "integer", 
+	# boundary = 'logical'
 	male  = "character", 
 	female = "character"
 	),
@@ -15,6 +16,11 @@ setClass("SpatialPointsBreeding", representation(
 		if(	any(object@id < 1) )			
 			stop("id < 1 not allowed.")
 
+		# TODO
+			# polygynous males
+			# multiple br. att.
+		
+			
 		}
  )
 #=====================================================================================================#
