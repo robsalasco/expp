@@ -58,7 +58,7 @@ setMethod("DirichletPolygons",
           signature  = c(x = "SpatialPointsBreeding", boundary = "integer"), 
           definition = function(x, boundary) {
             
-		  
+		  boundary = 
             
             spdf = SpatialPolygonsDataFrame(gIntersection(spdf, boundary, byid = TRUE, id = as.character(ids) ), data = spdf@data)
             
