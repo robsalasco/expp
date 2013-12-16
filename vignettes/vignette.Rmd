@@ -1,0 +1,128 @@
+<!--
+%\VignetteEngine{knitr::docco_linear}
+%\VignetteIndexEntry{An Introduction to formatR}
+-->
+
+
+# Instructions for the usage of the package expp
+
+
+**Supplement to "Spatial patterns of extra-pair paternity: beyond paternity gains and losses"**"
+
+**For latest version see wignette('expp')**
+
+**ADD URL**
+
+## 1. Download R version R 3.0.2, for example from [cran.studio.com] (http://cran.rstudio.com/).
+
+## 2. Open R, and install package expp from the repository "???", or copy the following line of code into your R console:
+  
+  ```{r eval = FALSE}
+  install.packages("expp", repos = 'http://rforge.net')
+  ```
+  
+## 3. Load package.
+  ```{r}
+  require(expp)
+  ```
+
+## 4. Load raw datasets
+  ```{r}
+  data(westerholzBreeding)
+  data(westerholzEPP)
+  ```
+  
+## 5. `epp()` only works on individual years. Since we have two years of data, we need to split out data sets up ...  
+  ```{r}
+  b = split(westerholzBreeding[,!names(westerholzBreeding)=='year_'], westerholzBreeding$year_)
+      #remove the column year_ in this step!
+  str(b)
+  ####################################e = split(westerholzEPP[,!names(westerholzEPP)=='year_'], westerholzEPP$year_) 
+  e = split(westerholzEPP[,c('male', 'female')], westerholzEPP$year_) 
+      ##remove the column year_ in this step!
+  str(e)
+  ```
+
+## 6. ... transform the data sets into the right formats ...
+  ```{r}
+  breedingDat = lapply(b, SpatialPointsBreeding, coords= ~x+y, id='id', breeding= ~male + female)
+  
+  polygonsDat = lapply(breedingDat, DirichletPolygons)
+  ```
+  
+## 7. ... and apply the epp-function to each of the years individually. Please note that we removed the 'year_' column in step 5. We now have to add it again.
+  ```{r}
+  d = list()
+  for(i in 1 : length(breedingDat)) {
+    d[[i]] = epp(breedingDat[[i]], polygonsDat[[i]], e[[i]], rank = 3) #run epp()
+    d[[i]]@EPP$year_ = names(b)[[i]]  #add year
+  }
+  ```
+  
+## 8. We can then paste the two years of data together.
+  ```{r}
+  dat = data.frame(rbind(d[[1]]@EPP, d[[2]]@EPP))
+  #dat = as.data.frame(d) #combine the data sets for the individual years
+  ```
+  
+## 9. We now have two data sets. "d" lists the output of the function epp() for the two years, including the input data. "dat" contains the combined data of the two seasons excluding the input data.
+  
+## 10. We can then plot the data of each year. The package supplies two different types of plots for class "epp" (output of function epp()  ).  
+  plot() will plot the study area, the territory borders, and the EPP (as red lines).
+  ```{r fig.width=14, fig.height=12}
+  plot(d[[1]])
+  ```
+  barplot() will by default (relativeValues = FALSE) plot the number of EPP events for each breeding distance. 
+  ```{r fig.width=7, fig.height=6}
+  barplot(d[[1]])
+  ```
+  With the setting "relativeValues = TRUE" the proportion of EPP events within each breeding distance are plotted, and the proportion of available mates within each breeding distance is added as a dashed line. The maximal distance that is plotted depends on the setting of "rank" in step 7.
+  ```{r fig.width=7, fig.height=6}
+  barplot(d[[1]], relativeValues = TRUE)
+  ```
+
+## 11. Since EPP is most frequent among direct neighbours, estimates for all other variable are most meaningful if they are assessed for direct neighbours. We therefore subtract '1' from the breeding distance, so that direct neighbours get scored as '0'. This transformation is important if interactions are modeled.
+  ```{r}
+  if(min(dat$rank == 1)) dat$rank = dat$rank - 1
+  ```
+
+## 12. As a next step, variables can be transformed to be relative to the surroundings of the males or the females. We here present breeding asynchrony as an example.  
+  ```{r}
+  center = function(x) { return(x - mean(x, na.rm = TRUE)) }
+  scale2 = function(x) { return(x/(2*sd(x, na.rm = TRUE))) }
+  
+  #laying dates -> asynchrony
+  dat$asynchrony = abs(dat$layingDate_MALE - dat$layingDate_FEMALE)
+  
+  #asynchrony -> relative asynchrony within the breeding distance of the focal pair
+  MALE_splitBy = paste(dat$year_, dat$id_MALE, dat$male, dat$rank, sep = "_")
+  dat$relative_asynchrony_MALE = unsplit(lapply(split(dat$asynchrony, MALE_splitBy), center), MALE_splitBy)
+  dat$relative_asynchrony_MALE = scale2(dat$relative_asynchrony_MALE)
+  
+  FEMALE_splitBy = paste(dat$year_, dat$id_FEMALE, dat$female, dat$rank, sep = "_")
+  dat$relative_asynchrony_FEMALE = unsplit(lapply(split(dat$asynchrony, FEMALE_splitBy), center), FEMALE_splitBy)
+  dat$relative_asynchrony_FEMALE = scale2(dat$relative_asynchrony_FEMALE)
+  
+  ```
+
+## 13. We can now make sure the sample size is sufficient for the number of variables we aim to include into the model.
+  ```{r}
+  table(dat$epp, dat$year_) #sample size as the number of "0" and "1" in the epp column
+  ```
+  
+## 14. And finally, we can run the model (this may take a while depending on your system!).
+  ```{r}
+  require(lme4)
+  dat$age2 = ifelse(dat$male_age_MALE == 'juv', 1, 2)
+  
+  #NOT RUN
+  #fm = glmer(epp ~ rank + male_age_MALE + relative_asynchrony_MALE + relative_asynchrony_FEMALE + (1|male) + (1|female) + (1|year_), data = dat, family = binomial)
+  summary(fm)
+  ```
+  
+## 15. Finally, you can plot the model output using for example the R package "effects".
+  ```{r}
+  require(effects)
+  plot(allEffects(fm))
+  ```
+

@@ -73,7 +73,7 @@ setMethod("plot", signature(x = "epp", y = "missing"),
           function(x,y,...) {
             plot(x@polygonsDat, border = "grey")
             plot(x@breedingDat, add = TRUE)
-            epp = subset(x@EPP, epp == 1,select= c("id_neigh" , "id") )
+            epp = subset(x@EPP, epp == 1,select= c("id_FEMALE" , "id_MALE") )
             apply(epp, 1, function(e) points(x@breedingDat[x@breedingDat@id%in%e, ], type = "l", col = 2))
             
           })
