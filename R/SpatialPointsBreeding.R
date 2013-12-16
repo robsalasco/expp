@@ -2,7 +2,6 @@
  
 setClass("SpatialPointsBreeding", representation(
 	id    = "integer", 
-	# boundary = 'logical'
 	male  = "character", 
 	female = "character"
 	),
