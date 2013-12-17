@@ -50,7 +50,7 @@
   polygonsDat = lapply(breedingDat, DirichletPolygons)
   ```
   
-## 7. ... and apply the epp-function to each of the years individually. Please note that we removed the 'year_' column in step 5. We now have to add it again.
+## 7. ... and apply the epp-function to each of the years individually. Please note that we removed the 'year_' column in step 5, which we now have to add again.
   ```{r}
   d = list()
   for(i in 1 : length(breedingDat)) {
