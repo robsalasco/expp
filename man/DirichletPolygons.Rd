@@ -42,23 +42,84 @@ Returns a SpatialPointsDataFrame object (see ?SpatialPointsDataFrame for details
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-###example with three breeding pairs
-  
-  #create raw datasets
-      set.seed(1310)
-      b = data.frame(id = 10:12, x = rnorm(3), y = rnorm(3), male = paste0("m",1:3), female =  paste0("f",1:3), xx = rnorm(3), stringsAsFactors=FALSE  )  
-      eppPairs = data.frame(male = c("m1", "m2", "m1"), female=c("f3", "f1", "f2") )
-  
-  #transform data
-      breedingDat = SpatialPointsBreeding(b )
-      polygonsDat = DirichletPolygons(breedingDat)
-      x = epp(breedingDat, polygonsDat, eppPairs, rank = 3)
- 
-  #plot data
-      plot(x) #red lines indicate EPP events
 
+d = data.frame(
+	x = c(4, 17, 16, 41, 41, 43, 86, 62, 71, 92, 95,53, 34, 27, 53), 
+	y = c(3, 18, 36, 6, 18, 50, 3, 21, 40, 43, 57, 62, 62, 45, 37), 
+	id = 1:15,
+	male = paste0('m', 1:15), female = paste0('f', 1:15), 
+	
+	stringsAsFactors=FALSE
+	)
+
+	b = SpatialPointsBreeding(d, id = 'id')	
+
+# boundary is inferred based on the Ripley-Rasson estimate of the spatial domain
+	dp1 = DirichletPolygons(b)
+	plot(dp1)
+ 
+# boundary is given
+	brdy2 = readWKT("POLYGON((28 71,67 68,70 49,84 49,90 74,111 65,107 36,78 28,98 15,98 -4,74 -7,-2 -8,0 31,28 71) )")
+	dp2 = DirichletPolygons(b, boundary = brdy2)
+	plot(dp2)
+
+# boundary is inferred based on the boundary boxes
+	# define boundary id-s using a 'Follow-The-Dots' strategy. 
+	boundary = c(1, 2, 4, 7, 9, 10, 11, 12, 13, 14, 3)
+	
+	z = data.frame(coordinates(b), id = b@id )
+
+	
+	bb = data.frame(id = boundary, o = 1:length(boundary) )
+	bb = merge(bb, z, by = 'id')
+	bb = bb[order(bb$o), ]
+	bb = rbind(bb, bb[1, ])
+	
+	P = readWKT( paste( "POLYGON((", paste(paste(bb$x, bb$y), collapse = ','), "))" ) )
+	
+	# median distance between points
+	mapply(FUN = function(id = 1:nrow(x), x) )
+	
+	
+	
+	P = gBuffer(P, width=1) 
+	
+	
+	dp3 = DirichletPolygons(b, boundary = P)
+	plot(dp3)
+ 
+ plot(dp1)
+ plot(b, add = TRUE)
+ plot(dp2, add = TRUE, border = 2)
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

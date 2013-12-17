@@ -65,18 +65,23 @@ Item of the class 'SpatialPointsBreeding' with 8 slots.
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-    #create raw datasets
-      set.seed(1310)
-      b = data.frame(id = 10:12, x = rnorm(3), y = rnorm(3), male = paste0("m",1:3), female =  paste0("f",1:3), xx = rnorm(3), stringsAsFactors=FALSE  )  
-      eppPairs = data.frame(male = c("m1", "m2", "m1"), female=c("f3", "f1", "f2") )
-  
-  #transform data
-      breedingDat = SpatialPointsBreeding(b )
-      polygonsDat = DirichletPolygons(breedingDat)
-      x = epp(breedingDat, polygonsDat, eppPairs, rank = 3)
- 
-  #plot data
-      plot(x) #red lines indicate EPP events
+
+
+# data set
+d = data.frame(
+	x = c(4, 17, 16, 41, 41, 43, 86, 62, 71, 92, 95,53, 34, 27, 53), 
+	y = c(3, 18, 36, 6, 18, 50, 3, 21, 40, 43, 57, 62, 62, 45, 37), 
+	id = 1:15,
+	male = paste0('m', 1:15), female = paste0('f', 1:15), 
+	
+	stringsAsFactors=FALSE
+	)
+
+b = SpatialPointsBreeding(d, id = 'id')	
+	
+plot(b)
+
+
   
   }
 }
