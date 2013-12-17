@@ -2,7 +2,7 @@
 setClass("epp", representation(
 	breedingDat     = "SpatialPointsBreeding", 
 	polygonsDat    	= "SpatialPolygonsDataFrame", 
-	eppPairs      	= "data.frame", 
+	eppPairs      	= "eppMatrix", 
 	rank 			= "numeric", 
 	EPP				= "data.frame"
 	),
