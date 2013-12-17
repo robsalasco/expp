@@ -46,7 +46,7 @@ SpatialPointsBreeding <- function(data,
 	
 	d@data[, m] = NULL
 	d@data[, f] = NULL
-	d@data[, k] = NULL
+	d$k 		= NULL
 	
 	new("SpatialPointsBreeding", d, id = ids, male = males, female= females)
 }

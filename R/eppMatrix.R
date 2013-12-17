@@ -7,7 +7,7 @@ eppMatrix <- function(data,  pairs = ~ male + female) {
 	d = data.frame(male = as.character(data[, m]), 
 				  female =  as.character(data[, f]),  
 					stringsAsFactors = FALSE)
-	class(d) = c("data.frame", 'eppMatrix')
+	class(d) = c('eppMatrix', 'data.frame')
 	d
 	
 }

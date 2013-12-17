@@ -60,14 +60,16 @@ Returns an S4-class epp-object with 5 slots.The fifth slot is called "EPP" and c
   
   #create raw data
       set.seed(1310)
-      b = data.frame(id = 10:12, x = rnorm(3), y = rnorm(3), 
+      b = data.frame(id = as.integer(10:12), x = rnorm(3), y = rnorm(3), 
         male = paste0("m",1:3), female =  paste0("f",1:3), xx = rnorm(3), stringsAsFactors=FALSE  )  
       eppPairs = data.frame(male = c("m1", "m2", "m1"), female=c("f3", "f1", "f2") )
   
   #transform data
-      breedingDat = SpatialPointsBreeding(b )
+      breedingDat = SpatialPointsBreeding(b, id = 'id' )
       polygonsDat = DirichletPolygons(breedingDat)
-      x = epp(breedingDat, polygonsDat, eppPairs, rank = 3)
+	  eppDat	  = eppMatrix(eppPairs, pairs = ~ male + female)
+	  
+      x = epp(breedingDat, polygonsDat, eppDat, rank = 3)
  
   #plot data
       plot(x) #red lines indicate EPP events
