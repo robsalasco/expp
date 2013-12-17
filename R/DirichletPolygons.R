@@ -1,4 +1,4 @@
-setGeneric("DirichletPolygons", function(x, boundary, ...)   				standardGeneric("DirichletPolygons") )
+setGeneric("DirichletPolygons", function(x, boundary, ...)   standardGeneric("DirichletPolygons") )
 
 
 .DirichledPolygons <- function(x, ids = x@id) {
@@ -12,6 +12,50 @@ setGeneric("DirichletPolygons", function(x, boundary, ...)   				standardGeneric
                     x = polys)
             do.call(rbind, spdf)	
 }
+
+
+setMethod("DirichletPolygons",  
+          signature  = c(x = "SpatialPointsBreeding", boundary = "integer"), 
+          definition = function(x, boundary, width) {
+            
+		z = data.frame(coordinates(x), id = x@id )
+
+		bb = data.frame(id = boundary, o = 1:length(boundary) )
+		bb = merge(bb, z, by = 'id')
+		bb = bb[order(bb$o), ]
+		bb = rbind(bb, bb[1, ])
+
+		P = readWKT( paste( "POLYGON((", paste(paste(bb$x, bb$y), collapse = ','), "))" ) )
+
+		if( missing(width) ) {
+			# median distance between points
+			z12 =  cbind(bb[-nrow(bb), c('x', 'y')], bb[-1, c('x', 'y')])
+			width = mean(apply(z12, 1, function(x) spDists( as.matrix(t(x[1:2])), as.matrix(t(x[3:4])) ) ) )/2
+			}
+		
+		P = gBuffer(P, width = width) 	
+		
+		spdf = .DirichledPolygons(x)		
+
+		spdf = SpatialPolygonsDataFrame(gIntersection(spdf, P, byid = TRUE, id = as.character(x@id) ), data = spdf@data)
+
+		spdf	
+            
+          }
+)
+
+setMethod("DirichletPolygons",  
+          signature  = c(x = "SpatialPointsBreeding", boundary = "SpatialPolygons"), 
+          definition = function(x, boundary) {
+            
+ 			spdf = .DirichledPolygons(x)		  
+            
+            SpatialPolygonsDataFrame(gIntersection(spdf, boundary, byid = TRUE, id = as.character(x@id) ), data = spdf@data)
+            
+	
+            
+          }
+)
 
 
 setMethod("DirichletPolygons",  
@@ -39,33 +83,6 @@ setMethod("DirichletPolygons",
           }
 )
 
-
-setMethod("DirichletPolygons",  
-          signature  = c(x = "SpatialPointsBreeding", boundary = "SpatialPolygons"), 
-          definition = function(x, boundary) {
-            
- 			spdf = .DirichledPolygons(x)		  
-            
-            SpatialPolygonsDataFrame(gIntersection(spdf, boundary, byid = TRUE, id = as.character(x@id) ), data = spdf@data)
-            
-	
-            
-          }
-)
-
-
-setMethod("DirichletPolygons",  
-          signature  = c(x = "SpatialPointsBreeding", boundary = "integer"), 
-          definition = function(x, boundary) {
-            
-		  boundary = 
-            
-            spdf = SpatialPolygonsDataFrame(gIntersection(spdf, boundary, byid = TRUE, id = as.character(ids) ), data = spdf@data)
-            
-            spdf	
-            
-          }
-)
 
 
 

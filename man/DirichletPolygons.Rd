@@ -43,14 +43,14 @@ Returns a SpatialPointsDataFrame object (see ?SpatialPointsDataFrame for details
 }
 \examples{
 
-d = data.frame(
-	x = c(4, 17, 16, 41, 41, 43, 86, 62, 71, 92, 95,53, 34, 27, 53), 
-	y = c(3, 18, 36, 6, 18, 50, 3, 21, 40, 43, 57, 62, 62, 45, 37), 
-	id = 1:15,
-	male = paste0('m', 1:15), female = paste0('f', 1:15), 
-	
-	stringsAsFactors=FALSE
-	)
+	d = data.frame(
+		x = c(4, 17, 16, 41, 41, 43, 86, 62, 71, 92, 95,53, 34, 27, 53), 
+		y = c(3, 18, 36, 6, 18, 50, 3, 21, 40, 43, 57, 62, 62, 45, 37), 
+		id = 1:15,
+		male = paste0('m', 1:15), female = paste0('f', 1:15), 
+		
+		stringsAsFactors=FALSE
+		)
 
 	b = SpatialPointsBreeding(d, id = 'id')	
 
@@ -65,32 +65,15 @@ d = data.frame(
 
 # boundary is inferred based on the boundary boxes
 	# define boundary id-s using a 'Follow-The-Dots' strategy. 
-	boundary = c(1, 2, 4, 7, 9, 10, 11, 12, 13, 14, 3)
+	brdy3 = as.integer(c(1, 2, 4, 7, 9, 10, 11, 12, 13, 14, 3))
 	
-	z = data.frame(coordinates(b), id = b@id )
-
-	
-	bb = data.frame(id = boundary, o = 1:length(boundary) )
-	bb = merge(bb, z, by = 'id')
-	bb = bb[order(bb$o), ]
-	bb = rbind(bb, bb[1, ])
-	
-	P = readWKT( paste( "POLYGON((", paste(paste(bb$x, bb$y), collapse = ','), "))" ) )
-	
-	# median distance between points
-	mapply(FUN = function(id = 1:nrow(x), x) )
-	
-	
-	
-	P = gBuffer(P, width=1) 
-	
-	
-	dp3 = DirichletPolygons(b, boundary = P)
+	dp3 = DirichletPolygons(b, boundary = brdy3)
 	plot(dp3)
  
  plot(dp1)
- plot(b, add = TRUE)
  plot(dp2, add = TRUE, border = 2)
+ plot(dp3, add = TRUE, border = 3)
+ plot(b, add = TRUE)
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
