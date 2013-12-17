@@ -14,7 +14,8 @@ setClass("SpatialPointsBreeding", representation(
 			stop("only one id per line is allowed.")
 		if(	any(object@id < 1) )			
 			stop("id < 1 not allowed.")
-
+		
+		return(TRUE)
 		# TODO
 			# polygynous males
 			# multiple br. att.
@@ -45,13 +46,16 @@ SpatialPointsBreeding <- function(data,
 	
 	d@data[, m] = NULL
 	d@data[, f] = NULL
-	d@data[, id] = NULL
+	d@data[, k] = NULL
 	
 	new("SpatialPointsBreeding", d, id = ids, male = males, female= females)
 }
 
 
 
+if (!isGeneric("plot")) setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
+
+	
 setMethod("plot", signature(x = "SpatialPointsBreeding", y = "missing"),
           function(x, pch = 20, axes = FALSE, add = FALSE, 
                    xlim = NULL, ylim = NULL, ..., cex = 1, col = "grey", lwd = 1, bg = 1, pair.cex = .6) {
