@@ -12,7 +12,7 @@ setClass("epp", representation(
 		return(TRUE)
 		}
  )
-#=====================================================================================================#
+
 
 epp <- function(breedingDat, polygonsDat, eppPairs, rank = 3) { 
 
@@ -21,14 +21,15 @@ epp <- function(breedingDat, polygonsDat, eppPairs, rank = 3) {
       stop( "the 1st column of ", dQuote("polygonsDat"), " should be identical with ",  dQuote("breedingDat"), " id." )
     
         
-    if( length(intersect(breedingDat@male, eppPairs[, 1])) < 1 )
+    if( length(intersect(breedingDat@male, eppPairs@male ) ) < 1 )
       stop("no extra-pair males found in breedingDat.")
     
-    if( length(intersect(breedingDat@female, eppPairs[, 2])) < 1 )
+    if( length(intersect(breedingDat@female, eppPairs@female )) < 1 )
        stop("no extra-pair females found in breedingDat.")
     
     
   	# bricks
+    eppDat = data.frame(male = eppPairs@male, female = eppPairs@female)
   	if( missing(polygonsDat) )   polygonsDat = DirichletPolygons(breedingDat)
   	nb  = poly2nb(polygonsDat, row.names = polygonsDat@data$ID)
   	hnb = higherNeighborsDataFrame(nb, maxlag = rank)
@@ -40,7 +41,7 @@ epp <- function(breedingDat, polygonsDat, eppPairs, rank = 3) {
     d$k_MALE = NULL; d$k_FEMALE = NULL
     d$z = paste(d$male_MALE, d$female_FEMALE)    
     
-    e = data.frame(z = paste(eppPairs$male, eppPairs$female), epp = 1)
+    e = data.frame(z = paste(eppDat$male, eppDat$female), epp = 1)
     
     
     d = merge(d, e, by = "z", all.x = TRUE)
@@ -66,8 +67,6 @@ epp <- function(breedingDat, polygonsDat, eppPairs, rank = 3) {
 	
 	}
 
-#=====================================================================================================#
-
 
 setMethod("plot", signature(x = "epp", y = "missing"),
           function(x,y,...) {
@@ -78,9 +77,8 @@ setMethod("plot", signature(x = "epp", y = "missing"),
             
           })
 
-#=====================================================================================================#
 
-  if (!isGeneric("barplot")) {
+if (!isGeneric("barplot")) {
     setGeneric("barplot", function(height,...)
       standardGeneric("barplot"))
    }  
@@ -109,13 +107,17 @@ setMethod("barplot", signature(height = "epp"),
             
           })
 
-	
-	
-	
-	
-	
 
 
+if (!isGeneric("as.data.frame")) {
+  setGeneric("as.data.frame", function(x, row.names = NULL, optional = FALSE, ...)
+    standardGeneric("as.data.frame"))
+}	
+	
+setMethod('as.data.frame', signature(x='epp'), 
+          function(x) {
+            return(from@EPP)
+          } )
 
 
 
