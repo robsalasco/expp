@@ -67,7 +67,7 @@ Returns an S4-class epp-object with 5 slots.The fifth slot is called "EPP" and c
   #transform data
       breedingDat = SpatialPointsBreeding(b, id = 'id' )
       polygonsDat = DirichletPolygons(breedingDat)
-	  eppDat	  = eppMatrix(eppPairs, pairs = ~ male + female)
+	    eppDat	  = eppMatrix(eppPairs, pairs = ~ male + female)
 	  
       x = epp(breedingDat, polygonsDat, eppDat, rank = 3)
  
@@ -79,15 +79,14 @@ Returns an S4-class epp-object with 5 slots.The fifth slot is called "EPP" and c
       n = 50
       b = data.frame(id = 1:n, x = rnorm(n), y = rnorm(n), 
         male = paste0("m",1:n), female =  paste0("f",1:n), xx = rnorm(n), stringsAsFactors=FALSE  )  
-      breedingDat = SpatialPointsBreeding(b )
-      polygonsDat = DirichletPolygons(breedingDat)
       eppPairs = data.frame(male = sample(b$male, round(n/10) ), 
             female=sample(b$female, round(n/10) ) )
   
   #transform data  
-      breedingDat = SpatialPointsBreeding(b )
+      breedingDat = SpatialPointsBreeding(b, id = "id")
       polygonsDat = DirichletPolygons(breedingDat)
-      x = epp(breedingDat, polygonsDat, eppPairs, rank = 5)
+      eppDat    = eppMatrix(eppPairs, pairs = ~ male + female)
+      x = epp(breedingDat, polygonsDat, eppDat, rank = 5)
   
   #plot data
       plot(x) #red lines indicate EPP events
