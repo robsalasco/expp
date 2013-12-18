@@ -1,7 +1,7 @@
 
  
 setClass("SpatialPointsBreeding", representation(
-	id    		= "integer",
+	id    		= "numeric",
 	male  		= "character", 
 	female 		= "character"
 	),
@@ -33,6 +33,7 @@ SpatialPointsBreeding <- function(data,
                                   id
 							) {
 	d = data
+	row.names(d) = NULL
 	d$k = 1:nrow(d)
 	coordinates(d) <- coords
 	proj4string(d) = proj4string

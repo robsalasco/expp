@@ -1,23 +1,11 @@
 setGeneric("DirichletPolygons", function(x, boundary, ...)   standardGeneric("DirichletPolygons") )
 
 
-.DirichletPolygons <- function(x, ids = x@id) {
-	# x is a DirichletPolygons
-            coords = coordinates(x)
-            polys  =  tile.list(deldir(coords[,1], coords[,2]))
-            polys  = lapply(polys, function(a) Polygon(rbind(cbind(a$x, a$y), cbind(a$x[1], a$y[1])))  )
-            spdf = mapply(FUN = function(x, ID) SpatialPolygonsDataFrame(SpatialPolygons(list(Polygons(list(x), ID)), pO = ID ),
-					data = data.frame(ID = ID, row.names = ID)), 
-                    ID = ids, 
-                    x = polys)
-            do.call(rbind, spdf)	
-}
-
-
 setMethod("DirichletPolygons",  
-          signature  = c(x = "SpatialPointsBreeding", boundary = "integer"), 
+          signature  = c(x = "SpatialPointsBreeding", boundary = "numeric"), 
           definition = function(x, boundary, width) {
             
+		# boundary
 		z = data.frame(coordinates(x), id = x@id )
 
 		bb = data.frame(id = boundary, o = 1:length(boundary) )
@@ -35,12 +23,14 @@ setMethod("DirichletPolygons",
 		
 		P = gBuffer(P, width = width) 	
 		
-		spdf = .DirichletPolygons(x)		
-
-		spdf = SpatialPolygonsDataFrame(gIntersection(spdf, P, byid = TRUE, id = as.character(x@id) ), data = spdf@data)
-
-		spdf	
-            
+		# polygons	
+		cr = coordinates(x)
+		pp = ppp(cr[, 1], cr[, 2], window = as(P, "owin") )
+		dr = dirichlet( pp )
+		drp = as(dr, "SpatialPolygons")
+				
+		SpatialPolygonsDataFrame(drp, data = x@data[, 'id', FALSE], match.ID = TRUE)	
+		
           }
 )
 
@@ -48,12 +38,13 @@ setMethod("DirichletPolygons",
           signature  = c(x = "SpatialPointsBreeding", boundary = "SpatialPolygons"), 
           definition = function(x, boundary) {
             
- 			spdf = .DirichletPolygons(x)		  
-            
-            SpatialPolygonsDataFrame(gIntersection(spdf, boundary, byid = TRUE, id = as.character(x@id) ), data = spdf@data)
-            
-	
-            
+			cr = coordinates(x)
+			pp = ppp(cr[, 1], cr[, 2], window = as(boundary, "owin") )
+			dr = dirichlet( pp )
+			drp = as(dr, "SpatialPolygons")
+						
+			SpatialPolygonsDataFrame(drp, data = x@data[, 'id', FALSE], match.ID = TRUE)		  
+
           }
 )
 
@@ -62,42 +53,16 @@ setMethod("DirichletPolygons",
           signature  = c(x = "SpatialPointsBreeding", boundary = "missing"), 
           definition = function(x, ...) {
             
-            coords = coordinates(x)
-            ids = x@id
-			# ripras boundary
-            rr = ripras(coords, shape = "convex", ...)
-            rr = cbind(x = rr$bdry[[1]]$x, y = rr$bdry[[1]]$y)
-            boundary =  SpatialPolygons(list( Polygons(list( Polygon(rbind(rr, rr[1, ] )) ) , 1) ) )
-            proj4string(boundary) = proj4string(x)
-            
-            # tiles
-			spdf = .DirichletPolygons(x)
+			cr = coordinates(x)
+			pp = ppp(cr[, 1], cr[, 2], window = ripras(cr, shape = "convex", ...) )
+			dr = dirichlet( pp )
+			drp = as(dr, "SpatialPolygons")
+					
+			SpatialPolygonsDataFrame(drp, data = x@data[, 'id', FALSE], match.ID = TRUE)
 			
-            spdf = gIntersection(spdf, boundary, byid = TRUE, id = as.character(ids) )
-            
-            # SpatialPolygonsDataFrame
-            dat = data.frame(ID = ids, row.names = ids)
-            
-            SpatialPolygonsDataFrame(spdf, dat)
-            
+		            
           }
 )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

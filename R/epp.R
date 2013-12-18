@@ -29,9 +29,9 @@ epp <- function(breedingDat, polygonsDat, eppPairs, rank = 3) {
     
     
   	# bricks
-    eppDat = data.frame(male = eppPairs@male, female = eppPairs@female)
+    epd = data.frame(male = eppPairs@male, female = eppPairs@female)
   	if( missing(polygonsDat) )   polygonsDat = DirichletPolygons(breedingDat)
-  	nb  = poly2nb(polygonsDat, row.names = polygonsDat@data$ID)
+  	nb  = poly2nb(polygonsDat, row.names = polygonsDat@data$id)
   	hnb = higherNeighborsDataFrame(nb, maxlag = rank)
   	b   = data.frame(breedingDat@data, id = breedingDat@id, male = breedingDat@male, female = breedingDat@female)
 
@@ -41,7 +41,7 @@ epp <- function(breedingDat, polygonsDat, eppPairs, rank = 3) {
     d$k_MALE = NULL; d$k_FEMALE = NULL
     d$z = paste(d$male_MALE, d$female_FEMALE)    
     
-    e = data.frame(z = paste(eppDat$male, eppDat$female), epp = 1)
+    e = data.frame(z = paste(epd$male, epd$female), epp = 1)
     
     
     d = merge(d, e, by = "z", all.x = TRUE)
@@ -116,7 +116,7 @@ if (!isGeneric("as.data.frame")) {
 	
 setMethod('as.data.frame', signature(x='epp'), 
           function(x) {
-            return(from@EPP)
+            return(x@EPP)
           } )
 
 
