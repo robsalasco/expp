@@ -1,10 +1,4 @@
 
-
-
-
-
-
-
 <!--
 %\VignetteEngine{knitr::docco_linear}
 %\VignetteIndexEntry{An Introduction to formatR}
