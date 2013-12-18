@@ -1,7 +1,28 @@
+
+```{r, echo=FALSE, eval=FALSE, message=FALSE}
+# SELF COMPILE
+#  require(markdown)
+#  require(knitr)
+#  knit("expp.Rmd")
+#    
+#  markdownToHTML("expp.md", paste0(home,'Home/GITHUB/expp2/expp/vignettes.html'))
+#  
+#
+#  file.remove("expp.md")
+#  unlink('figure', recursive= TRUE)
+#
+```
+
+
+
+
 <!--
 %\VignetteEngine{knitr::docco_linear}
 %\VignetteIndexEntry{An Introduction to formatR}
 -->
+
+
+
 
 
 # Instructions for the usage of the package expp
