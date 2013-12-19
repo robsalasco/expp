@@ -1,30 +1,6 @@
 
  
-setClass("SpatialPointsBreeding", representation(
-	id    		= "numeric",
-	male  		= "character", 
-	female 		= "character"
-	),
-	
-	contains  = "SpatialPointsDataFrame",
 
-	validity = function(object)	{
-
-		if (length(table(object@id)[table(object@id) > 1]) )
-			stop("only one id per line is allowed.")
-		if(	any(object@id < 1) )			
-			stop("id < 1 not allowed.")
-		
-		return(TRUE)
-		# TODO
-			# polygynous males
-			# multiple br. att.
-		}, 
-  
-  prototype = list(id_boundary= FALSE)		
-		
-		
- )
 
 SpatialPointsBreeding <- function(data, 
                                   proj4string = CRS(as.character(NA)), 
@@ -45,9 +21,11 @@ SpatialPointsBreeding <- function(data,
 	males = data[, m]
 	females = data[, f]
 	
-	d@data[, m] = NULL
-	d@data[, f] = NULL
-	d$k 		= NULL
+	d@data[, m]  = NULL
+	d@data[, f]  = NULL
+	d@data[, id] = NULL
+
+
 	
 	new("SpatialPointsBreeding", d, id = ids, male = males, female= females)
 }

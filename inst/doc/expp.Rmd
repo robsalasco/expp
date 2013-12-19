@@ -16,15 +16,17 @@
 ## 1. Download R version R 3.0.2, for example from [cran.studio.com] (http://cran.rstudio.com/).
 
 ## 2. Open R, and install package expp from the repository "???", or copy the following line of code into your R console:
+`install.packages("expp", repos = 'http://rforge.net')`  
   
-  ```{r eval = FALSE}
-  install.packages("expp", repos = 'http://rforge.net')
-  ```
   
+```{r eval = FALSE,echo=FALSE}
+
+```
+
 ## 3. Load package.
-  ```{r}
-  require(expp)
-  ```
+```{r}
+require(expp)
+```
 
 ## 4. Load raw datasets
   ```{r}

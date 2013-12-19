@@ -56,6 +56,19 @@ Returns an S4-class epp-object with 5 slots.The fifth slot is called "EPP" and c
 }
 \examples{
   
+# CHECKS
+			p = polygonsDat
+			nb  = poly2nb(polygonsDat, row.names = breedingDat@id, queen = TRUE) 
+			plot(p)
+			plot(breedingDat, add = T)
+
+				ml = 2
+				n = nblag(nb, maxlag = ml)
+				ff = neighborsDataFrame ( n[[ml]] )
+				plot(p[p$ID%in% ff[ff$id == 1, 'id_neigh'], ], add = T, border = ml, lwd =4)
+
+			  
+  
 ### Simple example with three breeding pairs
   
   # create raw data
@@ -90,7 +103,9 @@ Returns an S4-class epp-object with 5 slots.The fifth slot is called "EPP" and c
 	 eppDat	  = eppMatrix(eppPairs, pairs = ~ male + female)
   
   # convert to epp class
-  x = epp(breedingDat, polygonsDat, eppDat, rank = 5)
+  x = epp(breedingDat, polygonsDat, eppDat, rank = 10)
+  
+
   
   #plot 
       plot(x)
@@ -103,7 +118,7 @@ Returns an S4-class epp-object with 5 slots.The fifth slot is called "EPP" and c
       data(westerholzBreeding)
       data(westerholzEPP)
 	# select one year 
-	year = 2009
+	year = 2010
 	b =   westerholzBreeding[westerholzBreeding$year_ == year, ]
 	eppPairs = westerholzEPP[westerholzEPP$year_ == year, ]
   
@@ -113,15 +128,19 @@ Returns an S4-class epp-object with 5 slots.The fifth slot is called "EPP" and c
 	 eppDat	  	 = eppMatrix(eppPairs, pairs = ~ male + female)
   
   # convert to epp class
-  x = epp(breedingDat, polygonsDat, eppDat, rank = 4)
+  x = epp(breedingDat, polygonsDat, eppDat, maxlag = 20)
   
   # run model on epp probability		
   dat = as.data.frame(x)
+  nrow(dat[dat$epp == 1, 4:5] )
+  nrow(unique(eppPairs))
+  
+  
 	require(lme4)
       fm = glmer(epp ~ rank + male_age_MALE + (1|male) + (1|female), data = dat, family = binomial)
       summary(fm)
 
-
+  
 }
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the

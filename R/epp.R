@@ -1,53 +1,43 @@
 
-setClass("epp", representation(
-	breedingDat     = "SpatialPointsBreeding", 
-	polygonsDat    	= "SpatialPolygonsDataFrame", 
-	eppPairs      	= "eppMatrix", 
-	rank 			= "numeric", 
-	EPP				= "data.frame"
-	),
-	
-	validity = function(object)	{
-  	   
-		return(TRUE)
-		}
- )
 
 
-epp <- function(breedingDat, polygonsDat, eppPairs, rank = 3) { 
+epp <- function(breedingDat, polygonsDat, eppDat, maxlag = 4) { 
 
-    # validity
-    if(! identical(polygonsDat@data[, 1], breedingDat@id))
+	# pre object validity
+	if( length(setdiff(polygonsDat@data[, 1], breedingDat@id ) ) > 0  )
       stop( "the 1st column of ", dQuote("polygonsDat"), " should be identical with ",  dQuote("breedingDat"), " id." )
     
         
-    if( length(intersect(breedingDat@male, eppPairs@male ) ) < 1 )
+    if( length(intersect(breedingDat@male, eppDat@male ) ) < 1 )
       stop("no extra-pair males found in breedingDat.")
     
-    if( length(intersect(breedingDat@female, eppPairs@female )) < 1 )
+    if( length(intersect(breedingDat@female, eppDat@female )) < 1 )
        stop("no extra-pair females found in breedingDat.")
     
     
   	# bricks
-    epd = data.frame(male = eppPairs@male, female = eppPairs@female)
+	epd = data.frame(z = paste(eppDat@male, eppDat@female), epp = 1, stringsAsFactors = FALSE)
   	if( missing(polygonsDat) )   polygonsDat = DirichletPolygons(breedingDat)
-  	nb  = poly2nb(polygonsDat, row.names = polygonsDat@data$id, queen = FALSE, snap = .1) # TODO add info to Rd files
-  	hnb = higherNeighborsDataFrame(nb, maxlag = rank)
-  	b   = data.frame(breedingDat@data, id = breedingDat@id, male = breedingDat@male, female = breedingDat@female)
+	
+  	nb  = poly2nb(polygonsDat, row.names = breedingDat@id, queen = TRUE) 
+  	hnb = higherNeighborsDataFrame(nb, maxlag = maxlag)
+  	b   = data.frame(breedingDat@data, id = breedingDat@id, male = breedingDat@male, female = breedingDat@female, stringsAsFactors = FALSE)
+	b$k = NULL
 
     # build up epp set
     d = merge(hnb, b, by = "id") 
     d = merge(d, b, by.x = 'id_neigh', by.y = 'id',  all.x = TRUE, suffixes= c("_MALE","_FEMALE") )
-    d$k_MALE = NULL; d$k_FEMALE = NULL
     d$z = paste(d$male_MALE, d$female_FEMALE)    
     
-    e = data.frame(z = paste(epd$male, epd$female), epp = 1)
+	# stray epp pairs?
+	print( table(!epd$z %in% d$z)  )
+
     
-    
-    d = merge(d, e, by = "z", all.x = TRUE)
+    d = merge(d, epd, by = "z", all.x = TRUE)
     d$z = NULL
-    d[is.na(d$epp), "epp"] = 0
+	d[is.na(d$epp), "epp"] = 0
     
+		
     # fix names
     names(d) [which(names(d) == "male_MALE")] = "male"
     names(d) [which(names(d) == "female_FEMALE")] = "female"
@@ -60,7 +50,7 @@ epp <- function(breedingDat, polygonsDat, eppPairs, rank = 3) {
     
 	
     # new
-	new("epp", breedingDat = breedingDat, polygonsDat = polygonsDat, eppPairs = eppPairs, rank = rank, EPP = d)
+	new("epp", breedingDat = breedingDat, polygonsDat = polygonsDat, eppDat = eppDat, maxlag = maxlag, EPP = d)
 	
 	
 	
@@ -88,20 +78,20 @@ setMethod("barplot", signature(height = "epp"),
           function(height, relativeValues = FALSE, ...) {
             
             if(relativeValues == FALSE) {
-                p = table(height@EPP[,c('rank', 'epp')])[,2]
+                p = table(height@EPP[,c('maxlag', 'epp')])[,2]
                 plot(p, type = 'h', axes = FALSE, ylab ='No. of EPP events', xlab = 'Distance', ...)
-                axis(1, at = 1:max(height@EPP$rank), labels = 1:max(height@EPP$rank))
+                axis(1, at = 1:max(height@EPP$rank), labels = 1:max(height@EPP$maxlag))
                 axis(2, at = 0:(max(p)), labels = 0:(max(p)))
               }
             
             if(relativeValues == TRUE) {
-                p = table(height@EPP[,c('rank', 'epp')])
+                p = table(height@EPP[,c('maxlag', 'epp')])
                 p[,1] = p[,1]+p[,2]
                 p = apply(p, MARGIN = 2, FUN = function(x) x/sum(x))
                 plot(p[,2], type = 'h', axes = FALSE, ylab ='', xlab = '', ...)
                 par(new = TRUE)
                 plot(p[,1], type = 'l', axes = FALSE, ylab ='Proportion of EPP events', xlab = 'Distance', lty = 2, ...)
-                axis(1, at = 1:max(height@EPP$rank), labels = 1:max(height@EPP$rank))
+                axis(1, at = 1:max(height@EPP$maxlag), labels = 1:max(height@EPP$maxlag))
                 axis(2, labels = (0:10)/10, at = (0:10)/10)  
             }
             
