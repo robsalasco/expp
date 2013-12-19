@@ -2,7 +2,7 @@
 \alias{westerholzBreeding}
 \docType{data}
 \title{
-westerholzBreedind/Breeding data
+westerholzBreeding/Breeding data
 }
 \description{
 This dataset contains the location of breeding attempts, the respective social pair, and parameters related to this social pair.

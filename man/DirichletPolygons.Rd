@@ -10,18 +10,25 @@ Dirichlet Polygons
 }
 
 \description{
-Computes the Dirichlet polygons using a \code{\link[expp]{SpatialPointsBreeding}} object.
+Computes the Dirichlet polygons using a \code{\link[expp]{SpatialPointsBreeding}} object
+and optionally a boundary SpatialPolygon or a vector containing id-s located at the boundary.
 }
 
 
 \section{Methods}{
   \describe{
-    \item{\code{signature(x = "SpatialPointsBreeding", boundary = "SpatialPolygons")}}{}
-    \item{\code{signature(x = "SpatialPointsBreeding", boundary = "missing")}}{}
-    \item{\code{signature(x = "SpatialPointsBreeding", boundary = "numeric")}}{}
-  }
+\item{\code{signature(x = "SpatialPointsBreeding", boundary = "SpatialPolygons")}}
+  {a boundary polygon}
+\item{\code{signature(x = "SpatialPointsBreeding", boundary = "missing")}}
+  {boundary is inferred using \code{\link[spatstat]{ripras}} in \code{spatstat} }
+\item{\code{signature(x = "SpatialPointsBreeding", boundary = "numeric")}}
+  {a vector of integers containing the id-s located at the boundary. 
+The boundary is defined using a 'Follow-The-Dots' strategy.
+The \code{width} argumnent passed to \code{\link[rgeos]{gBuffer}} defines the 
+distance between buondaryx boxes and the boundary polygon; it is set by default to
+half of the average distance between boundary boxes.}
 }
-
+}
 
 
 
@@ -41,20 +48,27 @@ dp1 = DirichletPolygons(b)
 plot(dp1)
 
 # boundary is given
-brdy2 = readWKT("POLYGON((28 71,67 68,70 49,84 49,90 74,111 65,107 36,78 28,98 15,98 -4,74 -7,-2 -8,0 31,28 71) )")
+brdy2 = readWKT("POLYGON((28 71,67 68,70 49,84 49,90 74,111 65,107 
+                      36,78 28,98 15,98 -4,74 -7,-2 -8,0 31,28 71) )")
 dp2 = DirichletPolygons(b, boundary = brdy2)
 plot(dp2)
 
-# boundary is inferred based on the boundary boxes
+# boundary is inferred based on the boundary id-s. 
 # define boundary id-s using a 'Follow-The-Dots' strategy. 
 brdy3 = as.integer(c(1, 2, 4, 7, 9, 10, 11, 12, 13, 14, 3))
 
 dp3 = DirichletPolygons(b, boundary = brdy3)
 plot(dp3)
 
+# setting width manually
+dp4 = DirichletPolygons(b, boundary = brdy3, width = 2)
+plot(dp4)
+
+
 plot(dp1)
 plot(dp2, add = TRUE, border = 2)
 plot(dp3, add = TRUE, border = 3)
+plot(dp4, add = TRUE, border = 4)
 plot(b, add = TRUE)
 
 }

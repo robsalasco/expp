@@ -6,14 +6,14 @@
 \alias{SpatialPointsBreeding,numeric-method}
 \alias{plot,SpatialPointsBreeding,missing-method}
 
-\title{Converts a data.frame to an object of class SpatialPointsBreeding}
+\title{Converts a \code{data.frame} to an object of class \code{SpatialPointsBreeding} }
 
 
 \description{
 Converts a \code{\link{data.frame}} to a \code{SpatialPointsBreeding} object.
-A \code{SpatialPointsBreeding} is a \code{\link[sp]{SpatialPointsDataFrame}} with 
-three extra slots defining the id (i.e. nest or breeding box) and the pair identity
-(i.e. male and female).
+The \code{SpatialPointsBreeding} class extends \code{\link[sp]{SpatialPointsDataFrame}} 
+with three extra slots defining the id (i.e. nest or breeding box) and the pair identity
+(i.e. male and female), respectively.
 }
 
 
@@ -30,7 +30,7 @@ SpatialPointsBreeding(data, proj4string ,
 
 \arguments{
   \item{data}{
-    a \code{\link{data.frame}}  containing the coordinates (e.g. "x", "y"), the location id (e.g. "id"), and the male and female ID (e.g. "male", "female") toghether with any other optional variables (e.g. individuals or nest traits).
+    a \code{\link{data.frame}}  containing the coordinates (e.g. "x", "y"), the location id, and the pair identity (e.g. "male", "female") toghether with any other optional variables (e.g. individuals or nest traits).
 }
 
   \item{proj4string}{
@@ -45,7 +45,7 @@ SpatialPointsBreeding(data, proj4string ,
   Column name of the location id (e.g. nest box number, den ID). Must be numeric.
 }
   \item{breeding}{
-  Formula defining the column names of male and female IDs, respectively.
+  Formula defining the male and female ID in that order.
 }
 }
 
@@ -63,9 +63,7 @@ Item of the class 'SpatialPointsBreeding' with 8 slots.
 }
 
 
-\seealso{
-\code{\link[expp]{epp}}
-}
+\seealso{\code{\link[expp]{epp}}}
 
 \references{
 Schlicht L., Valcu M. and Kempenaers B. 
@@ -74,7 +72,6 @@ Schlicht L., Valcu M. and Kempenaers B.
 }
 
 \examples{
-
 d = data.frame(
   x = c(4, 17, 16, 41, 41, 43, 86, 62, 71, 92, 95,53, 34, 27, 53), 
   y = c(3, 18, 36, 6, 18, 50, 3, 21, 40, 43, 57, 62, 62, 45, 37), 

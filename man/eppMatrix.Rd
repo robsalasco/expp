@@ -1,61 +1,46 @@
 \name{eppMatrix}
 \alias{eppMatrix}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
- ~~function to do ... ~~
-}
+\alias{eppMatrix-class}
+
+\title{Convert a data.frame to an eppMatrix object.}
+
 \description{
-  ~~ A concise (1-5 lines) description of what the function does. ~~
+Converts a \code{data.frame} to a eppMatrix object using a 
+\code{~male+female} formula.
 }
-\usage{
-eppMatrix(data, pairs = ~male + female)
+
+\usage{eppMatrix(data, pairs = ~ male + female)}
+
+\section{Slots}{
+  \describe{
+    \item{\code{male}:}{Object of class \code{"character"}: extra-pair male ID }
+    \item{\code{female}:}{Object of class \code{"character"}:extra-pair female ID}
+  }
 }
-%- maybe also 'usage' for other objects documented here.
+
+
 \arguments{
-  \item{data}{
-%%     ~~Describe \code{data} here~~
+  \item{data}{ a \code{data.frame} }
+  \item{pairs}{a formula indicating the extra-pair male and 
+      the extra-pair female in that order. }
 }
-  \item{pairs}{
-%%     ~~Describe \code{pairs} here~~
-}
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
+
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
-\references{
-%% ~put references to the literature/web site here ~
-}
-\author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
+An object of class \code{eppMatrix} with two slots.
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+\seealso{\code{\link[expp]{epp}}}
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
-	
 eppPairs = data.frame(male = c("m1", "m2", "m1"), female=c("f3", "f1", "f2") )
- e = eppMatrix(eppPairs,  pairs = ~ male + female)
- class(e)
-
-
+e = eppMatrix(eppPairs,  pairs = ~ male + female)
+class(e)
+showClass("eppMatrix")
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+
+\keyword{spatial}
+
 
 
 
