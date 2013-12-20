@@ -67,7 +67,7 @@ setMethod("DirichletPolygons",
 setMethod("DirichletPolygons",  
           signature  = c(x = "SpatialPointsBreeding", boundary = "missing"), 
           definition = function(x, ...) {
-            
+			if( !require(spatstat) ) stop('spatstat package is not available.')
             coords = coordinates(x)
             ids = x@id
             rr = ripras(coords, shape = "convex", ...)

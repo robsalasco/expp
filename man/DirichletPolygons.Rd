@@ -17,16 +17,16 @@ and optionally a boundary SpatialPolygon or a vector containing id-s located at 
 
 \section{Methods}{
   \describe{
-\item{\code{signature(x = "SpatialPointsBreeding", boundary = "SpatialPolygons")}}
-  {a boundary polygon}
-\item{\code{signature(x = "SpatialPointsBreeding", boundary = "missing")}}
-  {boundary is inferred using \code{\link[spatstat]{ripras}} in \code{spatstat} }
-\item{\code{signature(x = "SpatialPointsBreeding", boundary = "numeric")}}
-  {a vector of integers containing the id-s located at the boundary. 
-The boundary is defined using a 'Follow-The-Dots' strategy.
-The \code{width} argumnent passed to \code{\link[rgeos]{gBuffer}} defines the 
-distance between buondaryx boxes and the boundary polygon; it is set by default to
-half of the average distance between boundary boxes.}
+\item{\code{signature(x = "SpatialPointsBreeding", boundary = "SpatialPolygons")}}{
+	a boundary polygon}
+\item{\code{signature(x = "SpatialPointsBreeding", boundary = "missing")}}{
+	boundary is inferred using \code{\link[spatstat]{ripras}} in \code{spatstat} }
+\item{\code{signature(x = "SpatialPointsBreeding", boundary = "numeric")}}{
+	a vector of integers containing the id-s located at the boundary. 
+	The boundary is defined using a 'Follow-The-Dots' strategy.
+	The \code{width} argumnent passed to \code{\link[rgeos]{gBuffer}} defines the 
+	distance between buondaryx boxes and the boundary polygon; it is set by default to
+	half of the average distance between boundary boxes.}
 }
 }
 

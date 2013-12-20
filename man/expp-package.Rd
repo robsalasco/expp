@@ -8,8 +8,7 @@ Tools and data to accompany Schlicht, Valcu and Kempenaers
 }
 
 \description{
-More about what it does (maybe more than one line)
-~~ A concise (1-5 lines) description of the package ~~
+The expp package provides  classes and functions for the investigation of the probability of having extra-pair young within local networks of breeding pairs including both realized and unrealized potential extra-pairings. 
 }
 
 \details{

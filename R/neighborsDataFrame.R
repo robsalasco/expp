@@ -1,20 +1,14 @@
 
 neighborsDataFrame <- function(nb) {
 	
-	ids = data.frame(id_neigh = attributes(nb)$region.id, pk = 1:length(nb), stringsAsFactors = FALSE )
+	ks = data.frame(k = unlist( mapply(rep, 1:length(nb), sapply(nb, length) ) ), k_nb = unlist(nb) )
 	
-	f <- function(x, id) { 
-				zz = merge(data.frame( pk = x), ids)
-				zz$id = id
-				zz }
+	nams = data.frame(id = attributes(nb)$region.id, k = 1:length(nb) )
 	
-	res = mapply(FUN = f , x = nb, id = attributes(nb)$region.id , SIMPLIFY = FALSE)
-		
-	res = do.call(rbind, res)	
+	o = merge(ks, nams, by.x = 'k', by.y = 'k')
+	o = merge(o, nams, by.x = 'k_nb', by.y = 'k', suffixes = c("","_neigh"))
 	
-	res$pk = NULL
-	
-	res[, c("id", "id_neigh")]
+	o[, c("id", "id_neigh")]
 
 	}
 

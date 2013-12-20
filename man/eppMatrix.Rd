@@ -2,11 +2,10 @@
 \alias{eppMatrix}
 \alias{eppMatrix-class}
 
-\title{Convert a data.frame to an eppMatrix object.}
+\title{Convert a \code{data.frame}  to an eppMatrix object.}
 
 \description{
-Converts a \code{data.frame} to a eppMatrix object using a 
-\code{~male+female} formula.
+Converts a \code{data.frame} to a eppMatrix object using a \code{~male+female} formula.
 }
 
 \usage{eppMatrix(data, pairs = ~ male + female)}

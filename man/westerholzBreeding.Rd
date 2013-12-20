@@ -2,11 +2,13 @@
 \alias{westerholzBreeding}
 \docType{data}
 \title{
-westerholzBreeding/Breeding data
+Westerholz breeding data (2009 and 2010).
 }
 \description{
-This dataset contains the location of breeding attempts, the respective social pair, and parameters related to this social pair.
+Breeding data recorded for  Blue Tit population in 2009 and 2010 in Westerholz near Landsberg am Lech, Germany.
+This dataset contains the location of breeding attempts, the respective social pair, and several individual and nest parameters. 
 }
+
 \usage{data(westerholzBreeding)}
 \format{
   A data frame with 152 observations on the following 9 variables.
@@ -22,17 +24,10 @@ This dataset contains the location of breeding attempts, the respective social p
     \item{\code{male}}{character. The identity of the male. }
   }
 }
-\details{
-}
-\source{
-%%  ~~ reference to a publication or URL from which the data were obtained ~~
-}
-\references{
-%%  ~~ possibly secondary sources and usages ~~
-}
+
 \examples{
 data(westerholzBreeding)
-
 head(breeding)
 }
+
 \keyword{datasets}

@@ -3,3 +3,4 @@
 .RData
 .Rbuildignore
 expp.Rproj
+.scratchpad.R
