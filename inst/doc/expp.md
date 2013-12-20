@@ -1,28 +1,27 @@
 <!--
 %\VignetteEngine{knitr::docco_linear}
-%\VignetteIndexEntry{An Introduction to formatR}
+%\VignetteIndexEntry{An introduction to expp}
 -->
 
 
-# Instructions for the usage of the package expp
+# An introduction to the package expp
 
-
-**Supplement to "Spatial patterns of extra-pair paternity: beyond paternity gains and losses"**"
+## Supplement to "Spatial patterns of extra-pair paternity: beyond paternity gains and losses
 
 **For latest version see wignette('expp')**
 
 **ADD URL**
 
-## 1. Download R version R 3.0.2, for example from [cran.studio.com] (http://cran.rstudio.com/).
+### 1. Download R version R 3.0.2 or higher, for example from [cran.studio.com] (http://cran.rstudio.com/).
 
-## 2. Open R, and install package expp from the repository "???", or copy the following line of code into your R console:
+### 2. Open R, and copy the following line of code into your R console:
 `install.packages("expp", repos = 'http://rforge.net')`  
   
   
 
 
 
-## 3. Load package.
+### 3. Load package.
 
 ```r
 require(expp)
@@ -32,47 +31,29 @@ require(expp)
 ## Loading required package: expp
 ## Loading required package: sp
 ## Loading required package: spdep
-## Loading required package: boot
 ## Loading required package: Matrix
-## Loading required package: MASS
-## Loading required package: nlme
-## Loading required package: maptools
-## Loading required package: foreign
-## Loading required package: grid
-## Loading required package: lattice
-## 
-## Attaching package: 'lattice'
-## 
-## The following object is masked from 'package:boot':
-## 
-##     melanoma
-## 
-## Checking rgeos availability: TRUE
-## Loading required package: deldir
-## deldir 0.0-22
-## Loading required package: coda
-## Loading required package: splines
 ## Loading required package: rgeos
-## rgeos version: 0.2-19, (SVN revision 394)
-##  GEOS runtime version: 3.3.3-CAPI-1.7.4 
+## rgeos version: 0.3-2, (SVN revision 413M)
+##  GEOS runtime version: 3.4.2-CAPI-1.8.2 r3921 
 ##  Polygon checking: TRUE 
 ## 
+## Loading required package: deldir
+## deldir 0.1-1
 ## Loading required package: spatstat
 ## Loading required package: mgcv
-## This is mgcv 1.7-27. For overview type 'help("mgcv-package")'.
+## Loading required package: nlme
+## This is mgcv 1.7-26. For overview type 'help("mgcv-package")'.
+## Loading required package: abind
+## Loading required package: tensor
+## Loading required package: polyclip
+## polyclip 1.1-0
 ## 
-## spatstat 1.32-0     (nickname: 'Logistical Nightmare') 
+## spatstat 1.34-1       (nickname: 'Window Cleaner') 
 ## For an introduction to spatstat, type 'beginner'
-## 
-## Attaching package: 'spatstat'
-## 
-## The following object is masked from 'package:boot':
-## 
-##     envelope
-## 
+## Loading required package: maptools
+## Checking rgeos availability: TRUE
 ## ---------------------------------------------------------------------------------------
 ## This is expp 1.0
-## For a detailed step-by-step example type vignette('expp')
 ## ---------------------------------------------------------------------------------------
 ```
 
@@ -154,10 +135,6 @@ require(expp)
   ##      duplicated points has changed from that used in version
   ##      0.0-9 of this package (and previously). See help("deldir").
   ```
-  
-  ```
-  ## Error: row.names of data and Polygons IDs do not match
-  ```
 
   
 ## 7. ... and apply the epp-function to each of the years individually. Please note that we removed the 'year_' column in step 5, which we now have to add again.
@@ -171,7 +148,8 @@ require(expp)
   ```
   
   ```
-  ## Error: object 'polygonsDat' not found
+  ## Error: trying to get slot "male" from an object (class "data.frame") that
+  ## is not an S4 object
   ```
 
   
@@ -327,6 +305,7 @@ require(expp)
   
   ```
   ## Loading required package: lme4
+  ## Loading required package: lattice
   ## 
   ## Attaching package: 'lme4'
   ## 
@@ -364,13 +343,10 @@ require(expp)
   
   ```
   ## Loading required package: effects
-  ## Loading required package: colorspace
-  ## 
-  ## Attaching package: 'colorspace'
-  ## 
-  ## The following object is masked from 'package:spatstat':
-  ## 
-  ##     coords
+  ```
+  
+  ```
+  ## Warning: there is no package called 'effects'
   ```
   
   ```r
@@ -378,7 +354,7 @@ require(expp)
   ```
   
   ```
-  ## Error: error in evaluating the argument 'x' in selecting a method for function 'plot': Error in allEffects(fm) : object 'fm' not found
+  ## Error: error in evaluating the argument 'x' in selecting a method for function 'plot': Error: could not find function "allEffects"
   ```
 
 

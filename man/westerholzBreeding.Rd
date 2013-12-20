@@ -27,7 +27,7 @@ This dataset contains the location of breeding attempts, the respective social p
 
 \examples{
 data(westerholzBreeding)
-head(breeding)
+head(westerholzBreeding)
 }
 
 \keyword{datasets}

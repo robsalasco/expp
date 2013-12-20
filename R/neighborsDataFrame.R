@@ -1,7 +1,8 @@
 
 neighborsDataFrame <- function(nb) {
+	stopifnot( inherits(nb, 'nb'))
 	
-	ks = data.frame(k = unlist( mapply(rep, 1:length(nb), sapply(nb, length) ) ), k_nb = unlist(nb) )
+	ks = data.frame(k = unlist( mapply(rep, 1:length(nb), sapply(nb, length), SIMPLIFY = FALSE) ), k_nb = unlist(nb) )
 	
 	nams = data.frame(id = attributes(nb)$region.id, k = 1:length(nb) )
 	
@@ -15,6 +16,8 @@ neighborsDataFrame <- function(nb) {
 		
 higherNeighborsDataFrame <- function(nb, maxlag) {
 	
+	stopifnot( inherits(nb, 'nb'))
+	
 	n = nblag(nb, maxlag = maxlag)
 	
 	names(n) = 1:maxlag
@@ -24,7 +27,7 @@ higherNeighborsDataFrame <- function(nb, maxlag) {
 	if(maxlag > new_maxlag)
 		warning( paste('maxlag of ', maxlag, 'is exceeding the number of possible lags, reverting to', new_maxlag, 'lags.') )
 
-	#remove 0-length neighbors
+	#remove 0-length neighbours
 	n = lapply(n, function(g) subset( g, card(g) > 0 ) )
 	
 	n = lapply(n, function(a) neighborsDataFrame(a)  )

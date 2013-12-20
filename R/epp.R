@@ -1,6 +1,6 @@
 
 
-epp <- function(breedingDat, polygonsDat, eppDat, maxlag = 4) { 
+epp <- function(breedingDat, polygonsDat, eppDat, maxlag = 3) { 
 
 	# bricks
 	epd = data.frame(z = paste(eppDat@male, eppDat@female), epp = 1, stringsAsFactors = FALSE)

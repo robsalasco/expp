@@ -65,19 +65,13 @@ Item of the class 'SpatialPointsBreeding' with 8 slots.
 
 \seealso{\code{\link[expp]{epp}}}
 
-\references{
-Schlicht L., Valcu M. and Kempenaers B. 
-  "Spatial patterns of extra-pair paternity: beyond paternity gain and loss" 
-  (in prep.)
-}
 
 \examples{
 d = data.frame(
   x = c(4, 17, 16, 41, 41, 43, 86, 62, 71, 92, 95,53, 34, 27, 53), 
   y = c(3, 18, 36, 6, 18, 50, 3, 21, 40, 43, 57, 62, 62, 45, 37), 
   id = 1:15,male = paste0('m', 1:15), female = paste0('f', 1:15), 
-    stringsAsFactors = FALSE
-)
+    stringsAsFactors = FALSE)
 
 b = SpatialPointsBreeding(d, id = 'id')	
 

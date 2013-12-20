@@ -30,7 +30,7 @@ Maintainer: Mihai Valcu <valcu@orn.mpg.de>
 }
 \references{
 Schlicht, Valcu and Kempenaers 
-"Spatial patterns of extra-pair paternity: beyond paternity gain and loss" (in prep.)
+"Spatial patterns of extra-pair paternity: beyond paternity gains and losses" (in prep.)
 }
 
 \keyword{ package }

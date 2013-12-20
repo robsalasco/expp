@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="x-ua-compatible" content="IE=9" >
 
-<title>Instructions for the usage of the package expp</title>
+<title>An introduction to the package expp</title>
 
 <style type="text/css">
 body, td {
@@ -181,24 +181,24 @@ hljs.initHighlightingOnLoad();
 <body>
 <!--
 %\VignetteEngine{knitr::docco_linear}
-%\VignetteIndexEntry{An Introduction to formatR}
+%\VignetteIndexEntry{An introduction to expp}
 -->
 
-<h1>Instructions for the usage of the package expp</h1>
+<h1>An introduction to the package expp</h1>
 
-<p><strong>Supplement to &ldquo;Spatial patterns of extra-pair paternity: beyond paternity gains and losses&rdquo;</strong>&ldquo;</p>
+<h2>Supplement to &ldquo;Spatial patterns of extra-pair paternity: beyond paternity gains and losses</h2>
 
 <p><strong>For latest version see wignette(&#39;expp&#39;)</strong></p>
 
 <p><strong>ADD URL</strong></p>
 
-<h2>1. Download R version R 3.0.2, for example from <a href="http://cran.rstudio.com/">cran.studio.com</a>.</h2>
+<h3>1. Download R version R 3.0.2 or higher, for example from <a href="http://cran.rstudio.com/">cran.studio.com</a>.</h3>
 
-<h2>2. Open R, and install package expp from the repository &rdquo;???&ldquo;, or copy the following line of code into your R console:</h2>
+<h3>2. Open R, and copy the following line of code into your R console:</h3>
 
 <p><code>install.packages(&quot;expp&quot;, repos = &#39;http://rforge.net&#39;)</code>  </p>
 
-<h2>3. Load package.</h2>
+<h3>3. Load package.</h3>
 
 <pre><code class="r">require(expp)
 </code></pre>
@@ -206,47 +206,29 @@ hljs.initHighlightingOnLoad();
 <pre><code>## Loading required package: expp
 ## Loading required package: sp
 ## Loading required package: spdep
-## Loading required package: boot
 ## Loading required package: Matrix
-## Loading required package: MASS
-## Loading required package: nlme
-## Loading required package: maptools
-## Loading required package: foreign
-## Loading required package: grid
-## Loading required package: lattice
-## 
-## Attaching package: &#39;lattice&#39;
-## 
-## The following object is masked from &#39;package:boot&#39;:
-## 
-##     melanoma
-## 
-## Checking rgeos availability: TRUE
-## Loading required package: deldir
-## deldir 0.0-22
-## Loading required package: coda
-## Loading required package: splines
 ## Loading required package: rgeos
-## rgeos version: 0.2-19, (SVN revision 394)
-##  GEOS runtime version: 3.3.3-CAPI-1.7.4 
+## rgeos version: 0.3-2, (SVN revision 413M)
+##  GEOS runtime version: 3.4.2-CAPI-1.8.2 r3921 
 ##  Polygon checking: TRUE 
 ## 
+## Loading required package: deldir
+## deldir 0.1-1
 ## Loading required package: spatstat
 ## Loading required package: mgcv
-## This is mgcv 1.7-27. For overview type &#39;help(&quot;mgcv-package&quot;)&#39;.
+## Loading required package: nlme
+## This is mgcv 1.7-26. For overview type &#39;help(&quot;mgcv-package&quot;)&#39;.
+## Loading required package: abind
+## Loading required package: tensor
+## Loading required package: polyclip
+## polyclip 1.1-0
 ## 
-## spatstat 1.32-0     (nickname: &#39;Logistical Nightmare&#39;) 
+## spatstat 1.34-1       (nickname: &#39;Window Cleaner&#39;) 
 ## For an introduction to spatstat, type &#39;beginner&#39;
-## 
-## Attaching package: &#39;spatstat&#39;
-## 
-## The following object is masked from &#39;package:boot&#39;:
-## 
-##     envelope
-## 
+## Loading required package: maptools
+## Checking rgeos availability: TRUE
 ## ---------------------------------------------------------------------------------------
 ## This is expp 1.0
-## For a detailed step-by-step example type vignette(&#39;expp&#39;)
 ## ---------------------------------------------------------------------------------------
 </code></pre>
 
@@ -319,9 +301,6 @@ hljs.initHighlightingOnLoad();
   ##      0.0-9 of this package (and previously). See help(&quot;deldir&quot;).
 </code></pre>
 
-<pre><code>  ## Error: row.names of data and Polygons IDs do not match
-</code></pre>
-
 <h2>7. &hellip; and apply the epp-function to each of the years individually. Please note that we removed the &#39;year_&#39; column in step 5, which we now have to add again.</h2>
 
 <pre><code class="r">  d = list()
@@ -331,7 +310,8 @@ hljs.initHighlightingOnLoad();
   }
 </code></pre>
 
-<pre><code>  ## Error: object &#39;polygonsDat&#39; not found
+<pre><code>  ## Error: trying to get slot &quot;male&quot; from an object (class &quot;data.frame&quot;) that
+  ## is not an S4 object
 </code></pre>
 
 <h2>8. We can then paste the two years of data together.</h2>
@@ -453,6 +433,7 @@ hljs.initHighlightingOnLoad();
 </code></pre>
 
 <pre><code>  ## Loading required package: lme4
+  ## Loading required package: lattice
   ## 
   ## Attaching package: &#39;lme4&#39;
   ## 
@@ -483,19 +464,15 @@ hljs.initHighlightingOnLoad();
 </code></pre>
 
 <pre><code>  ## Loading required package: effects
-  ## Loading required package: colorspace
-  ## 
-  ## Attaching package: &#39;colorspace&#39;
-  ## 
-  ## The following object is masked from &#39;package:spatstat&#39;:
-  ## 
-  ##     coords
+</code></pre>
+
+<pre><code>  ## Warning: there is no package called &#39;effects&#39;
 </code></pre>
 
 <pre><code class="r">  plot(allEffects(fm))
 </code></pre>
 
-<pre><code>  ## Error: error in evaluating the argument &#39;x&#39; in selecting a method for function &#39;plot&#39;: Error in allEffects(fm) : object &#39;fm&#39; not found
+<pre><code>  ## Error: error in evaluating the argument &#39;x&#39; in selecting a method for function &#39;plot&#39;: Error: could not find function &quot;allEffects&quot;
 </code></pre>
 
 </body>
