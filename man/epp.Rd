@@ -4,13 +4,14 @@
 \alias{as.data.frame,epp-method}
 \alias{barplot,epp-method}
 
+
 \title{Creating dataset for realized and unrealized EPP-pairs}
 
 \description{
 	Function that uses the breeding data, information about territory boundaries (if present), and the extra-pair paternity data to create a combined dataset with one line for every potential and realised extra-pair male-female combination.}
 
 \usage{
-	epp(breedingDat, polygonsDat = DirichletPolygons(breedingDat), eppPairs, rank = 3)
+	epp(breedingDat, polygonsDat = DirichletPolygons(breedingDat), eppDat, rank = 3)
 	as.data.frame(x)
 	plot(x) 
 	}
@@ -18,12 +19,13 @@
 \arguments{
   \item{breedingDat}{
      A SpatialPointsBreeding object, created by the \code{SpatialPointsBreeding} function }
-  \item{polygonsDat}{
+  \item{polygonsDat = DirichletPolygons(breedingDat)}{
      A DirichletPolygons object, created by the \code{DirichletPolygons} function}
   \item{eppDat}{
      An object of class \code{eppMatrix} }
   \item{maxlag}{
      A numeric value indicating the maximum breeding distance for which male-female combinations should be calculated.}
+  \item{x}{ an epp  object}  
 }
 
 

@@ -5,7 +5,7 @@ setGeneric("DirichletPolygons", function(x, boundary, ...)   standardGeneric("Di
 		# x is a SpatialPointsBreeding, boundary is a SpatialPolygons*
             coords = coordinates(x)
             
-			p  =  tile.list(deldir(coords[,1], coords[,2]))
+			p  =  tile.list(deldir(coords[,1], coords[,2], suppressMsge = TRUE))
 			p  = lapply(p, function(P) data.frame(x = P$x, y = P$y) )
 			
 			d  =  do.call(rbind, p)    
@@ -67,7 +67,7 @@ setMethod("DirichletPolygons",
 setMethod("DirichletPolygons",  
           signature  = c(x = "SpatialPointsBreeding", boundary = "missing"), 
           definition = function(x, ...) {
-			if( !require(spatstat) ) stop('spatstat package is not available.')
+			if( !require(spatstat, quietly = TRUE) ) stop('spatstat package is not available.')
             coords = coordinates(x)
             ids = x@id
             rr = ripras(coords, shape = "convex", ...)

@@ -3,8 +3,9 @@
 \alias{SpatialPointsBreeding-class}
 \alias{SpatialPointsBreeding,SpatialPolygons-method}
 \alias{SpatialPointsBreeding,missing-method}
-\alias{SpatialPointsBreeding,numeric-method}
+\alias{SpatialPointsBreeding,integer-method}
 \alias{plot,SpatialPointsBreeding,missing-method}
+
 
 \title{Converts a \code{data.frame} to an object of class \code{SpatialPointsBreeding} }
 
@@ -30,10 +31,12 @@ SpatialPointsBreeding(data, proj4string ,
 
 \arguments{
   \item{data}{
-    a \code{\link{data.frame}}  containing the coordinates (e.g. "x", "y"), the location id, and the pair identity (e.g. "male", "female") toghether with any other optional variables (e.g. individuals or nest traits).
+    a \code{\link{data.frame}}  containing the coordinates (e.g. "x", "y"), the location id, 
+    and the pair identity (e.g. "male", "female") toghether with any other optional variables
+    (e.g. individuals or nest traits).
 }
 
-  \item{proj4string}{
+  \item{proj4string = CRS(as.character(NA))}{
     Projection method of the coordinates. See \code{\link[sp]{proj4string}} for details.
 }
 
@@ -42,11 +45,26 @@ SpatialPointsBreeding(data, proj4string ,
 }
 
   \item{id}{
-  Column name of the location id (e.g. nest box number, den ID). Must be numeric.
+  Column name of the location id (e.g. nest box number, den ID). Must be integer.
 }
   \item{breeding}{
   Formula defining the male and female ID in that order.
 }
+
+  \item{x}{see plot.SpatialPoints}
+  \item{pch}{see plot.SpatialPoints}
+  \item{axes}{see plot.SpatialPoints}
+  \item{add}{see plot.SpatialPoints}
+  \item{xlim}{see plot.SpatialPoints}
+  \item{ylim}{see plot.SpatialPoints}
+  \item{...}{see plot.SpatialPoints}
+  \item{cex}{see plot.SpatialPoints}
+  \item{col}{see plot.SpatialPoints}
+  \item{lwd}{see plot.SpatialPoints}
+  \item{bg}{see plot.SpatialPoints}
+  \item{pair.cex}{breeding pair cex value}
+
+
 }
 
 \value{
@@ -59,7 +77,9 @@ Item of the class 'SpatialPointsBreeding' with 8 slots.
   \item{coords.nrs}{\code{\link[sp]{SpatialPoints}} }
   \item{coords }{Coordinates of the respective location.}
   \item{bbox }{\code{\link[sp]{Spatial}} }
-  \item{proj4string }{Projection method of the coordinates. See \code{\link[sp]{proj4string}} for details.}
+  \item{proj4string}{
+    Projection method of the coordinates. 
+    See \code{\link[sp]{proj4string}} for details.}
 }
 
 

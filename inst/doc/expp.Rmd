@@ -4,80 +4,91 @@
 -->
 
 
-# An introduction to the package expp
+TODO check out other vignettes
 
-## Supplement to Schlicht, Valcu and Kempenaers "Spatial patterns of extra-pair paternity: beyond paternity gains and losses" (in prep.)
+An introduction to the _expp_ package
+-------------------------------------
 
-**For latest version of this document vignette('expp')**
+### Supplement to Schlicht, Valcu and Kempenaers _"Spatial patterns of extra-pair paternity: beyond paternity gains and losses"_ (in prep.)
 
-### 1. Download R version R 3.0.2 or higher, for example from [cran.studio.com] (http://cran.rstudio.com/).
+**For latest version of this document type vignette('expp')**
 
-### 2. Open R, and copy the following line of code into your R console:
-`install.packages("expp", repos = 'http://rforge.net')`  
+#### 1. Get started
+ * Download and install [R](http://cran.rstudio.com/).
+ * Open R, and install _expp_ by copying the following line into your R console:  
+```{r eval=FALSE }
+install.packages("expp")
+```  
   
-  
-```{r eval = FALSE,echo=FALSE, message=FALSE}
+```{r echo=FALSE, message=FALSE}
 require(rgeos); require(sp); require(spdep); require(spatstat); require(deldir)
 ```
-
-### 3. Load package.
-```{r}
+ * To load _expp_ type:   
+```{r } 
 require(expp)
 ```
 
-### 4. Load datasets
+#### 2. Load datasets
+For info on the datasets type: 
+```{r eval=FALSE }
+help(westerholzBreeding)
+help(westerholzEPP)
+```
 ```{r}
 data(westerholzBreeding)
 data(westerholzEPP)
-
 head(westerholzBreeding)
 head(westerholzEPP)
-
 ```
   
-### 5. ... and split by year
+#### 3. Prepare data
+
+##### 3.1 Split by year
+
 ```{r}
 b = split(westerholzBreeding, westerholzBreeding$year_)
 e = split(westerholzEPP, westerholzEPP$year_) 
 
-# sample size for each year
+# sample sizes by year
 lapply(b, nrow)
 lapply(e, nrow)
-
 ```
-
-### 6. Convert the the data sets into the appropriate objects. 
-Type `?SpatialPointsBreeding`,  `?DirichletPolygons` and `eppMatrix` for more info.
-
+##### 3.2 Run a couple of helper functions on both breeding data and extra-pair paternity data 
 ```{r}
-breedingDat = lapply(b, SpatialPointsBreeding, coords= ~x+y, id='id', breeding= ~male + female)
-polygonsDat = lapply(breedingDat, DirichletPolygons)
+breedingDat = lapply(b, SpatialPointsBreeding, coords= ~x+y, id='id', 
+                     breeding= ~male + female)
 eppDat = lapply(e, eppMatrix, pairs = ~ male + female)
 ```
+
+##### 3.3. Compute Dirichlet polygons based on the `SpatialPointsBreeding` object
+polygonsDat = lapply(breedingDat, DirichletPolygons)
   
-### 7. Now, all the objects are ready to be processed by the `epp` function.
+  
+#### 4. Now, all the objects are ready to be processed by the `epp` function.
 Type `?epp` for more info and several examples on toy datasets.
 
 ```{r}
 maxlag = 5
 O = mapply(FUN = epp, breedingDat, polygonsDat, eppDat, maxlag)
 
-plot(O[[1]])
+plot(O[[1]]) # TODO: color EP individuals with red
 title(main = 2009)
 
 plot(O[[2]])
 title(main = 2010)
 
-# With the setting "relativeValues = TRUE" the proportion of EPP events within each breeding distance are plotted, and the proportion of available mates within each breeding distance is added as a dashed line. The maximal distance that is plotted depends on the setting of "rank" in step 7.
+# TODO: zoom in to a given area
+# TODO: new method for Dirichlet polygons on a Spatial* object. use this method here!
+# TODO: add zoom argument on plot(epp), zoom = x neighborhoods away, center = box no. for zoom.
 
 op = par(mfrow = c(1,2))
-barplot(O[[1]],relativeValues = TRUE, main = 2009)
+barplot(O[[1]],relativeValues = TRUE, main = 2009) # todo add legend
 barplot(O[[2]], relativeValues = TRUE, main = 2010)
 par(op)
 
 ```
   
-### 8. In order plug-in the data into a glmm we need to convert `O` (the output list) into a `data.frame`.
+#### 5. In order to plug-in the data into a glmm we need to convert `O` (the output list) into a `data.frame`.
 ```{r}
 dat = lapply(O, as.data.frame) # a list of data frames
 dat = do.call(rbind, dat)
@@ -85,16 +96,13 @@ dat$year_ = dat$year__MALE; dat$year__FEMALE = NULL
 
 ```
 
-## Data transformations prior to modelling.
-
-### 9. Since EPP is most frequent among direct neighbours, estimates for all other variable are most meaningful if they are assessed for direct neighbours. We therefore substract '1' from the breeding distance, so that direct neighbours are set to '0'. This transformation is especially important if interactions are modeled.
-
+#### 6. Data transformations prior to modelling.
+Since EPP is most frequent among direct neighbours, estimates for all other variable are most meaningful if they are assessed for direct neighbours. We therefore substract '1' from the breeding distance, so that direct neighbours are set to '0'. This transformation is especially important if interactions are modeled.
 ```{r}
 if(min(dat$rank == 1)) dat$rank = dat$rank - 1
 ```
-
-## 10. Variables (e.g. breeding asynchrony ) can be transformed to be relative to the surroundings of the males or the females.
-#TODO: move transformations to O, before data
+Variables (e.g. breeding asynchrony ) can be transformed to be relative to the surroundings of the males or the females.
+TODO: move transformations to O, before data
 
 ```{r}
 center = function(x) { return(x - mean(x, na.rm = TRUE)) }
@@ -111,23 +119,21 @@ dat$relative_asynchrony_MALE = scale2(dat$relative_asynchrony_MALE)
 FEMALE_splitBy = paste(dat$year_, dat$id_FEMALE, dat$female, dat$rank, sep = "_")
 dat$relative_asynchrony_FEMALE = unsplit(lapply(split(dat$asynchrony, FEMALE_splitBy), center), FEMALE_splitBy)
 dat$relative_asynchrony_FEMALE = scale2(dat$relative_asynchrony_FEMALE)
-
 ```
 
-## 11. Check if sample size is sufficient for the number of variables we aim to include into the model.
+#### 7. Modelling
+Check if sample size is sufficient for the number of variables we aim to include into the model.
 ```{r}
 table(dat$epp, dat$year_) #sample size as the number of "0" and "1" in the epp column
 ```
-
-## 12. Now, we can run the glmm model (this may take a while depending on your system!).
-```{r}
+Run the glmm model (this may take a while depending on your system!).
+```{r eval=FALSE}
 require(lme4)
 dat$age2 = ifelse(dat$male_age_MALE == 'juv', 1, 2)
-
-#NOT RUN
-# fm = glmer(epp ~ rank + male_age_MALE + relative_asynchrony_MALE + relative_asynchrony_FEMALE + (1|male) + (1|female) + (1|year_), data = dat, family = binomial)
-# summary(fm)
+fm = glmer(epp ~ rank + male_age_MALE + relative_asynchrony_MALE + relative_asynchrony_FEMALE + (1|male) + (1|female) + (1|year_), data = dat, family = binomial)
+summary(fm)
 ```
+
 
 
 

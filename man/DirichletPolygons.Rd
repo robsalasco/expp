@@ -3,7 +3,7 @@
 \alias{DirichletPolygons-methods}
 \alias{DirichletPolygons,SpatialPointsBreeding,SpatialPolygons-method}
 \alias{DirichletPolygons,SpatialPointsBreeding,missing-method}
-\alias{DirichletPolygons,SpatialPointsBreeding,numeric-method}
+\alias{DirichletPolygons,SpatialPointsBreeding,integer-method}
 
 \title{
 Dirichlet Polygons
