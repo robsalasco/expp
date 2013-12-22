@@ -1,6 +1,8 @@
+.gitignore
 .Rproj.user
 .Rhistory
 .RData
 .Rbuildignore
 expp.Rproj
-.scratchpad.R
+
+

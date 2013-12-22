@@ -61,14 +61,36 @@ epp <- function(breedingDat, polygonsDat, eppDat, maxlag = 3) {
 
 
 setMethod("plot", signature(x = "epp", y = "missing"),
-          function(x,y,...) {
-            plot(x@polygonsDat, border = "grey")
-            plot(x@breedingDat, add = TRUE)
-            epp = subset(x@EPP, epp == 1,select= c("id_FEMALE" , "id_MALE") )
-            apply(epp, 1, function(e) points(x@breedingDat[x@breedingDat@id%in%e, ], type = "l", col = 2))
-            
+          function(x,y, zoom, maxlag = 3, zoom.col = 'grey', ...) {
+			
+			p = x@polygonsDat
+			b = x@breedingDat
+			emat = x@eppDat
+			e = x@EPP	
+				
+			if( !missing(zoom)) { 
+				set = unique( c(zoom, 
+					e[e$id_FEMALE%in%zoom & e$rank <= maxlag, 'id_MALE'], 
+					e[e$id_MALE%in%zoom & e$rank <= maxlag, 'id_FEMALE']) 
+					)
+				
+				p = p[p$ID%in%set, ]	
+				
+				bset = which(b@id%in%set)
+				b = b[bset, ]
+				b@male = b@male[bset]
+				b@female = b@female[bset]
+				b@id = b@id[bset]
+			}
+				
+		    plot(p, ...)
+			if(!missing(zoom) )
+				plot(p[p$ID == zoom, ], col = zoom.col, add = TRUE)
+			plot(b, emat, add = TRUE, ...)
+       
           })
 
+	
 
 if (!isGeneric("barplot")) {
     setGeneric("barplot", function(height,...)

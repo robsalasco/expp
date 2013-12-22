@@ -116,6 +116,8 @@ Returns an S4-class epp-object with 5 slots:
   # plot
   plot(x)
   barplot(x) 
+  # plot zoom
+  plot(x, zoom = 120, maxlag = 2)
   
   # run model on epp probability		
   dat = as.data.frame(x)

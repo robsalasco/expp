@@ -36,6 +36,18 @@ eppPairs = data.frame(male = c("m1", "m2", "m1"), female=c("f3", "f1", "f2") )
 e = eppMatrix(eppPairs,  pairs = ~ male + female)
 class(e)
 showClass("eppMatrix")
+
+data(westerholzBreeding)
+data(westerholzEPP)
+b = westerholzBreeding[westerholzBreeding$year_ == 2010, ]
+eppPairs = westerholzEPP[westerholzEPP$year_ == 2010, ]
+
+breedingDat  = SpatialPointsBreeding(b, id = 'id', coords = ~ x + y, breeding = ~ male + female)
+eppDat = eppMatrix(eppPairs, pairs = ~ male + female)
+
+plot(breedingDat, eppDat)
+
+
 }
 
 \keyword{spatial}

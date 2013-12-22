@@ -26,6 +26,21 @@ setGeneric("DirichletPolygons", function(x, boundary, ...)   standardGeneric("Di
 		P
 }
 
+setMethod("DirichletPolygons",  
+          signature  = c(x = "SpatialPointsBreeding", boundary = "missing"), 
+          definition = function(x, ...) {
+			if( !require(spatstat, quietly = TRUE) ) stop('spatstat package is not available.')
+            coords = coordinates(x)
+            ids = x@id
+            rr = ripras(coords, shape = "convex", ...)
+            rr = cbind(x = rr$bdry[[1]]$x, y = rr$bdry[[1]]$y)
+            boundary =  SpatialPolygons(list( Polygons(list( Polygon(rbind(rr, rr[1, ] )) ) , 1) ) )
+            proj4string(boundary) = proj4string(x)
+            
+            .DirichletPolygons(x, boundary)
+            
+          }
+)
 
 setMethod("DirichletPolygons",  
           signature  = c(x = "SpatialPointsBreeding", boundary = "integer"), 
@@ -53,6 +68,7 @@ setMethod("DirichletPolygons",
           }
 )
 
+
 setMethod("DirichletPolygons",  
           signature  = c(x = "SpatialPointsBreeding", boundary = "SpatialPolygons"), 
           definition = function(x, boundary) {
@@ -64,21 +80,6 @@ setMethod("DirichletPolygons",
 )
 
 
-setMethod("DirichletPolygons",  
-          signature  = c(x = "SpatialPointsBreeding", boundary = "missing"), 
-          definition = function(x, ...) {
-			if( !require(spatstat, quietly = TRUE) ) stop('spatstat package is not available.')
-            coords = coordinates(x)
-            ids = x@id
-            rr = ripras(coords, shape = "convex", ...)
-            rr = cbind(x = rr$bdry[[1]]$x, y = rr$bdry[[1]]$y)
-            boundary =  SpatialPolygons(list( Polygons(list( Polygon(rbind(rr, rr[1, ] )) ) , 1) ) )
-            proj4string(boundary) = proj4string(x)
-            
-            .DirichletPolygons(x, boundary)
-            
-          }
-)
 
 
 
