@@ -4,7 +4,8 @@
 \alias{SpatialPointsBreeding,SpatialPolygons-method}
 \alias{SpatialPointsBreeding,missing-method}
 \alias{SpatialPointsBreeding,integer-method}
-\alias{plot,SpatialPointsBreeding,missing-method}
+\alias{plot.SpatialPointsBreeding}
+
 
 
 \title{Converts a \code{data.frame} to an object of class \code{SpatialPointsBreeding} }
@@ -19,8 +20,8 @@ with three extra slots defining the id (i.e. nest or breeding box) and the pair 
 
 
 \usage{
-SpatialPointsBreeding(data, proj4string , 
-  coords = ~x + y, id = "id", breeding = ~male + female)
+SpatialPointsBreeding(data, proj4string= CRS(as.character(NA)) , 
+  coords = ~x + y, breeding = ~male + female, id = "id")
   
 \S3method{plot}{SpatialPointsBreeding}(x, pch = 20, axes = FALSE, 
                 add = FALSE, xlim = NULL, ylim = NULL, ..., cex = 1, 

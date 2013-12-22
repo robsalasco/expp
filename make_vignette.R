@@ -5,7 +5,8 @@ require(markdown)
 knit(paste0(getwd(), "/vignettes/expp.Rmd")  )
 markdownToHTML("expp.md", paste0(getwd(), "/vignettes/expp.html") )
 file.copy(paste0(getwd(), "/vignettes/expp.html"), paste0(getwd(), "/inst/doc") )
-unlink("expp.md")
+file.copy(paste0(getwd(), "/vignettes/expp.Rmd"), paste0(getwd(), "/inst/doc") )
+unlink(paste0(getwd(), "/vignettes/expp.md"))
 
 unlink("figure", TRUE)
 

@@ -3,7 +3,7 @@
 \alias{higherNeighborsDataFrame}
 
 \title{
-Convert a \code{\link[spdep]{nb}} object to \code{data.frame}.
+Convert a \code{nb} object to \code{data.frame}.
 }
 
 \description{
@@ -19,7 +19,7 @@ higherNeighborsDataFrame(nb, maxlag)
 
 \arguments{
   \item{nb}{an object of class nb}
-  \item{maxlag}{see \code{\link[spdep]{nblag}} }
+  \item{maxlag}{maximum lag, see \code{\link[spdep]{nblag}} }
 
 }
 
@@ -28,10 +28,6 @@ higherNeighborsDataFrame(nb, maxlag)
  \code{data.frame}
 }
 
-\examples{
-# TODO
-
-}
 
 
 \keyword{spatial}

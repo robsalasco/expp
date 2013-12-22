@@ -1,7 +1,3 @@
-<!--
-%\VignetteEngine{knitr::docco_linear}
-%\VignetteIndexEntry{An Introduction to expp}
--->
 
 An introduction to the _expp_ package
 ====================================

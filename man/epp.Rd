@@ -11,7 +11,7 @@
 	Function that uses the breeding data, information about territory boundaries (if present), and the extra-pair paternity data to create a combined dataset with one line for every potential and realised extra-pair male-female combination.}
 
 \usage{
-	epp(breedingDat, polygonsDat = DirichletPolygons(breedingDat), eppDat, rank = 3)
+	epp(breedingDat, polygonsDat, eppDat, maxlag = 3)
 	as.data.frame(x)
 	plot(x) 
 	}
@@ -65,10 +65,13 @@ Returns an S4-class epp-object with 5 slots:
   breedingDat = SpatialPointsBreeding(b, id = 'id', coords = ~ x + y, breeding = ~ male + female)
   polygonsDat = DirichletPolygons(breedingDat)
   eppDat	  = eppMatrix(eppPairs, pairs = ~ male + female)
+
+  plot(breedingDat, eppDat)
   
   # convert to epp class		
   x = epp(breedingDat, polygonsDat, eppDat, maxlag = 3)
   as.data.frame(x)
+  
   
   #plot 
   plot(x) 

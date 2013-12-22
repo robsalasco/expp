@@ -49,7 +49,7 @@ setMethod("plot", signature(x = "SpatialPointsBreeding", y = "eppMatrix"),
           function(x, y, pch = 20, axes = FALSE, add = FALSE, 
                    xlim = NULL, ylim = NULL, ..., cex = .8, col = "grey", col.epp = "red", lwd = 1, lty = 2, bg = 1, pair.cex = .6) {
             if (! add)
-              plot(as(x, "Spatial"), axes = axes, xlim = xlim, ylim = ylim) #, ...)
+              plot(as(x, "Spatial"), axes = axes, xlim = xlim, ylim = ylim, ...)
             cc = coordinates(x)
 			
 			# nests
@@ -58,13 +58,13 @@ setMethod("plot", signature(x = "SpatialPointsBreeding", y = "eppMatrix"),
             
 			# males
 			epm = which(x@male %in% y@male)
-			text(cc[epm,1], cc[epm,2], x@male[epm], pos = 1,  cex =  pair.cex, col = col.epp)
-			text(cc[-epm,1], cc[-epm,2], x@male[-epm], pos = 1,  cex =  pair.cex)
+			try(text(cc[epm,1], cc[epm,2], x@male[epm], pos = 1,  cex =  pair.cex, col = col.epp), silent = TRUE)
+			try(text(cc[-epm,1], cc[-epm,2], x@male[-epm], pos = 1,  cex =  pair.cex), silent = TRUE)
 			
 			# females
 			epf = which(x@female %in% y@female)
-			text(cc[epf,1], cc[epf,2], x@female[epf], pos = 3,  cex =  pair.cex, col = col.epp)
-			text(cc[-epf,1], cc[-epf,2], x@female[-epf], pos = 3,  cex =  pair.cex)
+			try(text(cc[epf,1], cc[epf,2], x@female[epf], pos = 3,  cex =  pair.cex, col = col.epp), silent = TRUE)
+			try(text(cc[-epf,1], cc[-epf,2], x@female[-epf], pos = 3,  cex =  pair.cex), silent = TRUE)
 			
 			# connections
 			for(i in 1:length(y@male) ) {
