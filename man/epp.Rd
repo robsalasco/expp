@@ -1,31 +1,40 @@
 \name{epp}
 \alias{epp}
 \alias{epp-class}
+\alias{as.data.frame}
 \alias{as.data.frame,epp-method}
+\alias{plot,epp,missing-method}
+\alias{plot.epp}
+\alias{barplot}
 \alias{barplot,epp-method}
 
 
-\title{Creating dataset for realized and unrealized EPP-pairs}
+\title{Building dataset for realized and unrealized EPP-pairs}
 
 \description{
-	Function that uses the breeding data, information about territory boundaries (if present), and the extra-pair paternity data to create a combined dataset with one line for every potential and realised extra-pair male-female combination.}
+	\code{epp} combines a \code{SpatialPointsBreeding}, a \code{SpatialPolygons*} as obtained from 
+  \code{DirichletPolygons} and a \code{eppMatrix} to create the spatial context for every potential and realised extra-pair male-female combination.}
 
 \usage{
 	epp(breedingDat, polygonsDat, eppDat, maxlag = 3)
 	as.data.frame(x)
-	plot(x) 
+\S4method{plot}{epp,missing}(x, zoom, maxlag = 3, zoom.col = 'grey', ...)  
 	}
 
 \arguments{
   \item{breedingDat}{
      A SpatialPointsBreeding object, created by the \code{SpatialPointsBreeding} function }
-  \item{polygonsDat = DirichletPolygons(breedingDat)}{
-     A DirichletPolygons object, created by the \code{DirichletPolygons} function}
+  \item{polygonsDat}{
+     A SpatialPolygons* object as obtained by calling \code{DirichletPolygons} function}
   \item{eppDat}{
      An object of class \code{eppMatrix} }
   \item{maxlag}{
-     A numeric value indicating the maximum breeding distance for which male-female combinations should be calculated.}
-  \item{x}{ an epp  object}  
+     A numeric value indicating the maximum breeding distance for which male-female combinations should be calculated. When plotting it defines the outermost row of neightbors plotted around a focal id set by zoom}
+  
+  \item{x}{an \code{epp} object}  
+  \item{zoom}{a \code{SpatialPointsBreeding} id which is used for subsetting prior to plot}
+  \item{zoom.col}{background color of the id (and hence the polygon) set by \code{zoom} }  
+  \item{...}{further arguments to pass to \code{plot.SpatialPointsBreeding} and \code{plot.SpatialPolygons*}  }    
 }
 
 

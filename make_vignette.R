@@ -2,11 +2,17 @@
 ####  make vignette
 require(knitr)
 require(markdown)
-knit(paste0(getwd(), "/vignettes/expp.Rmd")  )
-markdownToHTML("expp.md", paste0(getwd(), "/vignettes/expp.html") )
-file.copy(paste0(getwd(), "/vignettes/expp.html"), paste0(getwd(), "/inst/doc") )
-file.copy(paste0(getwd(), "/vignettes/expp.Rmd"), paste0(getwd(), "/inst/doc") )
-unlink(paste0(getwd(), "/vignettes/expp.md"))
+
+setwd("~/gitHub/expp/vignettes/")
+
+knit("expp.Rmd")
+markdownToHTML("expp.md", "expp.html")
+
+
+file.copy("expp.html",  "~/gitHub/expp/inst/doc", overwrite = TRUE)
+file.copy("expp.md",  "~/gitHub/expp/inst/doc", overwrite = TRUE)
+file.copy("expp.Rmd",  "~/gitHub/expp/inst/doc", overwrite = TRUE)
+
 
 unlink("figure", TRUE)
 
@@ -15,6 +21,3 @@ vignette("expp")
 
 ####
 
-# TODO: color EP individuals with red
-# TODO: zoom in to a given area
-# TODO: add zoom argument on plot(epp), zoom = x neighborhoods away, center = box no. for zoom.

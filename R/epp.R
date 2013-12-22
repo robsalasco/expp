@@ -59,9 +59,12 @@ epp <- function(breedingDat, polygonsDat, eppDat, maxlag = 3) {
 	
 	}
 
+if (!isGeneric("plot"))
+  setGeneric("plot", function(x, y, ...)
+    standardGeneric("plot"))
 
 setMethod("plot", signature(x = "epp", y = "missing"),
-          function(x,y, zoom, maxlag = 3, zoom.col = 'grey', ...) {
+          function(x, zoom, maxlag = 3, zoom.col = 'grey', ...) {
 			
 			p = x@polygonsDat
 			b = x@breedingDat
@@ -90,7 +93,6 @@ setMethod("plot", signature(x = "epp", y = "missing"),
        
           })
 
-	
 
 if (!isGeneric("barplot")) {
     setGeneric("barplot", function(height,...)
@@ -122,9 +124,8 @@ setMethod("barplot", signature(height = "epp"),
             
           })
 
-
 if (!isGeneric("as.data.frame")) {
-  setGeneric("as.data.frame", function(x, row.names = NULL, optional = FALSE, ...)
+  setGeneric("as.data.frame", function(x)
     standardGeneric("as.data.frame"))
 }	
 	

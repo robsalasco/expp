@@ -1,6 +1,6 @@
 
 SpatialPointsBreeding <- function(data, 
-                                  proj4string = CRS(as.character(NA)), 
+                                  proj4string, 
                                   coords = ~ x + y, 
                                   breeding = ~ male + female, 
                                   id ) {
@@ -8,6 +8,7 @@ SpatialPointsBreeding <- function(data,
 	row.names(d) = NULL
 	d$k = 1:nrow(d)
 	coordinates(d) <- coords
+  if(missing(proj4string)) proj4string  = CRS(as.character(NA))
 	proj4string(d) = proj4string
 	
 	ids = data[, id]
@@ -33,7 +34,7 @@ if (!isGeneric("plot")) setGeneric("plot", function(x, y, ...) standardGeneric("
 	
 setMethod("plot", signature(x = "SpatialPointsBreeding", y = "missing"),
           function(x, pch = 20, axes = FALSE, add = FALSE, 
-                   xlim = NULL, ylim = NULL, ..., cex = 1, col = "grey", lwd = 1, bg = 1) {
+                   xlim = NULL, ylim = NULL, ..., cex = 1, col = "grey", lwd = 1, bg = "grey90") {
             if (! add)
               plot(as(x, "Spatial"), axes = axes, xlim = xlim, ylim = ylim, ...)
             cc = coordinates(x)
@@ -47,7 +48,8 @@ setMethod("plot", signature(x = "SpatialPointsBreeding", y = "missing"),
 
 setMethod("plot", signature(x = "SpatialPointsBreeding", y = "eppMatrix"),
           function(x, y, pch = 20, axes = FALSE, add = FALSE, 
-                   xlim = NULL, ylim = NULL, ..., cex = .8, col = "grey", col.epp = "red", lwd = 1, lty = 2, bg = 1, pair.cex = .6) {
+                   xlim = NULL, ylim = NULL, ..., cex = .8, col = "grey", col.epp = "red", lwd = 1, lty = 2, 
+                   bg = "grey90", pair.cex = .6) {
             if (! add)
               plot(as(x, "Spatial"), axes = axes, xlim = xlim, ylim = ylim, ...)
             cc = coordinates(x)
