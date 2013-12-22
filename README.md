@@ -17,5 +17,6 @@ License: GPL-3
 ******
 to install:  
 `require(devtools)`
+
 `install_github("expp", "valcu")`
 
