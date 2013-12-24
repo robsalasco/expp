@@ -1,0 +1,31 @@
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{Introduction to expp}
+-->
+
+A quick introduction to the _expp_ package
+====================================
+Supplement to Schlicht, Valcu and Kempenaers _"Spatial patterns of extra-pair paternity: beyond paternity gain and loss"_ (in prep.)
+----------------------------------------------------------------------------------------------------------------------
+
+```{r echo=FALSE, message=FALSE}
+require(rgeos); require(sp); require(spdep); require(spatstat); require(deldir)
+par(mar = c(0,0,1,0) )
+```
+  
+```{r } 
+require(expp)
+plot(1:10, 1:10)
+
+
+```
+
+
+
+
+
+
+
+
+
+

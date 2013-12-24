@@ -3,20 +3,22 @@
 require(knitr)
 require(markdown)
 
-setwd("~/gitHub/expp/vignettes/")
+wd = setwd("~/gitHub/expp/vignettes/")
 
-knit("expp.Rmd")
-markdownToHTML("expp.md", "expp.html")
-
-
-file.copy("expp.html",  "~/gitHub/expp/inst/doc", overwrite = TRUE)
-file.copy("expp.md",  "~/gitHub/expp/inst/doc", overwrite = TRUE)
-file.copy("expp.Rmd",  "~/gitHub/expp/inst/doc", overwrite = TRUE)
-
-
+knit("westerholz.Rmd")
+markdownToHTML("westerholz.md", "westerholz.html")
+file.copy("westerholz.html",  "~/gitHub/expp/inst/doc", overwrite = TRUE)
+file.copy("westerholz.md",  "~/gitHub/expp/inst/doc", overwrite = TRUE)
+file.copy("westerholz.Rmd",  "~/gitHub/expp/inst/doc", overwrite = TRUE)
 unlink("figure", TRUE)
 
-vignette("expp")
+
+
+
+
+setwd(wd)
+
+vignette("westerholz")
 
 
 ####

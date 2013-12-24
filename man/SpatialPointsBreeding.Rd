@@ -25,8 +25,8 @@ SpatialPointsBreeding(data, proj4string, coords = ~x + y, breeding = ~male + fem
                    xlim = NULL, ylim = NULL, ..., cex = 1, col = "grey", lwd = 1, bg = "grey90")  
 
 \S4method{plot}{SpatialPointsBreeding,eppMatrix}(x, y, pch = 20, axes = FALSE, add = FALSE, 
-                   xlim = NULL, ylim = NULL, ..., cex = .8, col = "grey", col.epp = "red", 
-                   lwd = 1, lty = 2, bg = "grey90", pair.cex = .6)  
+                   xlim = NULL, ylim = NULL, ..., cex = 1, col = "grey", col.epp = "red", 
+                   lwd = 1, lty = 2, bg = "grey90")  
 
 
 }
@@ -55,22 +55,20 @@ SpatialPointsBreeding(data, proj4string, coords = ~x + y, breeding = ~male + fem
   Formula defining the male and female ID in that order (in the form of e.g. \code{~male+female}).
 }
 
-  \item{x}{a code{SpatialPointsBreeding} object}
-  \item{y}{an code{eppMatrix} object}
-  \item{pch}{see plot.SpatialPoints}
-  \item{axes}{see plot.SpatialPoints}
-  \item{add}{see plot.SpatialPoints}
-  \item{xlim}{see plot.SpatialPoints}
-  \item{ylim}{see plot.SpatialPoints}
+  \item{x}{a \code{SpatialPointsBreeding} object}
+  \item{y}{an \code{eppMatrix} object}
+  \item{pch}{see  \code{plot.default} }
+  \item{axes}{see \code{plot.default} }
+  \item{add}{see \code{plot.default} }
+  \item{xlim}{see \code{plot.default} }
+  \item{ylim}{see \code{plot.default} }
   \item{...}{further arguments to pass to plot(as(x, "Spatial")}
-  \item{cex}{see plot.SpatialPoints}
-  \item{col}{see plot.SpatialPoints}
-  \item{col.epp}{extra-pair matches color}  
-  \item{lwd}{see plot.SpatialPoints}
-  \item{lty}{see plot.SpatialPoints}
-  \item{bg}{see plot.SpatialPoints}
-  \item{pair.cex}{breeding pair cex value}
-
+  \item{cex}{see \code{plot.default} }
+  \item{col}{see \code{plot.default} }
+  \item{col.epp}{extra-pair partners color}  
+  \item{lwd}{see \code{plot.default} }
+  \item{lty}{see \code{plot.default} }
+  \item{bg}{see \code{plot.default} }
 
 }
 

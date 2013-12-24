@@ -40,16 +40,16 @@ setMethod("plot", signature(x = "SpatialPointsBreeding", y = "missing"),
             cc = coordinates(x)
             points(cc[,1], cc[,2], pch = pch, cex = cex, col = col, lwd = lwd, bg = bg)
             text(cc[,1], cc[,2], x@id, pos = 4, cex = cex)
-            text(cc[,1], cc[,2], x@female, pos = 1,  cex =  cex-0.2)
-            text(cc[,1], cc[,2], x@male, pos = 3,  cex = cex-0.2)
+            text(cc[,1], cc[,2], x@female, pos = 1,  cex =  cex-0.1)
+            text(cc[,1], cc[,2], x@male, pos = 3,  cex = cex-0.1)
             
           })
 		  
 
 setMethod("plot", signature(x = "SpatialPointsBreeding", y = "eppMatrix"),
           function(x, y, pch = 20, axes = FALSE, add = FALSE, 
-                   xlim = NULL, ylim = NULL, ..., cex = .8, col = "grey", col.epp = "red", lwd = 1, lty = 2, 
-                   bg = "grey90", pair.cex = .6) {
+                   xlim = NULL, ylim = NULL, ..., cex = 1, col = "grey", col.epp = "red", lwd = 1, lty = 2, 
+                   bg = "grey90") {
             if (! add)
               plot(as(x, "Spatial"), axes = axes, xlim = xlim, ylim = ylim, ...)
             cc = coordinates(x)
@@ -60,13 +60,13 @@ setMethod("plot", signature(x = "SpatialPointsBreeding", y = "eppMatrix"),
             
 			# males
 			epm = which(x@male %in% y@male)
-			try(text(cc[epm,1], cc[epm,2], x@male[epm], pos = 1,  cex =  pair.cex, col = col.epp), silent = TRUE)
-			try(text(cc[-epm,1], cc[-epm,2], x@male[-epm], pos = 1,  cex =  pair.cex), silent = TRUE)
+			try(text(cc[epm,1], cc[epm,2], x@male[epm], pos = 1,  cex =  cex-0.1, col = col.epp), silent = TRUE)
+			try(text(cc[-epm,1], cc[-epm,2], x@male[-epm], pos = 1,  cex =  cex-0.1), silent = TRUE)
 			
 			# females
 			epf = which(x@female %in% y@female)
-			try(text(cc[epf,1], cc[epf,2], x@female[epf], pos = 3,  cex =  pair.cex, col = col.epp), silent = TRUE)
-			try(text(cc[-epf,1], cc[-epf,2], x@female[-epf], pos = 3,  cex =  pair.cex), silent = TRUE)
+			try(text(cc[epf,1], cc[epf,2], x@female[epf], pos = 3,  cex =  cex-0.1, col = col.epp), silent = TRUE)
+			try(text(cc[-epf,1], cc[-epf,2], x@female[-epf], pos = 3,  cex =  cex-0.1), silent = TRUE)
 			
 			# connections
 			for(i in 1:length(y@male) ) {

@@ -84,6 +84,10 @@ setMethod("plot", signature(x = "epp", y = "missing"),
 				b@male = b@male[bset]
 				b@female = b@female[bset]
 				b@id = b@id[bset]
+        
+        emat = e[ (e$id_FEMALE%in%set | e$id_MALE%in%set) & e$epp == 1, c("male", "female")]
+				emat = eppMatrix(emat)
+        
 			}
 				
 		    plot(p, ...)
