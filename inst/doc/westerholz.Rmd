@@ -1,6 +1,6 @@
 <!--
 %\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{expp Blue Tits case study}
+%\VignetteIndexEntry{Case study on Blue Tits}
 -->
 
 A case study on a breeding population of Blue Tits (_Cyanistes caeruleus_)
