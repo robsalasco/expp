@@ -7,7 +7,7 @@ wd = setwd("~/gitHub/expp/vignettes/")
 
 v = c("westerholz")
 
-for(i in 1:2) {
+for(i in 1) {
   knit(paste0(v[i],".Rmd"))
   markdownToHTML(paste0(v[i],".md")  , paste0(v[i],".html") )
   file.copy(     paste0(v[i],".html"),  "~/gitHub/expp/inst/doc", overwrite = TRUE)
@@ -19,7 +19,7 @@ for(i in 1:2) {
 setwd(wd)
 
 vignette("westerholz")
-vignette("expp_intro")
+
 
 ####
 

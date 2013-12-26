@@ -1,10 +1,10 @@
 <!--
 %\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{Case study on Blue Tits}
+%\VignetteIndexEntry{Blue Tits Case study}
 -->
 
-A case study on a breeding population of Blue Tits (_Cyanistes caeruleus_)
-====================================
+Extra-pair paternity in Blue Tits (_Cyanistes caeruleus_): a case study from Westerholz, Bavaria 
+========================================================================================================
 Supplement to Schlicht, Valcu and Kempenaers _"Spatial patterns of extra-pair paternity: beyond paternity gains and losses"_ (in prep.)
 -------------------------------------------------------------------------------------------------------------------------------------
 
