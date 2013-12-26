@@ -34,12 +34,12 @@ SpatialPointsBreeding(data, proj4string, coords = ~x + y, breeding = ~male + fem
 \arguments{
   \item{data}{
     a \code{\link{data.frame}}  containing the coordinates (e.g. "x", "y"), the location id, 
-    and the pair identity (e.g. "male", "female") toghether with any other optional variables
+    and the pair identity (e.g. "male", "female") together with any other optional variables
     (e.g. individuals or nest traits).
 }
 
   \item{proj4string}{
-    A \code{\link[sp]{CRS}} objecr containing a valid proj4 string. 
+    A \code{\link[sp]{CRS}} object containing a valid proj4 string. 
     See \code{\link[sp]{CRS}} \code{\link[sp]{proj4string}} for details.
 }
 

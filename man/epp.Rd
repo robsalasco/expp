@@ -9,11 +9,11 @@
 \alias{barplot,epp-method}
 
 
-\title{Building dataset for realized and unrealized EPP-pairs}
+\title{Building data-set for realized and unrealized EPP-pairs}
 
 \description{
 	\code{epp} combines a \code{SpatialPointsBreeding}, a \code{SpatialPolygons*} as obtained from 
-  \code{DirichletPolygons} and a \code{eppMatrix} to create the spatial context for every potential and realised extra-pair male-female combination.}
+  \code{DirichletPolygons} and a \code{eppMatrix} to create the spatial context for every potential and realized extra-pair male-female combination.}
 
 \usage{
 	epp(breedingDat, polygonsDat, eppDat, maxlag = 3)
@@ -42,7 +42,7 @@
 Returns an S4-class epp-object with 5 slots:
 
   \item{breedingDat}{
-	Input breeding dataset.}
+	Input breeding data-set.}
   \item{polygonsDat}{
 	Either polygons are estimated automatically using Thiessen Polygons, or input breeding polygons.}
   \item{eppDat}{

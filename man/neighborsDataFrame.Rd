@@ -18,7 +18,7 @@ higherNeighborsDataFrame(nb, maxlag)
 
 
 \arguments{
-  \item{nb}{an object of class nb}
+  \item{nb}{an object of class \code{nb}}
   \item{maxlag}{maximum lag, see \code{\link[spdep]{nblag}} }
 
 }

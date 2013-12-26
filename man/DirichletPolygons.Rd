@@ -11,7 +11,7 @@ Dirichlet Polygons
 
 \description{
 Computes the Dirichlet polygons using a \code{\link[expp]{SpatialPointsBreeding}} object
-and optionally a boundary SpatialPolygon or a vector containing id-s located at the boundary.
+and optionally a boundary \code{\link[sp]{SpatialPolygon}} or a vector containing id-s located at the boundary.
 }
 
 
@@ -24,8 +24,8 @@ and optionally a boundary SpatialPolygon or a vector containing id-s located at 
 \item{\code{signature(x = "SpatialPointsBreeding", boundary = "numeric")}}{
 	a vector of integers containing the id-s located at the boundary. 
 	The boundary is defined using a 'Follow-The-Dots' strategy.
-	The \code{width} argumnent passed to \code{\link[rgeos]{gBuffer}} defines the 
-	distance between buondaryx boxes and the boundary polygon; it is set by default to
+	The \code{width} argument passed to \code{\link[rgeos]{gBuffer}} defines the 
+	distance between boundary boxes and the boundary polygon; it is set by default to
 	half of the average distance between boundary boxes.}
 }
 }

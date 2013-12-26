@@ -5,8 +5,8 @@
 Westerholz breeding data (2009 and 2010).
 }
 \description{
-Breeding data recorded for  Blue Tit population in 2009 and 2010 in Westerholz near Landsberg am Lech, Germany.
-This dataset contains the location of breeding attempts, the respective social pair, and several individual and nest parameters. 
+Breeding data recorded for  a Blue Tit population in 2009 and 2010 in Westerholz, Bavaria, Germany.
+This data set contains the location of breeding attempts, the respective social pair, and several individual and nest parameters. 
 }
 
 \usage{data(westerholzBreeding)}

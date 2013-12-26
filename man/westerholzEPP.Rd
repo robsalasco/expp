@@ -6,7 +6,7 @@ Westerholz extra-pair paternity data (2009 and 2010).
 }
 
 \description{
-	Data.frame containing all extra-pair male-female combinations determined based on parentage analysis.
+	\code{data.frame} containing all extra-pair male-female combinations determined based on parentage analysis.
 	}
 
 \usage{data(westerholzEPP)}
