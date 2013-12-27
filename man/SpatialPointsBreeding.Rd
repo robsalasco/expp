@@ -22,10 +22,12 @@ with three extra slots defining the id (i.e. nest or breeding box) and the pair 
 SpatialPointsBreeding(data, proj4string, coords = ~x + y, breeding = ~male + female, id)
   
 \S4method{plot}{SpatialPointsBreeding,missing}(x, pch = 20, axes = FALSE, add = FALSE, 
-                   xlim = NULL, ylim = NULL, ..., cex = 1, col = "grey", lwd = 1, bg = "grey90")  
+                  xlim = NULL, ylim = NULL, ..., cex = 1, col = "grey", 
+                  lwd = 1, bg = "grey90")  
 
 \S4method{plot}{SpatialPointsBreeding,eppMatrix}(x, y, pch = 20, axes = FALSE, add = FALSE, 
-                   xlim = NULL, ylim = NULL, ..., cex = 1, col = "grey", col.epp = "red", 
+                   xlim = NULL, ylim = NULL, ..., cex = 1, col = "grey", 
+                   col.epp = "red", 
                    lwd = 1, lty = 2, bg = "grey90")  
 
 

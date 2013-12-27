@@ -11,7 +11,7 @@ Dirichlet Polygons
 
 \description{
 Computes the Dirichlet polygons using a \code{\link[expp]{SpatialPointsBreeding}} object
-and optionally a boundary \code{\link[sp]{SpatialPolygon}} or a vector containing id-s located at the boundary.
+and optionally a boundary \code{\link[sp]{SpatialPolygons}} or a vector containing id-s located at the boundary.
 }
 
 

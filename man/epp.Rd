@@ -137,7 +137,8 @@ Returns an S4-class epp-object with 5 slots:
   nrow(unique(eppPairs))
   
   if(require(lme4))
-   (summary(glmer(epp ~ rank + male_age_MALE + (1|male) + (1|female), data = dat, family = binomial)))
+   (summary(glmer(epp ~ rank + male_age_MALE + (1|male) + (1|female), 
+    data = dat, family = binomial)))
 
 }
   
