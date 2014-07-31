@@ -203,28 +203,6 @@ summary(fm)
 ## rlt__FEMALE -0.008 -0.001 -0.024 -0.345
 ```
 
-### 6. Estimation of type I error rate based on  the reponse variable permuations
-
-
-```{r, eval = FALSE}
-dat09 = dat[dat$year_ == 2009, ]
-fm = glmer(epp ~ male_age_MALE + (1|male) + (1|female), data = dat09, family = binomial)
-summary(fm)
-
-n = 100
-o = replicate(n,  refit(fm, sample(dat09$epp)) )
-
-p_values = sapply(o, function(fm) summary(fm)$ coefficients[2, 4] )
-
-# type I error rate
-x = table(p_values < 0.05)
-x[2]/n
-
-
-hist(p_values)
-
-```
-
 
 
 
