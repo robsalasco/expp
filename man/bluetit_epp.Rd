@@ -1,17 +1,19 @@
-\name{westerholzEPP}
-\alias{westerholzEPP}
+\name{bluetit_epp}
+\alias{bluetit_epp}
 \docType{data}
 \title{
-Westerholz extra-pair paternity data (2009 and 2010).
+Blue tit extra-pair paternity data.
 }
 
 \description{
-	\code{data.frame} containing all extra-pair male-female combinations determined based on parentage analysis.
+	\code{data.frame} 
+  Extra-pair paternity data recorded for two Blue Tit populations in Kolbeterberg, Viena, Austria (1998 through 2004) and 
+Westerholz, Bavaria, Germany (2007 through 2011) .
 	}
 
-\usage{data(westerholzEPP)}
+\usage{data(bluetit_epp)}
 \format{
-  A data frame with 61 observations on the following 3 variables.
+  A data frame with 425 observations on the following 3 variables.
   \describe{
     \item{\code{year_}}{
 		numeric. The year of the observation.}
@@ -23,8 +25,8 @@ Westerholz extra-pair paternity data (2009 and 2010).
 }
 
 \examples{
-data(westerholzEPP)
-head(westerholzEPP)
+data(bluetit_epp)
+head(bluetit_epp)
 }
 
 \keyword{datasets}

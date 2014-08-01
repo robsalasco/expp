@@ -110,12 +110,12 @@ Returns an S4-class epp-object with 5 slots:
 \dontrun{   
   ### Real data example
   # Raw datasets 
-  data(westerholzBreeding)
-  data(westerholzEPP)
+  data(bluetit_breeding)
+  data(bluetit_epp)
   # select one year 
   year = 2010
-  b = westerholzBreeding[westerholzBreeding$year_ == year, ]
-  eppPairs = westerholzEPP[westerholzEPP$year_ == year, ]
+  b = bluetit_breeding[bluetit_breeding$year_ == year, ]
+  eppPairs = bluetit_epp[bluetit_epp$year_ == year, ]
   
   # prepare data
   breedingDat  = SpatialPointsBreeding(b, id = 'id', coords = ~ x + y, breeding = ~ male + female)

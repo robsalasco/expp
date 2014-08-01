@@ -8,5 +8,5 @@ Maintainer: Mihai Valcu <valcu@orn.mpg.de>
 Depends: methods, sp, spdep, rgeos, deldir
 Suggests: knitr, spatstat, lme4
 VignetteBuilder: knitr
-Description: Tools and data to accompany Schlicht, Valcu and Kempenaers "Spatial patterns of extra-pair paternity: beyond paternity gain and loss"
+Description: Tools and data to accompany Schlicht, Valcu and Kempenaers "Spatial patterns of extra-pair paternity: beyond paternity gains and losses"
 License: GPL-3

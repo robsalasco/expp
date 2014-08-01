@@ -27,7 +27,7 @@ eppSimDat(N, meanClutch, eppRate, eppMax, eppMales, nLags)
 
 \value{
 An object of class \link[expp]{epp}
-The \code{data.frame} of the \code{EPP} slot contains two variable (\code{trait_MALE} \code{trait_FEMALE} ) simulated independent from the \{epp} variable.
+The \code{data.frame} of the \code{EPP} slot contains two variable (\code{trait_MALE} \code{trait_FEMALE} ) simulated independent from the \code{epp} variable.
 
 }
 
@@ -35,7 +35,6 @@ The \code{data.frame} of the \code{EPP} slot contains two variable (\code{trait_
 
 \examples{
 d = eppSimDat()
-head(d)
 plot(d)
 
 
