@@ -30,6 +30,7 @@ For info on the data-sets type:
 ```{r eval=FALSE }
 help(exppBreeding)
 help(exppEPP)
+help(exppBoundary)
 ```
 ```{r, eval = FALSE}
 data(exppBreeding)
@@ -42,39 +43,43 @@ head(exppEPP)
 
 ```{r, echo=FALSE, results='asis'}
 data(exppBreeding)
-
-westerholzBreeding = exppBreeding[exppBreeding$year_ %in% c(2009, 2010), ]
-westerholzBreeding$study_area = NULL 
-
-knitr::kable(head(westerholzBreeding))
+knitr::kable(head(exppBreeding))
 ```
 
 ***** 
 ```{r, echo=FALSE, results='asis'}
 data(exppEPP)
-westerholzEPP = exppEPP[exppEPP$year_ %in% c(2009, 2010), ]
-
-knitr::kable(head(westerholzEPP))
+knitr::kable(head(exppEPP))
 ```
 
+```{r}
+data(exppBoundary)
+summary(exppBoundary)
+```
 
 ### 3. Prepare data
 
 #### 3.1 Split by year (each year needs to be processed separately)
 
 ```{r}
-b = split(westerholzBreeding, westerholzBreeding$year_)
-e = split(westerholzEPP, westerholzEPP$year_) 
+b = split(exppBreeding, exppBreeding$year_)
+e = split(exppEPP, exppEPP$year_) 
 
 # sample sizes by year
-lapply(b, nrow)
-lapply(e, nrow)
+sapply(b, nrow)
+sapply(e, nrow)
+
+# For the sake of conciseness only two years are used in the folowing analyses
+b = b[c("2009", "2010")]
+e = e[c("2009", "2010")]
+p = exppBoundary[exppBoundary$year_ %in% c("2009", "2010"), ]
+
 ```
 
 #### 3.2 Run a couple of helper functions on both breeding data and extra-pair paternity data 
 ```{r tidy=FALSE}
 breedingDat = lapply(b, SpatialPointsBreeding, coords= ~x+y, id='id', breeding= ~male + female, 
-  proj4string = CRS("+proj=tmerc +lat_0=0 +lon_0=12 +k=1 +x_0=4500000 +y_0=0 +datum=potsdam +units=m +no_defs"))
+  proj4string = CRS(proj4string(p)))
 
 eppDat = lapply(e, eppMatrix, pairs = ~ male + female)
 
@@ -84,24 +89,21 @@ eppDat = lapply(e, eppMatrix, pairs = ~ male + female)
 #### 3.3. Compute Dirichlet polygons based on the `SpatialPointsBreeding` object
 
 ```{r}
-data(exppBoundary)
-westerholzBoundary = exppBoundary[ c("2009", "2010") ]
-
-polygonsDat = mapply(DirichletPolygons, x = breedingDat, boundary = westerholzBoundary) 
+polygonsDat = mapply(DirichletPolygons, x = breedingDat, boundary = split(p, p$year_)) 
 ```  
 ********************************************************************************
 
 ### 4. All the objects are now ready to be processed by the `epp` function.
 ```{r}
-maxlag = 3
-O = mapply(FUN = epp, breedingDat, polygonsDat, eppDat, maxlag)
+maxlag = 10
+eppOut = mapply(FUN = epp, breedingDat, polygonsDat, eppDat, maxlag)
 ```
 
-```{r results='hide', dpi=100, fig.width=7, fig.height=10, fig.align='left'}
+```{r results='hide', dpi=100, fig.width=7, fig.height=10, fig.align='left', warning=FALSE}
 #op = par(mfrow = c(1,2))
 
 for(year in c("2009", "2010") ) { 
-  plot(O[[year]], cex = 0.7, lwd = .5, border = "navy" )
+  plot(eppOut[[year]], cex = 0.7, lwd = .5, border = "navy" )
   title(main = year)
   }
 
@@ -111,26 +113,26 @@ for(year in c("2009", "2010") ) {
 ```{r, warning=FALSE, dpi=100, fig.width=6, fig.height=8, fig.align='left'}
 year = '2010'
 box = 110
-O10 = O[[year]]
-plot(O10 , zoom = box, maxlag = 2,cex = .7,  border = 'white', col = 'grey70', zoom.col = "bisque")
+eppOut10 = eppOut[[year]]
+plot(eppOut10 , zoom = box, maxlag = 2,cex = .7,  border = 'white', col = 'grey70', zoom.col = "bisque")
 
 ```
 
 ```{r results='hide',fig.width=8, fig.height=6}
 op = par(mfrow = c(1,2))
     
-barplot(O[[1]],relativeValues = TRUE, main = 2009) 
+barplot(eppOut[[1]],relativeValues = TRUE, main = 2009) 
 legend(x="topright", legend = c('Observed', 'Potential'), lty = c(1, 2),bty='n')
-barplot(O[[2]], relativeValues = TRUE, main = 2010)
+barplot(eppOut[[2]], relativeValues = TRUE, main = 2010)
 
 par(op)
 ```
 
 ### 5. Fitting a _glmm_ 
 
-#### 5.1 Convert `O` (a list of 2 _epp_ objects) into a `data.frame`.
+#### 5.1 Convert `eppOut` (a list of 2 _epp_ objects) into a `data.frame`.
 ```{r}
-dat = lapply(O, as.data.frame) # a list of data.frame-s
+dat = lapply(eppOut, as.data.frame) # a list of data.frame-s
 dat = do.call(rbind, dat)
 dat$year_ = dat$year__MALE; dat$year__FEMALE = NULL
 
@@ -174,44 +176,49 @@ knitr::kable(table(dat$epp, dat$year_))
 ##### Run the glmm model (this may take a while depending on your system!).
 ```{r eval=FALSE}
 require(lme4)
-dat$age2 = ifelse(dat$male_age_MALE == 'juv', 1, 2)
 fm = glmer(epp ~ rank + male_age_MALE + relative_asynchrony_MALE + relative_asynchrony_FEMALE + 
              (1|male) + (1|female) + (1|year_), data = dat, family = binomial)
 summary(fm)
 ```
 
 ```
-## Generalized linear mixed model fit by maximum likelihood ['glmerMod']
-##  Family: binomial ( logit )
-## Formula: epp ~ rank + male_age_MALE + relative_asynchrony_MALE + relative_asynchrony_FEMALE +      (1 | male) + (1 | female) + (1 | year_) 
-##    Data: dat 
-## 
-##      AIC      BIC   logLik deviance 
-##    588.3    647.5   -286.2    572.3 
-## 
+## Generalized linear mixed model fit by maximum likelihood (Laplace Approximation) ['glmerMod']
+## Family: binomial  ( logit )
+## Formula: epp ~ rank + male_age_MALE + relative_asynchrony_MALE + relative_asynchrony_FEMALE +  
+## (1 | male) + (1 | female) + (1 | year_)
+## Data: dat
+
+ ## AIC      BIC   logLik deviance df.resid 
+## 599.4    658.8   -291.7    583.4    12406 
+
+## Scaled residuals: 
+## Min     1Q Median     3Q    Max 
+## -0.568 -0.048 -0.017 -0.006 96.102 
+
 ## Random effects:
-##  Groups Name        Variance Std.Dev.
-##  male   (Intercept) 1.12e+00 1.05790 
-##  female (Intercept) 9.87e-02 0.31423 
-##  year_  (Intercept) 1.54e-05 0.00393 
-## Number of obs: 12104, groups: male, 119; female, 117; year_, 2
-## 
+## Groups Name        Variance  Std.Dev. 
+## male   (Intercept) 1.245e+00 1.116e+00
+## female (Intercept) 8.376e-02 2.894e-01
+## year_  (Intercept) 3.121e-15 5.586e-08
+## Number of obs: 12414, groups:  male, 121; female, 118; year_, 2
+
 ## Fixed effects:
-##                            Estimate Std. Error z value Pr(>|z|)    
-## (Intercept)                  -3.275      0.245  -13.39  < 2e-16 ***
-## rank                         -1.237      0.156   -7.95  1.9e-15 ***
-## male_age_MALEjuv             -1.365      0.449   -3.04   0.0023 ** 
-## relative_asynchrony_MALE     -0.386      0.408   -0.95   0.3442    
-## relative_asynchrony_FEMALE    0.076      0.376    0.20   0.8397    
+  					## Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)                -3.325738   0.331005 -10.047  < 2e-16 ***
+## rank                       -1.166547   0.132700  -8.791  < 2e-16 ***
+## male_age_MALEjuv           -1.380823   0.418108  -3.303 0.000958 ***
+## relative_asynchrony_MALE   -0.476106   0.402514  -1.183 0.236876    
+## relative_asynchrony_FEMALE -0.004861   0.376569  -0.013 0.989700    
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
+## Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
 ## Correlation of Fixed Effects:
-##             (Intr) rank   m__MAL r__MAL
-## rank        -0.449                     
-## ml_g_MALEjv -0.382  0.010              
-## rltv_s_MALE  0.091  0.017  0.000       
-## rlt__FEMALE -0.008 -0.001 -0.024 -0.345
+		## (Intr) rank   m__MAL r__MAL
+## rank        -0.272                     
+## ml_g_MALEjv -0.198  0.025              
+## rltv_s_MALE  0.075  0.022  0.004       
+## rlt__FEMALE  0.006 -0.004 -0.003 -0.393
+
 ```
 
 

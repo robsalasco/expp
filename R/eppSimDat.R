@@ -7,7 +7,7 @@ eppSimDat <-function(N = 10, meanClutch = 10, eppRate = 0.10, eppMax = 12, eppMa
   d$trait = rnorm(N)
   
   # epp
-  d$epy = round(d$clutch*  rnorm(N, mean = eppRate, sd = eppRate)    )
+  d$epy = round(d$clutch * rnorm(N, mean = eppRate, sd = eppRate)    )
   d$epy = ifelse(d$epy > d$clutch, d$clutch, ifelse(d$epy < 0, 0, d$epy) )
   
   d$epmale = FALSE
