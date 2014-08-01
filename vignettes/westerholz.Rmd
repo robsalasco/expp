@@ -28,29 +28,34 @@ require(expp)
 ### 2. Load datasets
 For info on the data-sets type: 
 ```{r eval=FALSE }
-help(westerholzBreeding)
-help(westerholzEPP)
+help(exppBreeding)
+help(exppEPP)
 ```
 ```{r, eval = FALSE}
-data(westerholzBreeding)
-head(westerholzBreeding)
+data(exppBreeding)
+head(exppBreeding)
 ```
 ```{r, eval = FALSE}
-data(westerholzEPP)
-head(westerholzEPP)
+data(exppEPP)
+head(exppEPP)
 ```
 
 ```{r, echo=FALSE, results='asis'}
-data(westerholzBreeding)
+data(exppBreeding)
+
+westerholzBreeding = exppBreeding[exppBreeding$year_ %in% c(2009, 2010), ]
+westerholzBreeding$study_area = NULL 
+
 knitr::kable(head(westerholzBreeding))
 ```
+
 ***** 
 ```{r, echo=FALSE, results='asis'}
-data(westerholzEPP)
+data(exppEPP)
+westerholzEPP = exppEPP[exppEPP$year_ %in% c(2009, 2010), ]
+
 knitr::kable(head(westerholzEPP))
 ```
-
-
 
 
 ### 3. Prepare data
@@ -68,21 +73,27 @@ lapply(e, nrow)
 
 #### 3.2 Run a couple of helper functions on both breeding data and extra-pair paternity data 
 ```{r tidy=FALSE}
-breedingDat = lapply(b, SpatialPointsBreeding, coords= ~x+y, id='id', breeding= ~male + female)
+breedingDat = lapply(b, SpatialPointsBreeding, coords= ~x+y, id='id', breeding= ~male + female, 
+  proj4string = CRS("+proj=tmerc +lat_0=0 +lon_0=12 +k=1 +x_0=4500000 +y_0=0 +datum=potsdam +units=m +no_defs"))
+
 eppDat = lapply(e, eppMatrix, pairs = ~ male + female)
 
 
 ```
 
 #### 3.3. Compute Dirichlet polygons based on the `SpatialPointsBreeding` object
+
 ```{r}
-polygonsDat = lapply(breedingDat, DirichletPolygons)
+data(exppBoundary)
+westerholzBoundary = exppBoundary[ c("2009", "2010") ]
+
+polygonsDat = mapply(DirichletPolygons, x = breedingDat, boundary = westerholzBoundary) 
 ```  
 ********************************************************************************
 
 ### 4. All the objects are now ready to be processed by the `epp` function.
 ```{r}
-maxlag = 10
+maxlag = 3
 O = mapply(FUN = epp, breedingDat, polygonsDat, eppDat, maxlag)
 ```
 
