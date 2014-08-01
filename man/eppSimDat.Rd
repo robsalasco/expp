@@ -2,7 +2,7 @@
 \alias{eppSimDat}
 
 \title{
-%%  ~~function to do ... ~~
+Type I error rate simulations
 }
 
 \description{
@@ -45,30 +45,32 @@ eppSimDat(x)
 \examples{
 # Type I error rate
 
-require(lme4)
+\dontrun{
+ require(lme4)
 
-NSIM = 20
-o = list()
+ NSIM = 20
+ o = list()
 
-for(i in 1:NSIM) {
+ for(i in 1:NSIM) {
   x = as.data.frame(exppSimDat(N = 20))
-  fm = glmer(epp ~ rank + trait_MALE + trait_FEMALE + (1 | male) + (1 | female) , data = x, family = binomial)
+  fm = glmer(epp ~ rank + trait_MALE + trait_FEMALE + 
+    (1 | male) + (1 | female) , data = x, family = binomial)
   o[[i]] = summary(fm) $ coefficients
   print(i)
   }
 
-# Type I error rate for rank
-pval = sapply(o, function(x) x[2, 4])
-table(pval<0.05)[2]/NSIM
+ # Type I error rate for rank
+ pval = sapply(o, function(x) x[2, 4])
+ table(pval<0.05)[2]/NSIM
 
-# Type I error rate for trait_MALE
-pval = sapply(o, function(x) x[3, 4])
-table(pval<0.05)[2]/NSIM
+ # Type I error rate for trait_MALE
+ pval = sapply(o, function(x) x[3, 4])
+ table(pval<0.05)[2]/NSIM
 
-# Type I error rate for trait_FEMALE
-pval = sapply(o, function(x) x[4, 4])
-table(pval<0.05)[2]/NSIM
-
+ # Type I error rate for trait_FEMALE
+ pval = sapply(o, function(x) x[4, 4])
+ table(pval<0.05)[2]/NSIM
+}
 
 }
 
