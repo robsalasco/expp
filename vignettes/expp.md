@@ -12,142 +12,206 @@ Supplement to Schlicht, Valcu and Kempenaers _"Spatial patterns of extra-pair pa
 ### 1. Getting started
  * Download and install [R](http://cran.rstudio.com/).
  * Open R, and install _expp_ by copying the following line into your R console:  
-```{r eval=FALSE }
+
+```r
 install.packages("expp")
-```  
-  
-```{r echo=FALSE, message=FALSE}
-require(rgeos); require(sp); require(spdep); require(spatstat); require(deldir)
-par(mar = c(0,0,1,0) )
 ```
+  
+
  * To load _expp_ type:   
-```{r } 
+
+```r
 require(expp)
 ```
 
 ### 2. Load datasets
 For info on the data-sets type: 
-```{r eval=FALSE }
+
+```r
 help(exppBreeding)
 help(exppEPP)
 help(exppBoundary)
 ```
-```{r, eval = FALSE}
+
+
+```r
 data(exppBreeding)
 head(exppBreeding)
 ```
-```{r, eval = FALSE}
+
+|    | year_|  id|       x|       y|female |male | layingDate|male_age | male_tarsus|study_area |
+|:---|-----:|---:|-------:|-------:|:------|:----|----------:|:--------|-----------:|:----------|
+|351 |  2011|  17| 4417837| 5334163|NA     |NA   |        102|adult    |          NA|Westerholz |
+|352 |  2011| 160| 4417574| 5334549|NA     |m383 |        103|juv      |       17.16|Westerholz |
+|353 |  2011| 261| 4417593| 5334857|f174   |m348 |        101|adult    |       17.05|Westerholz |
+|354 |  2011| 174| 4417433| 5334600|f186   |m238 |        103|adult    |       16.80|Westerholz |
+|355 |  2011|  80| 4417728| 5334311|f218   |m361 |        101|adult    |       17.50|Westerholz |
+|356 |  2011| 262| 4417552| 5334861|f224   |m280 |         99|adult    |       17.11|Westerholz |
+
+
+```r
 data(exppEPP)
-head(exppEPP)
+head(exppEPP[exppEPP == 2011, ])
 ```
 
-```{r, echo=FALSE, results='asis'}
-data(exppBreeding)
-knitr::kable(head(exppBreeding))
-```
+| year_|male |female |
+|-----:|:----|:------|
+|  2001|m525 |f2     |
+|  2001|m515 |f4     |
+|  2003|m406 |f4     |
+|  2001|m7   |f5     |
+|  2001|m520 |f8     |
+|  2002|m69  |f10    |
 
-***** 
-```{r, echo=FALSE, results='asis'}
-data(exppEPP)
-knitr::kable(head(exppEPP))
-```
 
-```{r}
+```r
 data(exppBoundary)
 summary(exppBoundary)
+```
+
+```
+## Object of class SpatialPolygonsDataFrame
+## Coordinates:
+##       min     max
+## x 4417139 4815230
+## y 5334160 5351921
+## Is projected: TRUE 
+## proj4string :
+## [+proj=tmerc +lat_0=0 +lon_0=12 +k=1 +x_0=4500000 +y_0=0
+## +datum=potsdam +units=m +no_defs +ellps=bessel
+## +towgs84=598.1,73.7,418.2,0.202,0.045,-2.455,6.7]
+## Data attributes:
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    2000    2000    2000    2000    2010    2010
 ```
 
 ### 3. Prepare data
 
 #### 3.1 Split by year (each year needs to be processed separately)
 
-```{r}
+
+```r
 b = split(exppBreeding, exppBreeding$year_)
 e = split(exppEPP, exppEPP$year_) 
 
 # sample sizes by year
 sapply(b, nrow)
-sapply(e, nrow)
+```
 
+```
+## 1998 1999 2000 2001 2002 2003 2004 2007 2008 2009 2010 2011 
+##   52   67   82   78  114  105  100   88   97   61  102   79
+```
+
+```r
+sapply(e, nrow)
+```
+
+```
+## 1998 1999 2000 2001 2002 2003 2004 2007 2008 2009 2010 2011 
+##   17   38   33   41   54   50   36   29   27   33   34   33
+```
+
+```r
 # For the sake of conciseness only two years are used in the folowing analyses
 b = b[c("2009", "2010")]
 e = e[c("2009", "2010")]
 p = exppBoundary[exppBoundary$year_ %in% c("2009", "2010"), ]
-
 ```
 
 #### 3.2 Run a couple of helper functions on both breeding data and extra-pair paternity data 
-```{r tidy=FALSE}
+
+```r
 breedingDat = lapply(b, SpatialPointsBreeding, coords= ~x+y, id='id', breeding= ~male + female, 
   proj4string = CRS(proj4string(p)))
 
 eppDat = lapply(e, eppMatrix, pairs = ~ male + female)
-
-
 ```
 
 #### 3.3. Compute Dirichlet polygons based on the `SpatialPointsBreeding` object
 
-```{r}
+
+```r
 polygonsDat = mapply(DirichletPolygons, x = breedingDat, boundary = split(p, p$year_)) 
-```  
+```
 ********************************************************************************
 
 ### 4. All the objects are now ready to be processed by the `epp` function.
-```{r}
+
+```r
 maxlag = 10
 eppOut = mapply(FUN = epp, breedingDat, polygonsDat, eppDat, maxlag)
 ```
 
-```{r results='hide', dpi=100, fig.width=7, fig.height=10, fig.align='left', warning=FALSE}
-#op = par(mfrow = c(1,2))
+
+```r
+op = par(mar = c(0,0,2,0))
 
 for(year in c("2009", "2010") ) { 
   plot(eppOut[[year]], cex = 0.7, lwd = .5, border = "navy" )
   title(main = year)
   }
-
-# par(op)
 ```
+
+<img src="figure/unnamed-chunk-141.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" style="display: block; margin: auto auto auto 0;" /><img src="figure/unnamed-chunk-142.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" style="display: block; margin: auto auto auto 0;" />
 #### Select one nest-box of a given year and zoom in.
-```{r, warning=FALSE, dpi=100, fig.width=6, fig.height=8, fig.align='left'}
+
+```r
 year = '2010'
 box = 110
 eppOut10 = eppOut[[year]]
 plot(eppOut10 , zoom = box, maxlag = 2,cex = .7,  border = 'white', col = 'grey70', zoom.col = "bisque")
-
 ```
 
-```{r results='hide',fig.width=8, fig.height=6}
+<img src="figure/unnamed-chunk-15.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" style="display: block; margin: auto auto auto 0;" />
+
+```r
+par(op)
+```
+
+
+```r
 op = par(mfrow = c(1,2))
     
 barplot(eppOut[[1]],relativeValues = TRUE, main = 2009) 
 legend(x="topright", legend = c('Observed', 'Potential'), lty = c(1, 2),bty='n')
 barplot(eppOut[[2]], relativeValues = TRUE, main = 2010)
+```
 
+![plot of chunk unnamed-chunk-16](figure/unnamed-chunk-16.png) 
+
+```r
 par(op)
 ```
 
 ### 5. Fitting a _glmm_ 
 
 #### 5.1 Convert `eppOut` (a list of 2 _epp_ objects) into a `data.frame`.
-```{r}
+
+```r
 dat = lapply(eppOut, as.data.frame) # a list of data.frame-s
 dat = do.call(rbind, dat)
 dat$year_ = dat$year__MALE; dat$year__FEMALE = NULL
-
 ```
 
 #### 5.2. Data transformations prior to modelling.
 
 ##### Rescale rank; rank 1 becames rank 0
-```{r}
+
+```r
 dat$rank = dat$rank - min(dat$rank)
 table(dat$rank)
 ```
+
+```
+## 
+##    0    1    2    3    4    5    6    7    8    9 
+##  824 1490 1970 2162 2128 1812 1430  958  592  328
+```
 ##### Center and re-scale breeding asynchrony (i.e. the difference in laying data between male and female) within each rank.
 
-```{r}
+
+```r
 center = function(x) { return(x - mean(x, na.rm = TRUE)) }
 scale2 = function(x) { return(x/(2*sd(x, na.rm = TRUE))) }
 
@@ -166,15 +230,19 @@ dat$relative_asynchrony_FEMALE = scale2(dat$relative_asynchrony_FEMALE)
 
 #### 5.3 Run _glmm_
 ##### Check if sample size is sufficient for the number of variables we aim to include into the model.
-```{r eval=FALSE}
+
+```r
 table(dat$epp, dat$year_) #extra-pair frequency by year.
 ```
-```{r echo = FALSE, results='asis'}
-knitr::kable(table(dat$epp, dat$year_))
-```
+
+|   | 2009|  2010|
+|:--|----:|-----:|
+|0  | 3632| 10000|
+|1  |   28|    34|
 
 ##### Run the glmm model (this may take a while depending on your system!).
-```{r eval=FALSE}
+
+```r
 require(lme4)
 fm = glmer(epp ~ rank + male_age_MALE + relative_asynchrony_MALE + relative_asynchrony_FEMALE + 
              (1|male) + (1|female) + (1|year_), data = dat, family = binomial)
