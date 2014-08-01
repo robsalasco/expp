@@ -46,30 +46,46 @@ eppSimDat(x)
 # Type I error rate
 
 \dontrun{
- require(lme4)
 
- NSIM = 20
- o = list()
+require(lme4)
 
- for(i in 1:NSIM) {
-  x = as.data.frame(exppSimDat(N = 20))
-  fm = glmer(epp ~ rank + trait_MALE + trait_FEMALE + 
-    (1 | male) + (1 | female) , data = x, family = binomial)
-  o[[i]] = summary(fm) $ coefficients
+pval_glmer = vector(mode = "numeric", length = 0)
+pval_glm = vector(mode = "numeric", length = 0)
+
+
+for(i in 1:1000) {
+  x = as.data.frame(eppSimDat(N = 80, meanClutch = 10, eppRate = 0.10, eppMax = 12, eppMales = 0.35, nLags = 3))
+  
+  fm1glmer = glmer(epp ~ rank + trait_MALE + trait_FEMALE + (1 | male) + (1 | female) , data = x, family = binomial, nAGQ =  3)
+  fm0glmer = update(fm1glmer, epp ~ 1 + (1 | male) + (1 | female) )
+  pval_glmer[i] = anova(fm0glmer, fm1glmer)$"Pr(>Chisq)"[2]
+    
+  fm1glm = glm(epp ~ rank + trait_MALE + trait_FEMALE  , data = x, family = binomial)
+  fm0glm = update(fm1glm, epp ~ 1 )
+  pval_glm[i] = anova(fm0glm, fm1glm, test = "Chisq")$"Pr(>Chi)"[2]
+    
   print(i)
-  }
+  
+  # Type I error rate of glmer models
+  print(table(pval_glmer<0.05)[2]/length(pval_glmer))
+  
+  # Type I error rate of the equivalent glm models
+  print(table(pval_glm<0.05)[2]/length(pval_glm))
+  
+  
+  
+  
+ }
 
- # Type I error rate for rank
- pval = sapply(o, function(x) x[2, 4])
- table(pval<0.05)[2]/NSIM
+# Type I error rate of glmer models
+table(pval_glmer<0.05)[2]/length(pval_glmer)
 
- # Type I error rate for trait_MALE
- pval = sapply(o, function(x) x[3, 4])
- table(pval<0.05)[2]/NSIM
+# Type I error rate of the equivalent glm models
+table(pval_glm<0.05)[2]/length(pval_glm)
 
- # Type I error rate for trait_FEMALE
- pval = sapply(o, function(x) x[4, 4])
- table(pval<0.05)[2]/NSIM
+
+
+
 }
 
 }
