@@ -4,7 +4,7 @@ Type: Package
 
 Title: Spatial analysis of extra-pair paternity
 
-Version: 1.0
+Version: 1.1
 
 Author: Mihai Valcu, Lotte Schlicht
 

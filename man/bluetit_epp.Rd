@@ -7,7 +7,7 @@ Blue tit extra-pair paternity data.
 
 \description{
 	\code{data.frame} 
-  Extra-pair paternity data recorded for two Blue Tit populations in Kolbeterberg, Viena, Austria (1998 through 2004) and 
+  Extra-pair paternity data recorded for two Blue Tit populations in Kolbeterberg, Vienna, Austria (1998 through 2004) and 
 Westerholz, Bavaria, Germany (2007 through 2011) .
 	}
 

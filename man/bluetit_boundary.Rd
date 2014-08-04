@@ -7,7 +7,7 @@ Study area boundary.
 
 \description{
 	\code{SpatialPolygonsDataFrame} 
- Study area boundary of two Blue Tit populations: Kolbeterberg, Viena, Austria (1998 through 2004) and 
+ Study area boundary of two Blue Tit populations: Kolbeterberg, Vienna, Austria (1998 through 2004) and 
 Westerholz, Bavaria, Germany (2007 through 2011) .
 	}
 

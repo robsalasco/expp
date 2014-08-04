@@ -4,7 +4,7 @@
 \docType{package}
 \title{
 Tools and data to accompany Schlicht, Valcu and Kempenaers 
-"Spatial patterns of extra-pair paternity: beyond paternity gain and loss"
+"Spatial patterns of extra-pair paternity: beyond paternity gains and losses"
 }
 
 \description{
@@ -23,8 +23,26 @@ See \code{help(epp)} and
 \code{vignette('expp') }
 }
 
+\section{Functions}{
+  \tabular{ll}{
+    \code{\link{epp}} \tab Final data-transformation to male-female combinations and their extra-pair levels \cr
+    \code{\link{eppSimDat}} \tab "Toy"-dataset creation to investigate potential Type I error rate inflations for models where the datapoints are male-female combinations \cr
+
+\cr
+----------------------------------------
+\cr
+    \code{\link{DirichletPolygons}} \tab Territory calculation via Dirichlet tesselation\cr
+    \code{\link{eppMatrix}} \tab \code{data.frame} to \code{eppMatrix} object\cr
+    \code{\link{neighborsDataFrame}} \tab \code{nb} object to \code{data.frame}\cr
+    \code{\link{SpatialPointsBreeding}} \tab \code{data.frame} to \code{SpatialPointsBreeding object} \cr
+    
+  }
+}
+
+
+
 \author{
- Mihai Valcu and Lotte Schlicht
+ Mihai Valcu and Lotte Schlicht \cr
 Maintainer: Mihai Valcu <valcu@orn.mpg.de>
 
 }

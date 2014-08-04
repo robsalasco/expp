@@ -5,7 +5,7 @@
 Blue Tit breeding data.
 }
 \description{
-Breeding data recorded for two Blue Tit populations in Kolbeterberg, Viena, Austria (1998 through 2004) and 
+Breeding data recorded for two Blue Tit populations in Kolbeterberg, Vienna, Austria (1998 through 2004) and 
 Westerholz, Bavaria, Germany (2007 through 2011) .
 The data set contains breeding attempts locations, the respective social pair, and several individual and nest parameters. 
 }

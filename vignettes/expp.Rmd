@@ -3,7 +3,7 @@
 %\VignetteIndexEntry{Blue Tits Case study}
 -->
 
-### Extra-pair paternity in Blue Tits (_Cyanistes caeruleus_): a case study from Westerholz, Bavaria 
+### Extra-pair paternity in Blue Tits (_Cyanistes caeruleus_): a case study from Westerholz, Bavaria, Germany
 
 #### Supplement to Schlicht, Valcu and Kempenaers _"Spatial patterns of extra-pair paternity: beyond paternity gains and losses"_ (in prep.)
 
@@ -34,20 +34,24 @@ help(bluetit_boundary)
 
 ```{r, eval = FALSE}
 data(bluetit_breeding)
-head(bluetit_breeding)
+head(bluetit_breeding[bluetit_breeding$year_ == 2011, ])
 ```
+
 ```{r, echo=FALSE, results='asis'}
 data(bluetit_breeding)
+bluetit_breeding[is.na(bluetit_breeding)] = 'NA' #this is apparently necessary because in the current version 'kable' cannot deal with NA values. Change back afterwards.
 knitr::kable(head(bluetit_breeding[bluetit_breeding == 2011, ]))
+data(bluetit_breeding)
 ```
 
 ```{r, eval = FALSE}
 data(bluetit_epp)
-head(bluetit_epp[bluetit_epp == 2011, ])
+head(bluetit_epp[bluetit_epp$year_ == 2011, ])
 ```
+
 ```{r, echo=FALSE, results='asis'}
 data(bluetit_epp)
-knitr::kable(head(bluetit_epp))
+knitr::kable(head(bluetit_epp[bluetit_epp == 2011, ]))
 ```
 
 ```{r}
@@ -64,7 +68,11 @@ b = split(bluetit_breeding, bluetit_breeding$year_)
 e = split(bluetit_epp, bluetit_epp$year_) 
 
 # sample sizes by year
+
+# number of breeding pairs
 sapply(b, nrow)
+
+# number of extra-pair events
 sapply(e, nrow)
 
 # For the sake of conciseness only two years are used in the folowing analyses
@@ -131,7 +139,7 @@ par(op)
 
 ###### 5.1 Convert `eppOut` (a list of 2 _epp_ objects) into a `data.frame`.
 ```{r}
-dat = lapply(eppOut, as.data.frame) # a list of data.frame-s
+dat = lapply(eppOut, as.data.frame) # a list of data.frame(s)
 dat = do.call(rbind, dat)
 dat$year_ = dat$year__MALE; dat$year__FEMALE = NULL
 

@@ -6,7 +6,7 @@ Type I error rate simulations
 }
 
 \description{
-A helper function to perform Type I error rate simulations
+A helper function to perform Type I error rate simulations. 
 }
 
 \usage{
@@ -23,7 +23,9 @@ eppSimDat(N, meanClutch, eppRate, eppMax, eppMales, nLags)
 
 }
 
-
+\details{
+All default values match the values found in one of our study populations ('Westerholz').
+}
 
 \value{
 An object of class \link[expp]{epp}
