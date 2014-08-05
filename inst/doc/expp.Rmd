@@ -39,7 +39,6 @@ head(bluetit_breeding[bluetit_breeding$year_ == 2011, ])
 
 ```{r, echo=FALSE, results='asis'}
 data(bluetit_breeding)
-bluetit_breeding[is.na(bluetit_breeding)] = 'NA' #this is apparently necessary because in the current version 'kable' cannot deal with NA values. Change back afterwards.
 knitr::kable(head(bluetit_breeding[bluetit_breeding == 2011, ]))
 data(bluetit_breeding)
 ```

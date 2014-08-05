@@ -16,7 +16,7 @@ The expp package provides  classes and functions for the investigation of the pr
 Package: \tab expp\cr
 Type: \tab Package\cr
 Version: \tab 1.0\cr
-Date: \tab 2013-12-22\cr
+Date: \tab 2014-Aug-04\cr
 License: \tab GPL-3\cr
 }
 See \code{help(epp)} and 
