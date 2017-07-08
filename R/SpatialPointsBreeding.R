@@ -1,4 +1,69 @@
-
+#' Converts a \code{data.frame} to an object of class
+#' \code{SpatialPointsBreeding}
+#' 
+#' Converts a \code{\link{data.frame}} to a \code{SpatialPointsBreeding}
+#' object. The \code{SpatialPointsBreeding} class extends
+#' \code{\link[sp]{SpatialPointsDataFrame}} with three extra slots defining the
+#' id (i.e. nest or breeding box) and the pair identity (i.e. male and female),
+#' respectively.
+#' 
+#' 
+#' @aliases SpatialPointsBreeding SpatialPointsBreeding-class
+#' SpatialPointsBreeding,SpatialPolygons-method
+#' SpatialPointsBreeding,missing-method SpatialPointsBreeding,integer-method
+#' plot,SpatialPointsBreeding,missing-method
+#' plot,SpatialPointsBreeding,eppMatrix-method plot.SpatialPointsBreeding
+#' @param data a \code{\link{data.frame}} containing the coordinates (e.g. "x",
+#' "y"), the location id, and the pair identity (e.g. "male", "female")
+#' together with any other optional variables (e.g. individuals or nest
+#' traits).
+#' @param proj4string A \code{\link[sp]{CRS}} object containing a valid proj4
+#' string.  See \code{\link[sp]{CRS}} \code{\link[sp]{proj4string}} for
+#' details.
+#' @param coords Formula specifying which columns in object are the spatial
+#' coordinates.  Argument passed to \code{\link[sp]{coordinates}}
+#' @param id Integer specifying the location id (e.g. nest box number, den ID).
+#' @param breeding Formula defining the male and female ID in that order (in
+#' the form of e.g. \code{~male+female}).
+#' @param x a \code{SpatialPointsBreeding} object
+#' @param y an \code{eppMatrix} object
+#' @param pch see \code{plot.default}
+#' @param axes see \code{plot.default}
+#' @param add see \code{plot.default}
+#' @param xlim see \code{plot.default}
+#' @param ylim see \code{plot.default}
+#' @param ... further arguments to pass to plot(as(x, "Spatial")
+#' @param cex see \code{plot.default}
+#' @param col see \code{plot.default}
+#' @param col.epp extra-pair partners color
+#' @param lwd see \code{plot.default}
+#' @param lty see \code{plot.default}
+#' @param bg see \code{plot.default}
+#' @return Item of the class 'SpatialPointsBreeding' with 8 slots.
+#' 
+#' \item{id }{Location ID (see input)} \item{male }{ (Male IDs.)} \item{female
+#' }{Female IDs.} \item{data }{A \code{data.frame} containing all the optional
+#' variables (except location and individual ID-s)} \item{coords.nrs}{see
+#' \code{\link[sp]{SpatialPoints}} } \item{coords }{coordinates} \item{bbox
+#' }{see \code{\link[sp]{Spatial}} } \item{proj4string}{see
+#' \code{\link[sp]{CRS}} }
+#' @seealso \code{\link[expp]{epp}}
+#' @keywords spatial
+#' @examples
+#' 
+#' d = data.frame(
+#'   x = c(4, 17, 16, 41, 41, 43, 86, 62, 71, 92, 95,53, 34, 27, 53), 
+#'   y = c(3, 18, 36, 6, 18, 50, 3, 21, 40, 43, 57, 62, 62, 45, 37), 
+#'   id = 1:15,male = paste0('m', 1:15), female = paste0('f', 1:15), 
+#'     stringsAsFactors = FALSE)
+#' 
+#' b = SpatialPointsBreeding(d, id = 'id', breeding = ~ male+female)	
+#' 
+#' plot(b)
+#' 
+#' 
+#' 
+#' @export SpatialPointsBreeding
 SpatialPointsBreeding <- function(data, 
                                   proj4string, 
                                   coords = ~ x + y, 
@@ -25,7 +90,7 @@ SpatialPointsBreeding <- function(data,
 
 	
 	new("SpatialPointsBreeding", d, id = ids, male = males, female= females)
-}
+    }
 
 
 
@@ -79,12 +144,7 @@ setMethod("plot", signature(x = "SpatialPointsBreeding", y = "eppMatrix"),
 								
 				arrows(mc[1], mc[2], fc[1], fc[2], col = col.epp, code = 3, angle = 12, length = 0.2, lty = lty)
 				}
-
-			
-			
-			
-			
-            
+           
           })
 		  
 		  

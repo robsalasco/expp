@@ -1,5 +1,136 @@
-
-
+#' Building data-set for realized and unrealized EPP-pairs
+#' 
+#' \code{epp} combines a \code{SpatialPointsBreeding}, a
+#' \code{SpatialPolygons*} as obtained from \code{DirichletPolygons} and a
+#' \code{eppMatrix} to create the spatial context for every potential and
+#' realized extra-pair male-female combination.
+#' 
+#' 'plot' plots the territories, the identity of males ('m...') and females
+#' ('f...') at breeding sites (numbers), and the extra-pair events (dashed red
+#' arrows). Individuals that had extra-pair offspring are marked red. The
+#' parameter 'zoom' can be used to make a detailed visual check of a specific
+#' location (nestbox) and its surroundings. \cr \cr 'barplot' displays the
+#' distribution of extra-pair events over different breeding distances between
+#' the partners (in the number of territories) as vertical bars. Note that the
+#' distribution of all potential extra-pair partners is displayed as a dashed
+#' line only if the argument 'relativeValues' is TRUE.
+#' 
+#' @aliases epp epp-class as.data.frame as.data.frame,epp-method
+#' plot,epp,missing-method plot.epp barplot barplot,epp-method
+#' @param breedingDat A SpatialPointsBreeding object, created by the
+#' \code{SpatialPointsBreeding} function
+#' @param polygonsDat A SpatialPolygons* object as obtained by calling
+#' \code{DirichletPolygons} function
+#' @param eppDat An object of class \code{eppMatrix}
+#' @param maxlag A numeric value indicating the maximum breeding distance for
+#' which male-female combinations should be calculated. When plotting it
+#' defines the outermost row of neightbors plotted around a focal id set by
+#' zoom
+#' @param x,height an \code{epp} object
+#' @param zoom a \code{SpatialPointsBreeding} id which is used for subsetting
+#' prior to plot
+#' @param zoom.col background color of the id (and hence the polygon) set by
+#' \code{zoom}
+#' @param relativeValues Defines the unit of the y-axis. TRUE plots
+#' proportions, FALSE absolute numbers.
+#' @param ... further arguments to pass to \code{plot.SpatialPointsBreeding}
+#' and \code{plot.SpatialPolygons*}
+#' @return Returns an S4-class epp-object with 5 slots:
+#' 
+#' \item{breedingDat}{ Input breeding data-set.} \item{polygonsDat}{ Either
+#' polygons are estimated automatically using Thiessen Polygons, or input
+#' breeding polygons.} \item{eppDat}{ Input data.frame with all male-female
+#' combinations that had EPP together.} \item{maxlag}{ Input rank. Defaults to
+#' 3.} \item{EPP}{ \code{data.frame} containing columns for the focal male and
+#' female ("male", "female"), their breeding distance ("rank"), and the
+#' parameters associated either with the male (column with prefix "_MALE") or
+#' the female (column with prefix "_FEMALE") territory.}
+#' @seealso vignette(expp)
+#' @keywords spatial
+#' @examples
+#' 
+#'   ### Simple example with three breeding pairs
+#'   
+#'   # create raw data
+#'   set.seed(1310)
+#'   b = data.frame(id = as.integer(10:12), x = rnorm(3), y = rnorm(3), 
+#'   male = paste0("m",1:3), female =  paste0("f",1:3), xx = rnorm(3), stringsAsFactors=FALSE  )  
+#'   eppPairs = data.frame(male = c("m1", "m2", "m1"), female=c("f3", "f1", "f2") )
+#'   
+#'   # prepare data
+#'   breedingDat = SpatialPointsBreeding(b, id = 'id', coords = ~ x + y, breeding = ~ male + female)
+#'   polygonsDat = DirichletPolygons(breedingDat)
+#'   eppDat	  = eppMatrix(eppPairs, pairs = ~ male + female)
+#' 
+#'   plot(breedingDat, eppDat)
+#'   
+#'   # convert to epp class		
+#'   x = epp(breedingDat, polygonsDat, eppDat, maxlag = 3)
+#'   as.data.frame(x)
+#'   
+#'   
+#'   #plot 
+#'   plot(x) 
+#'   
+#'   ### Example on a random data set with n breeding pairs and  n/2 extra-pair paternity rate
+#'   # create raw data
+#'   set.seed(123)
+#'   n = 20
+#'   b = data.frame(id = 1:n, x = rnorm(n), y = rnorm(n), 
+#'   male = paste0("m",1:n), female =  paste0("f",1:n), xx = rnorm(n), stringsAsFactors=FALSE  )  
+#'   eppPairs = data.frame(male = sample(b$male, round(n/2) ), female = sample(b$female, round(n/2) ) )
+#'   
+#'   # prepare data
+#'   breedingDat = SpatialPointsBreeding(b, id = 'id', coords = ~ x + y, breeding = ~ male + female)
+#'   polygonsDat = DirichletPolygons(breedingDat)
+#'   eppDat	  = eppMatrix(eppPairs, pairs = ~ male + female)
+#'   
+#'   # convert to epp class
+#'   x = epp(breedingDat, polygonsDat, eppDat, maxlag = 10)
+#'   
+#'   # plot 
+#'   plot(x)
+#'   barplot(x) 
+#'   barplot(x, relativeValues = TRUE) 
+#'   
+#' 
+#' \dontrun{   
+#'   ### Real data example
+#'   # Raw datasets 
+#'   data(bluetit_breeding)
+#'   data(bluetit_epp)
+#'   # select one year 
+#'   year = 2010
+#'   b = bluetit_breeding[bluetit_breeding$year_ == year, ]
+#'   eppPairs = bluetit_epp[bluetit_epp$year_ == year, ]
+#'   
+#'   # prepare data
+#'   breedingDat  = SpatialPointsBreeding(b, id = 'id', coords = ~ x + y, breeding = ~ male + female)
+#'   polygonsDat = DirichletPolygons(breedingDat)
+#'   eppDat = eppMatrix(eppPairs, pairs = ~ male + female)
+#'   
+#'   # convert to epp class
+#'   x = epp(breedingDat, polygonsDat, eppDat, maxlag = 20)
+#'   
+#'   # plot
+#'   plot(x)
+#'   barplot(x) 
+#'   # plot zoom
+#'   plot(x, zoom = 120, maxlag = 2)
+#'   
+#'   # run model on epp probability		
+#'   dat = as.data.frame(x)
+#'   nrow(dat[dat$epp == 1, c('male', 'female')] )
+#'   nrow(unique(eppPairs))
+#'   
+#'   if(require(lme4))
+#'    (summary(glmer(epp ~ rank + male_age_MALE + (1|male) + (1|female), 
+#'     data = dat, family = binomial)))
+#' 
+#' }
+#'   
+#' 
+#' @export epp
 epp <- function(breedingDat, polygonsDat, eppDat, maxlag = 3) { 
 
 	# bricks

@@ -38,15 +38,20 @@ data(bluetit_breeding)
 head(bluetit_breeding[bluetit_breeding$year_ == 2011, ])
 ```
 
-
-|    | year_|  id|       x|       y|female |male | layingDate|male_age | male_tarsus|study_area |
-|:---|-----:|---:|-------:|-------:|:------|:----|----------:|:--------|-----------:|:----------|
-|351 |  2011|  17| 4417837| 5334163|NA     |NA   |        102|adult    |          NA|Westerholz |
-|352 |  2011| 160| 4417574| 5334549|NA     |m383 |        103|juv      |       17.16|Westerholz |
-|353 |  2011| 261| 4417593| 5334857|f174   |m348 |        101|adult    |       17.05|Westerholz |
-|354 |  2011| 174| 4417433| 5334600|f186   |m238 |        103|adult    |       16.80|Westerholz |
-|355 |  2011|  80| 4417728| 5334311|f218   |m361 |        101|adult    |       17.50|Westerholz |
-|356 |  2011| 262| 4417552| 5334861|f224   |m280 |         99|adult    |       17.11|Westerholz |
+    year_  id       x       y female male layingDate male_age male_tarsus
+351  2011  17 4417837 5334163   <NA> <NA>        102    adult          NA
+352  2011 160 4417574 5334549   <NA> m383        103      juv      17.160
+353  2011 261 4417593 5334857   f174 m348        101    adult      17.045
+354  2011 174 4417433 5334600   f186 m238        103    adult      16.800
+355  2011  80 4417728 5334311   f218 m361        101    adult      17.500
+356  2011 262 4417552 5334861   f224 m280         99    adult      17.110
+    study_area
+351 Westerholz
+352 Westerholz
+353 Westerholz
+354 Westerholz
+355 Westerholz
+356 Westerholz
 
 
 ```r
@@ -82,8 +87,13 @@ summary(bluetit_boundary)
 ## +datum=potsdam +units=m +no_defs +ellps=bessel
 ## +towgs84=598.1,73.7,418.2,0.202,0.045,-2.455,6.7]
 ## Data attributes:
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    2000    2000    2000    2000    2010    2010
+##      year_     
+##  Min.   :1998  
+##  1st Qu.:2001  
+##  Median :2004  
+##  Mean   :2004  
+##  3rd Qu.:2008  
+##  Max.   :2011
 ```
 
 ##### 3. Prepare data
@@ -157,7 +167,7 @@ for(year in c("2009", "2010") ) {
   }
 ```
 
-<img src="figure/unnamed-chunk-141.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" style="display: block; margin: auto auto auto 0;" /><img src="figure/unnamed-chunk-142.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" style="display: block; margin: auto auto auto 0;" />
+<img src="figure/unnamed-chunk-14-1.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" style="display: block; margin: auto auto auto 0;" /><img src="figure/unnamed-chunk-14-2.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" style="display: block; margin: auto auto auto 0;" />
 ###### Select one nest-box of a given year and zoom in.
 
 ```r
@@ -167,7 +177,7 @@ eppOut10 = eppOut[[year]]
 plot(eppOut10 , zoom = box, maxlag = 2,cex = .7,  border = 'white', col = 'grey70', zoom.col = "bisque")
 ```
 
-<img src="figure/unnamed-chunk-15.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" style="display: block; margin: auto auto auto 0;" />
+<img src="figure/unnamed-chunk-15-1.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" style="display: block; margin: auto auto auto 0;" />
 
 ```r
 par(op)
@@ -177,14 +187,10 @@ par(op)
 ```r
 op = par(mfrow = c(1,2))
     
-barplot(eppOut[[1]],relativeValues = TRUE, main = 2009) 
-legend(x="topright", legend = c('Observed', 'Potential'), lty = c(1, 2),bty='n')
-barplot(eppOut[[2]], relativeValues = TRUE, main = 2010)
-```
+#barplot(eppOut[[1]],relativeValues = TRUE, main = 2009) 
+#legend(x="topright", legend = c('Observed', 'Potential'), lty = c(1, 2),bty='n')
+#barplot(eppOut[[2]], relativeValues = TRUE, main = 2010)
 
-![plot of chunk unnamed-chunk-16](figure/unnamed-chunk-16.png) 
-
-```r
 par(op)
 ```
 

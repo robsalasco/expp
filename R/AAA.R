@@ -8,7 +8,7 @@
 	
 	packageStartupMessage(paste('This is', pkgname, dcf[, "Version"] ))
   
-	packageStartupMessage("For a detailed step-by-step example type vignette('expp')")
+	packageStartupMessage("For a step-by-step tutorial type vignette('expp')")
 	
 	packageStartupMessage("|-------------------------------------------------------------------------------------|")
 }

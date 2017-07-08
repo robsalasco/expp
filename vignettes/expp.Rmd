@@ -39,7 +39,7 @@ head(bluetit_breeding[bluetit_breeding$year_ == 2011, ])
 
 ```{r, echo=FALSE, results='asis'}
 data(bluetit_breeding)
-knitr::kable(head(bluetit_breeding[bluetit_breeding == 2011, ]))
+head(bluetit_breeding[bluetit_breeding == 2011, ])
 data(bluetit_breeding)
 ```
 
@@ -127,9 +127,9 @@ par(op)
 ```{r results='hide',fig.width=8, fig.height=6}
 op = par(mfrow = c(1,2))
     
-barplot(eppOut[[1]],relativeValues = TRUE, main = 2009) 
-legend(x="topright", legend = c('Observed', 'Potential'), lty = c(1, 2),bty='n')
-barplot(eppOut[[2]], relativeValues = TRUE, main = 2010)
+#barplot(eppOut[[1]],relativeValues = TRUE, main = 2009) 
+#legend(x="topright", legend = c('Observed', 'Potential'), lty = c(1, 2),bty='n')
+#barplot(eppOut[[2]], relativeValues = TRUE, main = 2010)
 
 par(op)
 ```
