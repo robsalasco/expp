@@ -1,43 +1,19 @@
-.gitignore
-.Rproj.user
-.Rhistory
-.RData
+*-Ex.R
+*.knit.md
+*.utf8.md
+.httr-oauth
+.Rapp.history
 .Rbuildignore
-expp.Rproj
-
-
+.RData
+.Rhistory
+.Rproj
+.Rproj.user
+.Rproj.user/
 .sublime-workspace
-
-
-# produced vignettes
+/*.Rcheck/
+/*.tar.gz
+/*_cache/
+/cache/
 vignettes/*.html
 vignettes/*.pdf
 vignettes/*.png
-
-.httr-oauth
-
-# knitr and R markdown default cache directories
-/*_cache/
-/cache/
-
-# Temporary files created by R markdown
-*.utf8.md
-*.knit.md
-
-# History files
-.Rhistory
-.Rapp.history
-
-# Session Data files
-
-# Example code in package build process
-*-Ex.R
-
-# Output files from R CMD build
-/*.tar.gz
-
-# Output files from R CMD check
-/*.Rcheck/
-
-# RStudio files
-.Rproj.user/
