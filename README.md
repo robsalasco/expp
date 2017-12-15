@@ -4,7 +4,7 @@ Type: Package
 
 Title: Spatial analysis of extra-pair paternity
 
-Version: 1.1
+Version: 1.2
 
 Author: Mihai Valcu, Lotte Schlicht
 
@@ -19,4 +19,6 @@ to install:
 `require(devtools)`
 
 `install_github("expp", "valcu")`
+
+
 
