@@ -10,7 +10,7 @@ Author: Mihai Valcu, Lotte Schlicht
 
 Maintainer: Mihai Valcu <valcu@orn.mpg.de>
 
-Description: Tools and data to accompany Schlicht, Valcu and Kempenaers "Spatial patterns of extra-pair paternity: beyond paternity gains and losses"
+Description: Tools and data to accompany Schlicht, Valcu and Kempenaers Schlicht, Lotte, Mihai Valcu, and Bart Kempenaers. "Spatial patterns of extra‐pair paternity: beyond paternity gains and losses." Journal of Animal Ecology 84.2 (2015): 518-531.
 
 License: GPL-3
 
