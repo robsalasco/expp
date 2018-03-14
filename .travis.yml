@@ -1,0 +1,8 @@
+language: r
+cache: packages
+sudo: required
+
+warnings_are_errors: false
+
+apt_packages:
+  - libgeos-dev
