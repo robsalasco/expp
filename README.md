@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/mpio-be/expp.svg?branch=master)](https://travis-ci.org/mpio-be/expp)
 
 
-expp R package
+expp
 ------------
 Spatial analysis of extra-pair paternity.
 
