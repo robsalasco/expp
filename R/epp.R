@@ -47,6 +47,7 @@
 #' the female (column with prefix "_FEMALE") territory.}
 #' @seealso vignette(expp)
 #' @keywords spatial
+#' @export
 #' @examples
 #' 
 #'   ### Simple example with three breeding pairs
@@ -60,11 +61,11 @@
 #'   # prepare data
 #'   breedingDat = SpatialPointsBreeding(b, id = 'id', coords = ~ x + y, breeding = ~ male + female)
 #'   polygonsDat = DirichletPolygons(breedingDat)
-#'   eppDat	  = eppMatrix(eppPairs, pairs = ~ male + female)
+#'   eppDat   = eppMatrix(eppPairs, pairs = ~ male + female)
 #' 
 #'   plot(breedingDat, eppDat)
 #'   
-#'   # convert to epp class		
+#'   # convert to epp class     
 #'   x = epp(breedingDat, polygonsDat, eppDat, maxlag = 3)
 #'   as.data.frame(x)
 #'   
@@ -83,7 +84,7 @@
 #'   # prepare data
 #'   breedingDat = SpatialPointsBreeding(b, id = 'id', coords = ~ x + y, breeding = ~ male + female)
 #'   polygonsDat = DirichletPolygons(breedingDat)
-#'   eppDat	  = eppMatrix(eppPairs, pairs = ~ male + female)
+#'   eppDat   = eppMatrix(eppPairs, pairs = ~ male + female)
 #'   
 #'   # convert to epp class
 #'   x = epp(breedingDat, polygonsDat, eppDat, maxlag = 10)
@@ -118,7 +119,7 @@
 #'   # plot zoom
 #'   plot(x, zoom = 120, maxlag = 2)
 #'   
-#'   # run model on epp probability		
+#'   # run model on epp probability     
 #'   dat = as.data.frame(x)
 #'   nrow(dat[dat$epp == 1, c('male', 'female')] )
 #'   nrow(unique(eppPairs))
@@ -130,7 +131,6 @@
 #' }
 #'   
 #' 
-#' @export epp
 epp <- function(breedingDat, polygonsDat, eppDat, maxlag = 3) { 
 
 	# bricks
@@ -194,6 +194,9 @@ if (!isGeneric("plot"))
   setGeneric("plot", function(x, y, ...)
     standardGeneric("plot"))
 
+
+#' @export
+#' @rdname  epp
 setMethod("plot", signature(x = "epp", y = "missing"),
           function(x, zoom, maxlag = 3, zoom.col = 'grey', ...) {
 			
@@ -234,7 +237,8 @@ if (!isGeneric("barplot")) {
       standardGeneric("barplot"))
    }  
     
-
+#' @export
+#' @rdname  epp 
 setMethod("barplot", signature(height = "epp"),
           function(height, relativeValues = FALSE, ...) {
 
@@ -263,7 +267,9 @@ if (!isGeneric("as.data.frame")) {
   setGeneric("as.data.frame", function(x)
     standardGeneric("as.data.frame"))
 }	
-	
+
+#' @export
+#' @rdname  epp
 setMethod('as.data.frame', signature(x='epp'), 
           function(x) {
             return(x@EPP)

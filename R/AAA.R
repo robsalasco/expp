@@ -1,4 +1,8 @@
 
+#' @importFrom graphics arrows axis par plot points text
+#' @importFrom methods as new slot
+#' @importFrom stats rnorm rpois
+
 ### 
 
 .onAttach <- function(libname, pkgname) {

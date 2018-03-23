@@ -11,10 +11,19 @@
 \alias{plot.epp}
 \alias{barplot}
 \alias{barplot,epp-method}
+\alias{plot,epp,missing-method}
+\alias{barplot,epp-method}
+\alias{as.data.frame,epp-method}
 \title{Class epp
 Class \code{epp}.}
 \usage{
 epp(breedingDat, polygonsDat, eppDat, maxlag = 3)
+
+\S4method{plot}{epp,missing}(x, zoom, maxlag = 3, zoom.col = "grey", ...)
+
+\S4method{barplot}{epp}(height, relativeValues = FALSE, ...)
+
+\S4method{as.data.frame}{epp}(x)
 }
 \arguments{
 \item{breedingDat}{A SpatialPointsBreeding object, created by the
@@ -38,11 +47,11 @@ prior to plot}
 \item{zoom.col}{background color of the id (and hence the polygon) set by
 \code{zoom}}
 
-\item{relativeValues}{Defines the unit of the y-axis. TRUE plots
-proportions, FALSE absolute numbers.}
-
 \item{...}{further arguments to pass to \code{plot.SpatialPointsBreeding}
 and \code{plot.SpatialPolygons*}}
+
+\item{relativeValues}{Defines the unit of the y-axis. TRUE plots
+proportions, FALSE absolute numbers.}
 }
 \value{
 Returns an S4-class epp-object with 5 slots:
@@ -89,11 +98,11 @@ line only if the argument 'relativeValues' is TRUE.
   # prepare data
   breedingDat = SpatialPointsBreeding(b, id = 'id', coords = ~ x + y, breeding = ~ male + female)
   polygonsDat = DirichletPolygons(breedingDat)
-  eppDat	  = eppMatrix(eppPairs, pairs = ~ male + female)
+  eppDat   = eppMatrix(eppPairs, pairs = ~ male + female)
 
   plot(breedingDat, eppDat)
   
-  # convert to epp class		
+  # convert to epp class     
   x = epp(breedingDat, polygonsDat, eppDat, maxlag = 3)
   as.data.frame(x)
   
@@ -112,7 +121,7 @@ line only if the argument 'relativeValues' is TRUE.
   # prepare data
   breedingDat = SpatialPointsBreeding(b, id = 'id', coords = ~ x + y, breeding = ~ male + female)
   polygonsDat = DirichletPolygons(breedingDat)
-  eppDat	  = eppMatrix(eppPairs, pairs = ~ male + female)
+  eppDat   = eppMatrix(eppPairs, pairs = ~ male + female)
   
   # convert to epp class
   x = epp(breedingDat, polygonsDat, eppDat, maxlag = 10)
@@ -147,7 +156,7 @@ line only if the argument 'relativeValues' is TRUE.
   # plot zoom
   plot(x, zoom = 120, maxlag = 2)
   
-  # run model on epp probability		
+  # run model on epp probability     
   dat = as.data.frame(x)
   nrow(dat[dat$epp == 1, c('male', 'female')] )
   nrow(unique(eppPairs))

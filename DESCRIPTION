@@ -1,7 +1,7 @@
 Package: expp
 Type: Package
 Title: Spatial analysis of extra-pair paternity
-Version: 1.2
+Version: 1.2.1
 Authors@R: c(person("Mihai", "Valcu", role = c("aut", "cre"),email = "valcu@orn.mpg.de"),
             person("Lotte", "Schlicht", role = "ctb") )
 Depends: 
@@ -14,11 +14,14 @@ Depends:
 Suggests: 
     roxygen2,    
     knitr, 
-    spatstat, 
     lme4
+Imports:
+    methods,
+    spatstat    
 VignetteBuilder: 
     knitr
 Description: 
     Tools and data to accompany Schlicht, L., Valcu, M., & Kempenaers, B. (2015).Spatial patterns of extra-pair paternity: beyond paternity gains and losses. Journal of Animal Ecology, 84(2), 518-531.
 License: GPL-3
+Encoding: UTF-8
 RoxygenNote: 6.0.1

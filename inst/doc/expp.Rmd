@@ -16,7 +16,7 @@ install.packages("expp")
 ```  
   
 ```{r echo=FALSE, message=FALSE}
-require(rgeos); require(sp); require(spdep); require(deldir)
+require(rgeos); require(sp); require(spdep); require(spatstat); require(deldir)
 par(mar = c(0,0,1,0) )
 ```
  * To load _expp_ type:   

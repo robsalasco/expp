@@ -24,7 +24,8 @@ be Poisson distributed; default is 10}
 \link[expp]{DirichletPolygons}}
 }
 \value{
-An object of class \link[expp]{epp} The \code{data.frame} of the
+An object of class 
+\link[expp]{epp} The \code{data.frame} of the
 \code{EPP} slot contains two variable (\code{trait_MALE} \code{trait_FEMALE}
 ) simulated independent from the \code{epp} variable.
 }

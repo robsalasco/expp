@@ -13,8 +13,7 @@ eppMatrix(data, pairs = ~male + female)
 \arguments{
 \item{data}{a \code{data.frame}}
 
-\item{pairs}{a formula indicating the extra-pair male and the extra-pair
-female in that order.}
+\item{pairs}{a formula indicating the extra-pair male and the extra-pair female in that order.}
 }
 \value{
 An object of class \code{eppMatrix} with two slots.
@@ -27,11 +26,11 @@ Converts a \code{data.frame} to a eppMatrix object using a
 \code{~male+female} formula.
 }
 \section{Slots}{
- \describe{ \item{list("male")}{Object of class
-\code{"character"}: extra-pair male ID }\item{:}{Object of class
-\code{"character"}: extra-pair male ID } \item{list("female")}{Object of
-class \code{"character"}:extra-pair female ID}\item{:}{Object of class
-\code{"character"}:extra-pair female ID} }
+ \describe{ 
+\item{list("male")}{Object of class \code{"character"}: extra-pair male ID }
+\item{:}{Object of class \code{"character"}: extra-pair male ID } 
+\item{list("female")}{Object of class \code{"character"}:extra-pair female ID}
+\item{:}{Object of class\code{"character"}:extra-pair female ID} }
 }
 
 \examples{
