@@ -5,10 +5,11 @@
 \alias{bluetit_epp}
 \title{Blue tit extra-pair paternity data.}
 \format{A data frame with 425 observations on the following 3 variables.
-\describe{ \item{list("year_")}{ numeric. The year of the observation.}
-\item{list("female")}{ character. The female involved in the respective EPP
-event.} \item{list("male")}{ character. The male involved in the respective
-EPP event.} }}
+\itemize{ 
+     \item year_   numeric. The year of the observation.
+     \item female   character. The female involved in the respective EPP event.
+     \item male     character. The male involved in the respective EPP event.
+     }}
 \description{
 \code{data.frame} Extra-pair paternity data recorded for two Blue Tit
 populations in Kolbeterberg, Vienna, Austria (1998 through 2004) and

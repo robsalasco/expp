@@ -3,25 +3,14 @@
 #' Computes the Dirichlet polygons using a
 #' \code{\link[expp]{SpatialPointsBreeding}} object and optionally a boundary
 #' \code{\link[sp]{SpatialPolygons}} or a vector containing id-s located at the boundary.
-#' 
-#' @aliases DirichletPolygons DirichletPolygons-methods
-#' DirichletPolygons,SpatialPointsBreeding,SpatialPolygons-method
-#' DirichletPolygons,SpatialPointsBreeding,missing-method
-#' DirichletPolygons,SpatialPointsBreeding,integer-method
-#' @section Methods: \describe{ 
-#' \item{list("signature(x =
-#' \"SpatialPointsBreeding\", 
-#'       boundary = \"SpatialPolygons\")")}{ a boundary polygon} 
-#' \item{list("signature(x = \"SpatialPointsBreeding\", 
-#'      boundary = \"missing\")")}{ boundary is inferred using \code{\link[spatstat]{ripras}} in \code{spatstat} }   
-#' \item{list("signature(x = \"SpatialPointsBreeding\",
-#'      boundary = \"numeric\")")}{ a vector of integers containing the id-s located at the boundary.  
-#'      The boundary is defined using a 'Follow-The-Dots' strategy.  
-#' The \code{width} argument passed to \code{\link[rgeos]{gBuffer}}
-#'   defines the distance between boundary boxes and the boundary polygon; it is
-#'   set by default to half of the average distance between boundary boxes.} }
-#' @keywords spatial
+#' @param x         A \code{\link{SpatialPointsBreeding}} object.
+#' @param boundary  A \code{\link[sp]{SpatialPolygons}} or a vector of integers containing the id-s located at the boundary. 
+#'                  When missing boundary is inferred using \code{\link[spatstat]{ripras}} in \code{spatstat} .
+#' @param width     argument passed to \code{\link[rgeos]{gBuffer}}. It defines the distance between boundary boxes and the boundary polygon; 
+#'                  it is set by default to half of the average distance between boundary boxes.
+#' @param \dots     passed to \code{\link[spatstat]{ripras}}
 #' @export
+#' @include SpatialPointsBreeding.R
 #' @examples
 #' 
 #' d = data.frame(
@@ -37,7 +26,7 @@
 #' plot(dp1)
 #' 
 #' # boundary is given
-#' brdy2 = readWKT("POLYGON((28 71,67 68,70 49,84 49,90 74,111 65,107 
+#' brdy2 = rgeos::readWKT("POLYGON((28 71,67 68,70 49,84 49,90 74,111 65,107 
 #'                       36,78 28,98 15,98 -4,74 -7,-2 -8,0 31,28 71) )")
 #' dp2 = DirichletPolygons(b, boundary = brdy2)
 #' plot(dp2)
@@ -61,7 +50,9 @@
 #' plot(b, add = TRUE)
 #' 
 #' 
-#' @rdname DirichletPolygons
+
+
+#' @rdname      DirichletPolygons
 setGeneric("DirichletPolygons", function(x, boundary, ...)   standardGeneric("DirichletPolygons") )
 
 
@@ -90,9 +81,10 @@ setGeneric("DirichletPolygons", function(x, boundary, ...)   standardGeneric("Di
 			P = SpatialPolygonsDataFrame(P, data = data.frame(ID = x@id, row.names = x@id))
 			
 		P
-}
+    }
 
-#' @rdname DirichletPolygons
+#' @rdname      DirichletPolygons
+#' @export
 setMethod("DirichletPolygons",  
           signature  = c(x = "SpatialPointsBreeding", boundary = "missing"), 
           definition = function(x, ...) {
@@ -104,11 +96,10 @@ setMethod("DirichletPolygons",
             proj4string(boundary) = proj4string(x)
             
             .DirichletPolygons(x, boundary)
-            
-          }
-)
+          })
 
-#' @rdname DirichletPolygons
+#' @rdname      DirichletPolygons
+#' @export
 setMethod("DirichletPolygons",  
           signature  = c(x = "SpatialPointsBreeding", boundary = "integer"), 
           definition = function(x, boundary, width) {
@@ -130,21 +121,16 @@ setMethod("DirichletPolygons",
                 
                 P = gBuffer(P, width = width)         
                 
-				.DirichletPolygons(x, P)
-            
-          }
-)
+      				.DirichletPolygons(x, P)
+              })
 
-#' @rdname DirichletPolygons
+#' @rdname      DirichletPolygons
+#' @export
 setMethod("DirichletPolygons",  
-          signature  = c(x = "SpatialPointsBreeding", boundary = "SpatialPolygons"), 
-          definition = function(x, boundary) {
-            
-			.DirichletPolygons(x, boundary)
-        
-            
-          }
-)
+    signature  = c(x = "SpatialPointsBreeding", boundary = "SpatialPolygons"), 
+    definition = function(x, boundary) {
+		.DirichletPolygons(x, boundary)
+    })
 
 
 

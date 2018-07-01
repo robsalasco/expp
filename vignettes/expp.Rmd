@@ -10,7 +10,7 @@
 
 ##### 1. Getting started
  * Download and install [R](http://cran.rstudio.com/).
- * Open R, and install _expp_ by copying the following line into your R console:  
+ * Open R, and install _expp_ with:  
 ```{r eval=FALSE }
 install.packages("expp")
 ```  

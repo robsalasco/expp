@@ -1,21 +1,33 @@
+#' @rdname      eppMatrix
+#' @slot    male   extra-pair male   ID-s as character vectors
+#' @slot    female extra-pair female ID-s as character vectors
+#' @exportClass eppMatrix
+setClass("eppMatrix", representation(
+    male   = "character", 
+    female  = "character" 
+    ),
+
+    validity = function(object) {
+    if( length( intersect(object@male, object@female) ) > 0 ) stop("the same id cannot be male and female in the same time .")
+    if ( any( is.na(object@male) ) ) stop("NA values are not allowed.")
+    if ( any( is.na(object@female) ) ) stop("NA values are not allowed.")
+
+    return(TRUE)
+    }
+    )
+
 
 #' Convert a \code{data.frame} to an eppMatrix object.
 #' 
 #' Converts a \code{data.frame} to a eppMatrix object using a
 #' \code{~male+female} formula.
 #' 
-#' 
-#' @aliases eppMatrix eppMatrix-class
 #' @param data a \code{data.frame}
 #' @param pairs a formula indicating the extra-pair male and the extra-pair female in that order.
 #' @return An object of class \code{eppMatrix} with two slots.
-#' @section Slots: \describe{ 
-#' \item{list("male")}{Object of class \code{"character"}: extra-pair male ID }
-#' \item{:}{Object of class \code{"character"}: extra-pair male ID } 
-#' \item{list("female")}{Object of class \code{"character"}:extra-pair female ID}
-#' \item{:}{Object of class\code{"character"}:extra-pair female ID} }
+
 #' @seealso \code{\link[expp]{epp}}
-#' @keywords spatial
+#' @export 
 #' @examples
 #' 
 #' eppPairs = data.frame(male = c("m1", "m2", "m1"), female=c("f3", "f1", "f2") )
@@ -33,9 +45,6 @@
 #' 
 #' plot(breedingDat, eppDat)
 #' 
-#' 
-#' 
-#' @export eppMatrix
 eppMatrix <- function(data,  pairs = ~ male + female) {
 	
 	m = as.character(pairs[[2]][2])

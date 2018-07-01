@@ -34,8 +34,9 @@ object to \code{data.frame}\cr \code{\link{SpatialPointsBreeding}} \tab
 }
 
 \references{
-Schlicht, Valcu and Kempenaers "Spatial patterns of extra-pair
-paternity: beyond paternity gains and losses" (in prep.)
+Schlicht, Lotte, Mihai Valcu, and Bart Kempenaers. 
+"Spatial patterns of extra‐pair paternity: beyond paternity gains and losses." 
+ Journal of Animal Ecology 84.2 (2015): 518-531.
 }
 \author{
 Mihai Valcu and Lotte Schlicht \cr Maintainer: Mihai Valcu

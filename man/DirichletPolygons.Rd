@@ -3,10 +3,6 @@
 \docType{methods}
 \name{DirichletPolygons}
 \alias{DirichletPolygons}
-\alias{DirichletPolygons-methods}
-\alias{DirichletPolygons,SpatialPointsBreeding,SpatialPolygons-method}
-\alias{DirichletPolygons,SpatialPointsBreeding,missing-method}
-\alias{DirichletPolygons,SpatialPointsBreeding,integer-method}
 \alias{DirichletPolygons,SpatialPointsBreeding,missing-method}
 \alias{DirichletPolygons,SpatialPointsBreeding,integer-method}
 \alias{DirichletPolygons,SpatialPointsBreeding,SpatialPolygons-method}
@@ -20,26 +16,22 @@ DirichletPolygons(x, boundary, ...)
 
 \S4method{DirichletPolygons}{SpatialPointsBreeding,SpatialPolygons}(x, boundary)
 }
+\arguments{
+\item{x}{A \code{\link{SpatialPointsBreeding}} object.}
+
+\item{boundary}{A \code{\link[sp]{SpatialPolygons}} or a vector of integers containing the id-s located at the boundary. 
+When missing boundary is inferred using \code{\link[spatstat]{ripras}} in \code{spatstat} .}
+
+\item{\dots}{passed to \code{\link[spatstat]{ripras}}}
+
+\item{width}{argument passed to \code{\link[rgeos]{gBuffer}}. It defines the distance between boundary boxes and the boundary polygon; 
+it is set by default to half of the average distance between boundary boxes.}
+}
 \description{
 Computes the Dirichlet polygons using a
 \code{\link[expp]{SpatialPointsBreeding}} object and optionally a boundary
 \code{\link[sp]{SpatialPolygons}} or a vector containing id-s located at the boundary.
 }
-\section{Methods}{
- \describe{ 
-\item{list("signature(x =
-\"SpatialPointsBreeding\", 
-      boundary = \"SpatialPolygons\")")}{ a boundary polygon} 
-\item{list("signature(x = \"SpatialPointsBreeding\", 
-     boundary = \"missing\")")}{ boundary is inferred using \code{\link[spatstat]{ripras}} in \code{spatstat} }   
-\item{list("signature(x = \"SpatialPointsBreeding\",
-     boundary = \"numeric\")")}{ a vector of integers containing the id-s located at the boundary.  
-     The boundary is defined using a 'Follow-The-Dots' strategy.  
-The \code{width} argument passed to \code{\link[rgeos]{gBuffer}}
-  defines the distance between boundary boxes and the boundary polygon; it is
-  set by default to half of the average distance between boundary boxes.} }
-}
-
 \examples{
 
 d = data.frame(
@@ -55,7 +47,7 @@ dp1 = DirichletPolygons(b)
 plot(dp1)
 
 # boundary is given
-brdy2 = readWKT("POLYGON((28 71,67 68,70 49,84 49,90 74,111 65,107 
+brdy2 = rgeos::readWKT("POLYGON((28 71,67 68,70 49,84 49,90 74,111 65,107 
                       36,78 28,98 15,98 -4,74 -7,-2 -8,0 31,28 71) )")
 dp2 = DirichletPolygons(b, boundary = brdy2)
 plot(dp2)
@@ -80,4 +72,3 @@ plot(b, add = TRUE)
 
 
 }
-\keyword{spatial}

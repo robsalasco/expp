@@ -9,8 +9,10 @@
 #' 
 #' @name bluetit_boundary
 #' @docType data
-#' @format A SpatialPolygonsDataFrame with 12 SpatialPolygons.  \describe{
-#' \item{list("year_")}{numeric. The year of the observation.} }
+#' @format A SpatialPolygonsDataFrame with 12 SpatialPolygons.  
+#' \describe{
+#'  \item{list("year_")}{numeric. The year of the observation.} 
+#'  }
 #' @keywords datasets
 #' @examples
 #' 
@@ -34,17 +36,19 @@ NULL
 #' @name bluetit_breeding
 #' @docType data
 #' @format A data frame with 1025 observations on the following 10 variables.
-#' \describe{ \item{list("year_")}{numeric. The year of the observation.}
-#' \item{list("id")}{numeric. The identity of the nest box in which the
-#' breeding attempt took place.} \item{list("x")}{numeric. The east-west
-#' location of the nest box.} \item{list("y")}{numeric. The north-south
-#' location of the nest box.} \item{list("female")}{character. The identity of
-#' the female.} \item{list("male")}{character. The identity of the male. }
-#' \item{list("layingDate")}{numeric. The day of the year when the first egg
-#' was produced.} \item{list("male_age")}{character. The age class of the male
-#' ('juv' = 1st year breeder; 'adult' = older)}
-#' \item{list("male_tarsus")}{numeric. tarsus length (mm))}
-#' \item{list("study_area")}{character. The study area name. } }
+#' \itemize{ 
+#'      \item year_       numeric. The year of the observation.
+#'      \item id          numeric. The identity of the nest box in which the
+#'                        breeding attempt took place. 
+#'      \item x           numeric. The east-west location of the nest box. 
+#'      \item y           numeric. The north-south location of the nest box. 
+#'      \item female      character. The identity of the female. 
+#'      \item male        character. The identity of the male. 
+#'      \item layingDate  numeric. The day of the year when the first egg was produced. 
+#'      \item male_age    character. The age class of the male ('juv' = 1st year breeder; 'adult' = older)
+#'      \item male_tarsus numeric. tarsus length (mm))
+#'      \item study_area  character. The study area name.  
+#'      }
 #' @keywords datasets
 #' @examples
 #' 
@@ -67,10 +71,11 @@ NULL
 #' @name bluetit_epp
 #' @docType data
 #' @format A data frame with 425 observations on the following 3 variables.
-#' \describe{ \item{list("year_")}{ numeric. The year of the observation.}
-#' \item{list("female")}{ character. The female involved in the respective EPP
-#' event.} \item{list("male")}{ character. The male involved in the respective
-#' EPP event.} }
+#' \itemize{ 
+#'      \item year_   numeric. The year of the observation.
+#'      \item female   character. The female involved in the respective EPP event.
+#'      \item male     character. The male involved in the respective EPP event.
+#'      }
 #' @keywords datasets
 #' @examples
 #' 
@@ -110,8 +115,11 @@ NULL
 #' }
 #' @author Mihai Valcu and Lotte Schlicht \cr Maintainer: Mihai Valcu
 #' <valcu@@orn.mpg.de>
-#' @references Schlicht, Valcu and Kempenaers "Spatial patterns of extra-pair
-#' paternity: beyond paternity gains and losses" (in prep.)
+#' @references 
+#' 
+#' Schlicht, Lotte, Mihai Valcu, and Bart Kempenaers. 
+#' "Spatial patterns of extra‐pair paternity: beyond paternity gains and losses." 
+#'  Journal of Animal Ecology 84.2 (2015): 518-531.
 #' @keywords package
 NULL
 

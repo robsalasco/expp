@@ -3,10 +3,9 @@
 #' Convert an object of class \code{nb} in package spdep or a \code{list} of
 #' \code{nb} objects to \code{data.frame}.
 #' 
-#' 
-#' @aliases neighborsDataFrame higherNeighborsDataFrame
-#' @param nb an object of class \code{nb}
+#' @param nb 	 an object of class \code{nb}
 #' @param maxlag maximum lag, see \code{\link[spdep]{nblag}}
+#' 
 #' @return \code{data.frame}
 #' @keywords spatial
 #' @export neighborsDataFrame
@@ -24,7 +23,8 @@ neighborsDataFrame <- function(nb) {
 
 	}
 
-		
+#' @rdname neighborsDataFrame
+#' @export		
 higherNeighborsDataFrame <- function(nb, maxlag) {
 	
 	stopifnot( inherits(nb, 'nb'))

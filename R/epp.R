@@ -1,3 +1,21 @@
+#' @rdname      epp
+#' @exportClass epp
+setClass("epp", representation(
+  breedingDat     = "SpatialPointsBreeding", 
+  polygonsDat     = "SpatialPolygonsDataFrame", 
+  eppDat          = "eppMatrix", 
+  maxlag          = "numeric", 
+  EPP             = "data.frame"
+  ),
+  
+  validity = function(object) {
+     # TODO
+    return(TRUE)
+    }
+ )
+
+
+
 #' Building data-set for realized and unrealized EPP-pairs
 #' 
 #' \code{epp} combines a \code{SpatialPointsBreeding}, a
@@ -51,7 +69,7 @@
 #' @examples
 #' 
 #'   ### Simple example with three breeding pairs
-#'   
+#'   require(expp)
 #'   # create raw data
 #'   set.seed(1310)
 #'   b = data.frame(id = as.integer(10:12), x = rnorm(3), y = rnorm(3), 
@@ -191,45 +209,44 @@ epp <- function(breedingDat, polygonsDat, eppDat, maxlag = 3) {
 	}
 
 if (!isGeneric("plot"))
-  setGeneric("plot", function(x, y, ...)
-    standardGeneric("plot"))
+  setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
 
 
 #' @export
 #' @rdname  epp
-setMethod("plot", signature(x = "epp", y = "missing"),
-          function(x, zoom, maxlag = 3, zoom.col = 'grey', ...) {
+setMethod("plot", signature(x = "epp", y = "missing"), 
+    function(x, zoom, maxlag = 3, zoom.col = 'grey', ...) {
 			
-			p = x@polygonsDat
-			b = x@breedingDat
-			emat = x@eppDat
-			e = x@EPP	
-				
-			if( !missing(zoom)) { 
-				set = unique( c(zoom, 
-					e[e$id_FEMALE%in%zoom & e$rank <= maxlag, 'id_MALE'], 
-					e[e$id_MALE%in%zoom & e$rank <= maxlag, 'id_FEMALE']) 
-					)
-				
-				p = p[p$ID%in%set, ]	
-				
-				bset = which(b@id%in%set)
-				b = b[bset, ]
-				b@male = b@male[bset]
-				b@female = b@female[bset]
-				b@id = b@id[bset]
-        
-        emat = e[ (e$id_FEMALE%in%set | e$id_MALE%in%set) & e$epp == 1, c("male", "female")]
-				emat = eppMatrix(emat)
-        
-			}
-				
-		    plot(p, ...)
-			if(!missing(zoom) )
-				plot(p[p$ID == zoom, ], col = zoom.col, add = TRUE)
-			plot(b, emat, add = TRUE, ...)
-       
-          })
+    p = x@polygonsDat
+    b = x@breedingDat
+    emat = x@eppDat
+    e = x@EPP	
+    	
+    if( !missing(zoom)) { 
+    	set = unique( c(zoom, 
+    		e[e$id_FEMALE%in%zoom & e$rank <= maxlag, 'id_MALE'], 
+    		e[e$id_MALE%in%zoom   & e$rank <= maxlag, 'id_FEMALE']) 
+    		)
+    	
+    	p = p[p$ID%in%set, ]	
+    	
+    	bset = which(b@id%in%set)
+    	b = b[bset, ]
+    	b@male = b@male[bset]
+    	b@female = b@female[bset]
+    	b@id = b@id[bset]
+
+    emat = e[ (e$id_FEMALE%in%set | e$id_MALE%in%set) & e$epp == 1, c("male", "female")]
+    	emat = eppMatrix(emat)
+
+    }
+    	
+    sp::plot(p, ...)
+    if(!missing(zoom) )
+    	sp::plot(p[p$ID == zoom, ], col = zoom.col, add = TRUE)
+    sp::plot(b, emat, add = TRUE, ...)
+
+    })
 
 
 if (!isGeneric("barplot")) {
@@ -242,31 +259,31 @@ if (!isGeneric("barplot")) {
 setMethod("barplot", signature(height = "epp"),
           function(height, relativeValues = FALSE, ...) {
 
-		  p = table(height@EPP[,c('rank', 'epp')])
-            
-            if(relativeValues == FALSE) {
-                p = p[,2]
-                plot(p, type = 'h', axes = FALSE, ylab ='No. of EPP events', xlab = 'Distance', ...)
-                axis(1, at = 1:max(height@EPP$rank), labels = 1:max(height@EPP$rank))
-                axis(2, at = 0:(max(p)), labels = 0:(max(p)))
-              }
-            
-            if(relativeValues == TRUE) {
-                p[,1] = p[,1]+p[,2]
-                p = apply(p, MARGIN = 2, FUN = function(x) x/sum(x))
-                plot(p[,2], type = 'h', axes = FALSE, ylab ='', xlab = '', ...)
-                par(new = TRUE)
-                plot(p[,1], type = 'l', axes = FALSE, ylab ='Proportion of EPP events', xlab = 'Distance', lty = 2, ...)
-                axis(1, at = 1:max(height@EPP$rank), labels = 1:max(height@EPP$rank))
-                axis(2, labels = (0:10)/10, at = (0:10)/10)  
+          p = table(height@EPP[,c('rank', 'epp')])
+
+          if(relativeValues == FALSE) {
+              p = p[,2]
+              plot(p, type = 'h', axes = FALSE, ylab ='No. of EPP events', xlab = 'Distance', ...)
+              axis(1, at = 1:max(height@EPP$rank), labels = 1:max(height@EPP$rank))
+              axis(2, at = 0:(max(p)), labels = 0:(max(p)))
             }
-            
+
+          if(relativeValues == TRUE) {
+              p[,1] = p[,1]+p[,2]
+              p = apply(p, MARGIN = 2, FUN = function(x) x/sum(x))
+              plot(p[,2], type = 'h', axes = FALSE, ylab ='', xlab = '', ...)
+              par(new = TRUE)
+              plot(p[,1], type = 'l', axes = FALSE, ylab ='Proportion of EPP events', xlab = 'Distance', lty = 2, ...)
+              axis(1, at = 1:max(height@EPP$rank), labels = 1:max(height@EPP$rank))
+              axis(2, labels = (0:10)/10, at = (0:10)/10)  
+          }
+                  
           })
 
 if (!isGeneric("as.data.frame")) {
   setGeneric("as.data.frame", function(x)
     standardGeneric("as.data.frame"))
-}	
+  }	
 
 #' @export
 #' @rdname  epp

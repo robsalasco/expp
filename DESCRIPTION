@@ -1,23 +1,24 @@
 Package: expp
 Type: Package
 Title: Spatial analysis of extra-pair paternity
-Version: 1.2.1
+Version: 1.2.2
 Authors@R: c(person("Mihai", "Valcu", role = c("aut", "cre"),email = "valcu@orn.mpg.de"),
             person("Lotte", "Schlicht", role = "ctb") )
 Depends: 
-    R(>= 3.0.0), 
+    R(>= 3.4.0)
+Imports:
+    graphics,
     methods, 
-    sp, 
-    spdep, 
-    rgeos, 
-    deldir
+    sp,   
+    stats,   
+    spdep,   
+    rgeos,   
+    deldir,  
+    spatstat
 Suggests: 
     roxygen2,    
     knitr, 
     lme4
-Imports:
-    methods,
-    spatstat    
 VignetteBuilder: 
     knitr
 Description: 
@@ -25,3 +26,12 @@ Description:
 License: GPL-3
 Encoding: UTF-8
 RoxygenNote: 6.0.1
+Collate: 
+    'AAA.R'
+    'eppMatrix.R'
+    'SpatialPointsBreeding.R'
+    'DirichletPolygons.R'
+    'epp.R'
+    'eppSimDat.R'
+    'expp-package.R'
+    'neighborsDataFrame.R'

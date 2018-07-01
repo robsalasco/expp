@@ -6,6 +6,8 @@
 \title{Convert a \code{nb} object to \code{data.frame}.}
 \usage{
 neighborsDataFrame(nb)
+
+higherNeighborsDataFrame(nb, maxlag)
 }
 \arguments{
 \item{nb}{an object of class \code{nb}}
