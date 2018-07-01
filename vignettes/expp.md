@@ -9,7 +9,7 @@
 
 
 ##### 1. Getting started
- * Download and install [R](http://cran.rstudio.com/).
+ * Download and install [R](https://cran.rstudio.com/).
  * Open R, and install _expp_ with:  
 
 ```r
