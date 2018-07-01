@@ -42,7 +42,7 @@ setClass("epp", representation(
 #' @param eppDat An object of class \code{eppMatrix}
 #' @param maxlag A numeric value indicating the maximum breeding distance for
 #' which male-female combinations should be calculated. When plotting it
-#' defines the outermost row of neightbors plotted around a focal id set by
+#' defines the outermost row of neighbors plotted around a focal id set by
 #' zoom
 #' @param x,height an \code{epp} object
 #' @param zoom a \code{SpatialPointsBreeding} id which is used for subsetting

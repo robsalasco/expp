@@ -35,7 +35,7 @@ epp(breedingDat, polygonsDat, eppDat, maxlag = 3)
 
 \item{maxlag}{A numeric value indicating the maximum breeding distance for
 which male-female combinations should be calculated. When plotting it
-defines the outermost row of neightbors plotted around a focal id set by
+defines the outermost row of neighbors plotted around a focal id set by
 zoom}
 
 \item{x, height}{an \code{epp} object}

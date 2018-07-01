@@ -20,7 +20,7 @@ pairs including both realized and potential extra-pairings.
  \tabular{ll}{ \code{\link{epp}} \tab Final
 data-transformation to male-female combinations and their extra-pair levels
 \cr \code{\link{eppSimDat}} \tab "Toy"-dataset creation to investigate
-potential Type I error rate inflations for models where the datapoints are
+potential Type I error rate inflation for models where the datapoints are
 male-female combinations \cr
 
 \cr ---------------------------------------- \cr
