@@ -31,7 +31,8 @@
 #' pval_glmer = vector(mode = "numeric", length = 0)
 #' pval_glm = vector(mode = "numeric", length = 0)
 #' 
-#' for(i in 1:500) {
+#' # For meaningful results increase i to a much larger value
+#' for(i in 1:10) { 
 #'   x = as.data.frame(eppSimDat(N = 120, meanClutch = 10, eppRate = 0.10, eppMax = 12, 
 #'       eppMales = 0.35, nLags = 3))
 #'   
@@ -50,14 +51,10 @@
 #' # Type I error rate of glmer models
 #' table(pval_glmer<0.05)[2]/length(pval_glmer)
 #' 
-#' # TRUE 
-#' # 0.038 
 #' 
 #' # Type I error rate of the equivalent glm models
 #' table(pval_glm<0.05)[2]/length(pval_glm)
 #' 
-#' # TRUE 
-#' # 0.078 
 #' 
 #' }
 #' 
