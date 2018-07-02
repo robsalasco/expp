@@ -129,13 +129,13 @@ setClass("epp", representation(
 #'   eppDat = eppMatrix(eppPairs, pairs = ~ male + female)
 #'   
 #'   # convert to epp class
-#'   x = epp(breedingDat, polygonsDat, eppDat, maxlag = 20)
+#'   x = epp(breedingDat, polygonsDat, eppDat, maxlag = 2)
 #'   
 #'   # plot
 #'   plot(x)
 #'   barplot(x) 
 #'   # plot zoom
-#'   plot(x, zoom = 120, maxlag = 2)
+#'   plot(x, zoom = 120, maxlag = 3) 
 #'   
 #'   # run model on epp probability     
 #'   dat = as.data.frame(x)

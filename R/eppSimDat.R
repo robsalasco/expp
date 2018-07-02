@@ -31,9 +31,9 @@
 #' pval_glmer = vector(mode = "numeric", length = 0)
 #' pval_glm = vector(mode = "numeric", length = 0)
 #' 
-#' # For meaningful results increase i to a much larger value
-#' for(i in 1:10) { 
-#'   x = as.data.frame(eppSimDat(N = 120, meanClutch = 10, eppRate = 0.10, eppMax = 12, 
+#' # For meaningful results increase i to e.g. 500 and N in eppSimDat to e.g. 120
+#' for(i in 1:5) { 
+#'   x = as.data.frame(eppSimDat(N = 25, meanClutch = 10, eppRate = 0.10, eppMax = 12, 
 #'       eppMales = 0.35, nLags = 3))
 #'   
 #'   fm1glmer = glmer(epp ~ rank + trait_MALE + trait_FEMALE + (1 | male) + (1 | female) , 
