@@ -118,7 +118,7 @@ NULL
 #' @references 
 #' 
 #' Schlicht, Lotte, Mihai Valcu, and Bart Kempenaers. 
-#' "Spatial patterns of extra‐pair paternity: beyond paternity gains and losses." 
+#' "Spatial patterns of extra-pair paternity: beyond paternity gains and losses." 
 #'  Journal of Animal Ecology 84.2 (2015): 518-531.
 #' @keywords package
 NULL
