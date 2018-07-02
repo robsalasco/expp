@@ -128,7 +128,7 @@ line only if the argument 'relativeValues' is TRUE.
   barplot(x, relativeValues = TRUE) 
   
 
-\dontrun{   
+\donttest{   
   ### Real data example
   # Raw datasets 
   data(bluetit_breeding)

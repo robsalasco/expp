@@ -113,7 +113,7 @@ setClass("epp", representation(
 #'   barplot(x, relativeValues = TRUE) 
 #'   
 #' 
-#' \dontrun{   
+#' \donttest{   
 #'   ### Real data example
 #'   # Raw datasets 
 #'   data(bluetit_breeding)

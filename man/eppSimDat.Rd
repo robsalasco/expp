@@ -42,7 +42,7 @@ d = eppSimDat()
 plot(d)
 
 
-\dontrun{
+\donttest{
 # Type I error rate simulation
 
 require(lme4)
