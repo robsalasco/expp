@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/mpio-be/expp.svg?branch=master)](https://travis-ci.org/mpio-be/expp)
+[![CRAN status](https://www.r-pkg.org/badges/version/expp)](https://cran.r-project.org/package=expp)
 
 
 expp
