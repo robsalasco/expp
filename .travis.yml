@@ -1,6 +1,5 @@
 language: r
 r:
-  - release
   - devel
 
 cache: packages
@@ -10,3 +9,17 @@ warnings_are_errors: true
 
 apt_packages:
   - libgeos-dev
+
+r_packages:
+ - data.table
+ - deldir  
+ - knitr
+ - lme4
+ - rgeos
+ - roxygen2    
+ - sp   
+ - spatstat
+ - spdep   
+ - stats   
+
+

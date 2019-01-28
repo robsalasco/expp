@@ -20,6 +20,14 @@ An object of class \code{eppMatrix} with two slots.
 Converts a \code{data.frame} to a eppMatrix object using a
 \code{~male+female} formula.
 }
+\section{Slots}{
+
+\describe{
+\item{\code{male}}{extra-pair male   ID-s as character vectors}
+
+\item{\code{female}}{extra-pair female ID-s as character vectors}
+}}
+
 \examples{
 
 eppPairs = data.frame(male = c("m1", "m2", "m1"), female=c("f3", "f1", "f2") )

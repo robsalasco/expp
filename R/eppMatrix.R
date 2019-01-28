@@ -1,6 +1,6 @@
 #' @rdname      eppMatrix
-# @slot    male   extra-pair male   ID-s as character vectors
-# @slot    female extra-pair female ID-s as character vectors
+#' @slot    male   extra-pair male   ID-s as character vectors
+#' @slot    female extra-pair female ID-s as character vectors
 #' @exportClass eppMatrix
 setClass("eppMatrix", representation(
     male   = "character", 
