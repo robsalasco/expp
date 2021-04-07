@@ -97,7 +97,7 @@ setMethod("DirichletPolygons",
           definition = function(x, ...) {
             coords = coordinates(x)
             ids = x@id
-            rr = spatstat::ripras(coords, shape = "convex", ...)
+            rr = spatstat::ripras.geom(coords, shape = "convex", ...)
             rr = cbind(x = rr$bdry[[1]]$x, y = rr$bdry[[1]]$y)
             boundary =  SpatialPolygons(list( Polygons(list( Polygon(rbind(rr, rr[1, ] )) ) , 1) ) )
             proj4string(boundary) = proj4string(x)
