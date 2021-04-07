@@ -16,7 +16,8 @@ Imports:
     spdep,   
     rgeos,   
     deldir,  
-    spatstat
+    spatstat,
+    spatstat.geom
 Suggests: 
     roxygen2,    
     knitr, 
