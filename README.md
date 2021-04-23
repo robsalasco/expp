@@ -17,6 +17,6 @@ Installation
 ------------
 ``` r
 install.packages("devtools")
-devtools::install_github("mpio-be/expp")
+devtools::install_github("robsalasco/expp")
 ```
 
